@@ -6,6 +6,8 @@ import PrivateRoute from "./components/PriveteRoute";
 
 import Protected from "./views/Protected";
 import LoginWithAuth from "./views/Login";
+import SignupWithAuth from "./views/Signup";
+
 
 import AuthProvider from "./context/authContext";
 import MainNavBar from "./components/MainNavBar/MainNavBar";
@@ -19,6 +21,7 @@ class App extends Component {
             <MainNavBar />
             <Switch>
               <AnonRoute exact path={"/login"} component={LoginWithAuth} />
+              <AnonRoute exact path={"/signup"} component={SignupWithAuth} />
               <PrivateRoute exact path={"/protected"} component={Protected} />
             </Switch>
           </div>

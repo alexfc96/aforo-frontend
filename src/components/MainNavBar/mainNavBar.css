@@ -13,3 +13,8 @@
   display: flex;
   flex-direction: row;
 }
+
+.mainLinks>li {
+  display: flex;
+  margin: 0px 4%;
+}
