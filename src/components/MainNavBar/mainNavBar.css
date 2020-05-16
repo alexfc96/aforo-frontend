@@ -1,0 +1,15 @@
+.mainNavBar{
+  background-color: #444444;
+}
+
+.mainNavBar>nav{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin: 0px 3%;
+}
+
+.mainLinks {
+  display: flex;
+  flex-direction: row;
+}
