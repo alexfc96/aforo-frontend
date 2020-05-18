@@ -8,9 +8,9 @@ class ApiEstablishment {
     });
   }
 
-  // company() {
-  //   return this.apiEstablishment.get("/company/companies");
-  // }
+  establishment() {
+    return this.apiEstablishment.get("/establishment/establishments");
+  }
 
   getUser(idUser) {
     return this.apiEstablishment.get(`/user/${idUser}`);

@@ -36,6 +36,9 @@ class MainNavBar extends Component {
               <Link to="/company" className="">My companies</Link>
             </li>
             <li>
+              <Link to="/establishment" className="">My establishments</Link>
+            </li>
+            <li>
               <Link to="/myBookings" className="">My bookings</Link>
             </li>
             <li>

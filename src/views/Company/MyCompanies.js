@@ -13,17 +13,13 @@ class MyCompanies extends Component {
   showCompany(){
     const {companies} = this.state;
     const { user } = this.props;
-    companies.forEach(company => {
-      return company.name      
-    });
 
     let owner = undefined;
     return companies.map((company) => {
       company.owners.includes(user.data._id) ? owner = true : owner = false;  //sale error de consola (indicando que está mal)
       return <div key={company._id}>
               <div className="one-company-of-the-list">
-                {/* <img className="img-of-each-company" src={company.image_url} alt={company.name} /> */}
-                <div className="info-company">
+                <div className="info-company"> 
                   {/* no puedo pasarle direcctamente las props hacia abajo? company={company} owner={owner} */}
                   <Link to={`/company/${company._id}` } company={company} owner={owner} ><h3>{company.name}</h3></Link>
                   {owner && 
@@ -32,28 +28,11 @@ class MyCompanies extends Component {
                     {/* <button onClick={this.deleteCompany(company._id)}>Delete Company</button> */}
                   </div>
                   }
-
-                  <h5>{company.description}</h5>
-                  Created by : {company.owners}
-                  {/* //porque no me lo pinta!!!?} */}
-                  {this.getOwners(company.owners)} 
                 </div>
              </div>
              <hr/>
             </div>
     })
-  }
-
-  getOwners(owners){
-    apiCompany
-    .getUser(owners)  //como hacer si hay mas de uno
-    .then((dataOwners) => {
-      // console.log(dataOwners.data)
-      return <p>·{dataOwners.data.name}</p> //necesario setState?
-    })
-    .catch((error) => {
-      console.log(error)
-    });
   }
 
   deleteCompany(idCompany){

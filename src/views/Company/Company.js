@@ -30,6 +30,18 @@ class Company extends Component {
       )}
   }
 
+  getOwners(owners){
+    apiCompany
+    .getUser(owners)  //como hacer si hay mas de uno
+    .then((dataOwners) => {
+      // console.log(dataOwners.data)
+      return <p>·{dataOwners.data.name}</p> //necesario setState?
+    })
+    .catch((error) => {
+      console.log(error)
+    });
+  }
+
   componentDidMount(){ //alomejor esto es tonteria al ya tener el objeto?
     const companyID = this.props.match.params.id;
     apiCompany
@@ -49,7 +61,6 @@ class Company extends Component {
     const { company } = this.state;  //avisaron que había que tener cuidado con repetir nombre de variables. esto es con las que estan en el provider o a nivel global?
     let owner = undefined
     if(company){
-      //console.log(company)
       company.owners.includes(user.data._id) ? owner = true : owner = false;
     }
     return (
@@ -67,10 +78,10 @@ class Company extends Component {
             {/* <img className="img-of-company" src={company.image_url} alt={company.name} /> */}
             <h5>{company.description}</h5>
             Created by : {company.owners}
-            {/* {this.getOwners(company.owners)} //tendremos que recibir este metodo por las props del padre. tambien el admin.*/}
-            
+              {/* //porque no me lo pinta!!!?} */}
+              {this.getOwners(company.owners)} 
             <p>Establishments:</p>
-            {this.getEstablishments()}
+              {this.getEstablishments()}
 
           </div>
         }      

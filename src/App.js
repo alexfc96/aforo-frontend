@@ -29,7 +29,8 @@ class App extends Component {
               <AnonRoute exact path={"/signup"} component={SignupWithAuth} />
               <PrivateRoute exact path={"/company"} component={MyCompanies} />
               <PrivateRoute exact path={"/company/:id"} component={Company} /> 
-              <PrivateRoute exact path={"/establishment/:id"} component={Establishment} />  
+              <PrivateRoute exact path={"/establishment"} component={MyEstablishments} />
+              <PrivateRoute exact path={"/establishment/:id"} component={Establishment} />
               <PrivateRoute exact path={"/protected"} component={Protected} />
             </Switch>
           </div>
