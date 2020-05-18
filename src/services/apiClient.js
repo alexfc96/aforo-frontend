@@ -24,6 +24,10 @@ class ApiClient {
     return this.apiClient.get("/whoami");
   }
 
+  getUser(idUser) {
+    return this.apiClient.get(`/user/${idUser}`);
+  }
+
   getProtected() {
     return this.apiClient.get("/protected");
   }

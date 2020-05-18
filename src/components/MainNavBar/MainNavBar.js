@@ -8,6 +8,7 @@ class MainNavBar extends Component {
   state = {
     username : "",
   }
+  
   render() {
     const { username } = this.state;
     const { onLogout, isLoggedIn } = this.props;
@@ -32,7 +33,7 @@ class MainNavBar extends Component {
           <h1><Link to="/home" className="">AFORO</Link></h1>
           <ul className="mainLinks">
             <li>
-              <Link to="/myCompanies" className="">My companies</Link>
+              <Link to="/company" className="">My companies</Link>
             </li>
             <li>
               <Link to="/myBookings" className="">My bookings</Link>

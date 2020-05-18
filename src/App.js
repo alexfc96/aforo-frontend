@@ -11,6 +11,8 @@ import SignupWithAuth from "./views/Signup";
 
 import AuthProvider from "./context/authContext";
 import MainNavBar from "./components/MainNavBar/MainNavBar";
+import MyCompanies from "./views/Company/MyCompanies";
+import Company from "./views/Company/Company";
 
 class App extends Component {
   render() {
@@ -22,6 +24,8 @@ class App extends Component {
             <Switch>
               <AnonRoute exact path={"/login"} component={LoginWithAuth} />
               <AnonRoute exact path={"/signup"} component={SignupWithAuth} />
+              <PrivateRoute exact path={"/company"} component={MyCompanies} />
+              <PrivateRoute exact path={"/company/:id"} component={Company} />  
               <PrivateRoute exact path={"/protected"} component={Protected} />
             </Switch>
           </div>
