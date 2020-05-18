@@ -1,7 +1,7 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
 
-import { withAuth } from "../context/authContext";
+import { withAuth } from "../../context/authContext";
 
 class SignUp extends Component {
   state = {

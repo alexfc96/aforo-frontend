@@ -5,12 +5,12 @@ import { Link } from "react-router-dom";
 import { withAuth } from "../../context/authContext";
 
 class MainNavBar extends Component {
-  state = {
-    username : "",
-  }
+  // state = {
+  //   username : "",
+  // }
   
   render() {
-    const { username } = this.state;
+    // const { username } = this.state;
     const { onLogout, isLoggedIn } = this.props;
     return (
       <div className="mainNavBar">
@@ -42,7 +42,7 @@ class MainNavBar extends Component {
               <Link to="/myProfile" className="">My profile</Link>
             </li>
             <li>
-              <a onClick={onLogout}>Loogut</a>
+              <button onClick={onLogout}>Logout</button>
             </li>
           </ul>
         </nav>

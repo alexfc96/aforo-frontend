@@ -19,13 +19,13 @@ class MyCompanies extends Component {
 
     let owner = undefined;
     return companies.map((company) => {
-      company.owners.includes(user.data._id) ? owner = true : owner = false;
+      company.owners.includes(user.data._id) ? owner = true : owner = false;  //sale error de consola (indicando que está mal)
       return <div key={company._id}>
               <div className="one-company-of-the-list">
                 {/* <img className="img-of-each-company" src={company.image_url} alt={company.name} /> */}
                 <div className="info-company">
                   {/* no puedo pasarle direcctamente las props hacia abajo? company={company} owner={owner} */}
-                  <Link to={`/company/${company._id}` } company={company} owner={owner} ><h3>{company.name}</h3></Link>  en esta linea de aqui
+                  <Link to={`/company/${company._id}` } company={company} owner={owner} ><h3>{company.name}</h3></Link>
                   {owner && 
                   <div>
                     <p>Eres el owner de la company</p>
@@ -46,9 +46,9 @@ class MyCompanies extends Component {
 
   getOwners(owners){
     apiCompany
-    .getUser(owners)
+    .getUser(owners)  //como hacer si hay mas de uno
     .then((dataOwners) => {
-      console.log(dataOwners.data)
+      // console.log(dataOwners.data)
       return <p>·{dataOwners.data.name}</p> //necesario setState?
     })
     .catch((error) => {
@@ -89,7 +89,7 @@ class MyCompanies extends Component {
   render() {
     const { user } = this.props;
     const { haveCompanyAssociated, companies} = this.state;
-    console.log(companies)
+    // console.log(companies)
     return (
       <div>
         <h1>My companies</h1>
