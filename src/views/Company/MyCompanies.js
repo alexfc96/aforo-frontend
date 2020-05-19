@@ -16,16 +16,16 @@ class MyCompanies extends Component {
 
     let owner = undefined;
     return companies.map((company) => {
-      company.owners.includes(user.data._id) ? owner = true : owner = false;  //sale error de consola (indicando que está mal)
+      company.owners.includes(user._id) ? owner = true : owner = false;  //sale error de consola (indicando que está mal)
       return <div key={company._id}>
               <div className="one-company-of-the-list">
                 <div className="info-company"> 
                   {/* no puedo pasarle direcctamente las props hacia abajo? company={company} owner={owner} */}
-                  <Link to={`/company/${company._id}` } company={company} owner={owner} ><h3>{company.name}</h3></Link>
+                  <Link to={`/company/${company._id}` }><h3>{company.name}</h3></Link>
                   {owner && 
                   <div>
                     <p>Eres el owner de la company</p>
-                    {/* <button onClick={this.deleteCompany(company._id)}>Delete Company</button> */}
+                    <button onClick={()=>{this.deleteCompany(company._id)}}>Delete Company</button>
                   </div>
                   }
                 </div>
@@ -35,7 +35,7 @@ class MyCompanies extends Component {
     })
   }
 
-  deleteCompany(idCompany){
+  deleteCompany = (idCompany) => {
     apiCompany
     .deleteCompany(idCompany)
     .then((company) => {

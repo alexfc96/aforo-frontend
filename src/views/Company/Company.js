@@ -51,12 +51,12 @@ class Company extends Component {
     const companyID = this.props.match.params.id;
     apiCompany
     .getCompany(companyID)
-    .then((company) => {
+    .then(({ data: company }) => {
       this.setState({
-        company: company.data
+        company
       });
-      this.getOwners(company.data.owners)
-      this.getEstablishments(company.data.establishments)
+      this.getOwners(company.owners)
+      this.getEstablishments(company.establishments)
     })
     .catch((error) => {
       console.log(error)
@@ -68,7 +68,7 @@ class Company extends Component {
     const { company, owners, establishments } = this.state;  //avisaron que había que tener cuidado con repetir nombre de variables. esto es con las que estan en el provider o a nivel global?
     let owner = undefined
     if(company){
-      company.owners.includes(user.data._id) ? owner = true : owner = false;
+      company.owners.includes(user._id) ? owner = true : owner = false;
     }
     return (
       <div>
@@ -79,7 +79,7 @@ class Company extends Component {
             {owner && 
               <div>
                 <p>Eres el owner de la company</p>
-                {/* <button onClick={this.deleteCompany(company._id)}>Delete Company</button> */}
+                <button onClick={()=>{this.deleteCompany(company._id)}}>Delete Company</button>
                </div>
             }
             {/* <img className="img-of-company" src={company.image_url} alt={company.name} /> */}

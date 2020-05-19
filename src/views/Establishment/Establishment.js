@@ -80,7 +80,7 @@ class Establishment extends Component {
             {owner && 
               <div>
                 <p>Eres el owner de la establishment</p>
-                {/* <button onClick={this.deleteestablishment(establishment._id)}>Delete establishment</button> */}
+                <button onClick={()=>{this.deleteestablishment(establishment._id)}}>Delete establishment</button>
                </div>
             }
             {/* <img className="img-of-establishment" src={establishment.image_url} alt={establishment.name} /> */}

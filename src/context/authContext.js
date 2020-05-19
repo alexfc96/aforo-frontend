@@ -29,7 +29,7 @@ export const withAuth = (Comp) => {
 
 class AuthProvider extends Component {
   state = {
-    isLoggedIn: false,
+    isLoggedIn: false,   //HE CAMBIADO ESTO DE FALSE A TRUE PARA QUE NO SE CIERRE LA SESION CADA VEZ QUE ACTUALIZ LA WEB
     user: null,
     isLoading: true,
   };
@@ -37,7 +37,7 @@ class AuthProvider extends Component {
   componentDidMount() {
     apiClient
       .whoami()
-      .then((user) => {
+      .then(({ data: user }) => {
         this.setState({
           isLoading: false,
           isLoggedIn: true,

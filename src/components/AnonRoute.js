@@ -13,7 +13,7 @@ function AnonRoute({ component: Comp, isLoggedIn, ...rest }) {
         ) : (
           <Redirect
             to={{
-              pathname: "/protected",
+              pathname: "/home",
               state: { from: props.location },
             }}
           />

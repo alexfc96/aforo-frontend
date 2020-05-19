@@ -2,16 +2,15 @@ import React, { Component } from "react";
 import { withAuth } from "../../context/authContext";
 import { Link } from "react-router-dom";
 
+import apiUser from "../../services/apiUser";
 import apiCompany from "../../services/apiCompany";
 import apiEstablishment from "../../services/apiEstablishment";
 
-
-class MyEstablishments extends Component {
+class MyUser extends Component {
   state = {
-    // isOwner : undefined,
-    haveEstablishmentsAssociated : undefined,
+    haveCompaniesOrEstablishmentsAssociated : undefined,
     establishments: undefined,
-    // companies : undefined,
+    companies : undefined,
   }
 
   showEstablishment(){
@@ -41,32 +40,22 @@ class MyEstablishments extends Component {
     })
   }
 
-  deleteCompany(idCompany){
-    apiCompany
-    .deleteCompany(idCompany)
-    .then((company) => {
-      console.log(company.data)
-      return <p>{ company.data }</p> //necesario setState? //mostrar aviso de que se ha borrado corrrectamente
-    })
-    .catch((error) => {
-      console.log(error)
-    });
-  }
-
   componentDidMount(){
-    apiEstablishment
-    .establishment()
-    .then((establishment) => {
-      console.log(establishment.data)
+    const { user } = this.props;
+    apiUser
+    .getUser(user.id)
+    .then((dataUser) => {
+      console.log(dataUser.data)
       this.setState({
-        haveEstablishmentsAssociated : true,
-        establishments : establishment.data,
+        user: dataUser.data,
+        // haveCompaniesOrEstablishmentsAssociated : true,
+        // establishments : establishment.data,
       });
     })
     .catch((error) => {
       console.log(error)
       this.setState({
-        haveEstablishmentsAssociated : false,
+        user: false,
       });
     });
   }
@@ -87,4 +76,4 @@ class MyEstablishments extends Component {
   }
 }
 
-export default withAuth(MyEstablishments);
+export default withAuth(MyUser);
