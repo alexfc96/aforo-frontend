@@ -9,19 +9,21 @@ class Company extends Component {
 
   state = {
     company : undefined,
+    owners: [],
+    establishments: [],
   }
 
-  getEstablishments(){
-    const { company } = this.state; 
-    if(company.establishments.length === 0){
+  getEstablishments(establishments){
+    if(establishments.length === 0){
       return <p>It seems that this company does not yet have establishments</p>
     } else {
-      return company.establishments.map((establishment) => { //lo suyo sería crear un ul
-          apiEstablishment
-          .getEstablishment(establishment)  //si hay mas de uno?
+      establishments.map(async(establishment)=>{
+        await apiEstablishment
+          .getEstablishment(establishment)
           .then((dataEstablishment) => {
-            console.log(dataEstablishment.data.name)
-            return <li><Link to={`/establishment/${dataEstablishment.data._id}`}>{dataEstablishment.data.name}</Link></li> //necesario setState?
+            this.setState({
+              establishments: [...this.state.establishments, dataEstablishment.data.name]
+            });
           })
           .catch((error) => {
             console.log(error)
@@ -31,15 +33,18 @@ class Company extends Component {
   }
 
   getOwners(owners){
-    apiCompany
-    .getUser(owners)  //como hacer si hay mas de uno
-    .then((dataOwners) => {
-      // console.log(dataOwners.data)
-      return <p>·{dataOwners.data.name}</p> //necesario setState?
+    owners.map(async(owner)=>{
+      await apiCompany
+      .getUser(owner)
+      .then((dataOwner) => {
+        this.setState({
+          owners: [...this.state.owners, dataOwner.data.name]
+        });
+      })
+      .catch((error) => {
+        console.log(error)
+      });
     })
-    .catch((error) => {
-      console.log(error)
-    });
   }
 
   componentDidMount(){ //alomejor esto es tonteria al ya tener el objeto?
@@ -50,6 +55,8 @@ class Company extends Component {
       this.setState({
         company: company.data
       });
+      this.getOwners(company.data.owners)
+      this.getEstablishments(company.data.establishments)
     })
     .catch((error) => {
       console.log(error)
@@ -58,7 +65,7 @@ class Company extends Component {
 
   render() {
     const { user } = this.props;
-    const { company } = this.state;  //avisaron que había que tener cuidado con repetir nombre de variables. esto es con las que estan en el provider o a nivel global?
+    const { company, owners, establishments } = this.state;  //avisaron que había que tener cuidado con repetir nombre de variables. esto es con las que estan en el provider o a nivel global?
     let owner = undefined
     if(company){
       company.owners.includes(user.data._id) ? owner = true : owner = false;
@@ -77,11 +84,26 @@ class Company extends Component {
             }
             {/* <img className="img-of-company" src={company.image_url} alt={company.name} /> */}
             <h5>{company.description}</h5>
-            Created by : {company.owners}
-              {/* //porque no me lo pinta!!!?} */}
-              {this.getOwners(company.owners)} 
+            Created by :
+              {owners && 
+                <ul>
+                  {owners.map((ownerName, index)=>{
+                    return <li key={ownerName}>
+                            <Link to={`/user/${company.owners[index]}` }><h3>{ownerName}</h3></Link>
+                           </li>
+                  })}
+                </ul>
+              }
             <p>Establishments:</p>
-              {this.getEstablishments()}
+              {establishments && 
+                <ul>
+                  {establishments.map((establishmentName, index)=>{
+                    return <li key={establishmentName}>
+                            <Link to={`/establishment/${company.establishments[index]}` }><h3>{establishmentName}</h3></Link>
+                          </li>
+                  })}
+                </ul>
+              }
 
           </div>
         }      

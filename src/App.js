@@ -16,6 +16,7 @@ import MyCompanies from "./views/Company/MyCompanies";
 import Company from "./views/Company/Company";
 import MyEstablishments from "./views/Establishment/MyEstablishments.js";
 import Establishment from "./views/Establishment/Establishment";
+import User from "./views/User/User";
 
 class App extends Component {
   render() {
@@ -31,6 +32,7 @@ class App extends Component {
               <PrivateRoute exact path={"/company/:id"} component={Company} /> 
               <PrivateRoute exact path={"/establishment"} component={MyEstablishments} />
               <PrivateRoute exact path={"/establishment/:id"} component={Establishment} />
+              <PrivateRoute exact path={"/user/:id"} component={User} /> 
               <PrivateRoute exact path={"/protected"} component={Protected} />
             </Switch>
           </div>
