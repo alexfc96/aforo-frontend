@@ -20,6 +20,10 @@ class ApiCompany {
     return this.apiCompany.get(`/company/${idCompany}`);
   }
 
+  createCompany(body) {
+    return this.apiCompany.post(`/company/create`, body);
+  }
+
   deleteCompany(idCompany) {
     return this.apiCompany.delete(`/company/${idCompany}`);
   }

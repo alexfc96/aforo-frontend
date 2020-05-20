@@ -20,9 +20,9 @@ class Company extends Component {
       establishments.map(async(establishment)=>{
         await apiEstablishment
           .getEstablishment(establishment)
-          .then((dataEstablishment) => {
+          .then(( { data: dataEstablishment }) => {
             this.setState({
-              establishments: [...this.state.establishments, dataEstablishment.data.name]
+              establishments: [...this.state.establishments, dataEstablishment.name]
             });
           })
           .catch((error) => {
@@ -36,9 +36,9 @@ class Company extends Component {
     owners.map(async(owner)=>{
       await apiCompany
       .getUser(owner)
-      .then((dataOwner) => {
+      .then(({ data: dataOwner }) => {
         this.setState({
-          owners: [...this.state.owners, dataOwner.data.name]
+          owners: [...this.state.owners, dataOwner.name]
         });
       })
       .catch((error) => {

@@ -13,10 +13,13 @@ import AuthProvider from "./context/authContext";
 import MainNavBar from "./components/MainNavBar/MainNavBar";
 
 import MyCompanies from "./views/Company/MyCompanies";
+import CreateCompany from "./views/Company/CreateCompany";
 import Company from "./views/Company/Company";
 import MyEstablishments from "./views/Establishment/MyEstablishments.js";
 import Establishment from "./views/Establishment/Establishment";
+import MyUser from "./views/User/MyUser";
 import User from "./views/User/User";
+import MyBookings from "./views/Bookings/MyBookings";
 
 class App extends Component {
   render() {
@@ -31,10 +34,14 @@ class App extends Component {
               {/* context para tener todos los datos/establishments del user */}
               <PrivateRoute exact path={"/home"} component={Home} />
               <PrivateRoute exact path={"/company"} component={MyCompanies} />
+              <PrivateRoute exact path={"/company/create"} component={CreateCompany} />
               <PrivateRoute exact path={"/company/:id"} component={Company} /> 
               <PrivateRoute exact path={"/establishment"} component={MyEstablishments} />
               <PrivateRoute exact path={"/establishment/:id"} component={Establishment} />
-              <PrivateRoute exact path={"/user/:id"} component={User} /> 
+              <PrivateRoute exact path={"/user"} component={MyUser} /> 
+              <PrivateRoute exact path={"/user/:id"} component={User} />
+              <PrivateRoute exact path={"/bookings"} component={MyBookings} /> 
+
             </Switch>
           </div>
         </div>

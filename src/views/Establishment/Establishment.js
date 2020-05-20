@@ -63,7 +63,7 @@ class Establishment extends Component {
     let owner = undefined
     if(establishment){
       // console.log(establishment)
-      establishment.owners.includes(user.data._id) ? owner = true : owner = false;
+      establishment.owners.includes(user._id) ? owner = true : owner = false;
     }
     return (
       <div>

@@ -39,10 +39,10 @@ class MainNavBar extends Component {
               <Link to="/establishment" className="">My establishments</Link>
             </li>
             <li>
-              <Link to="/myBookings" className="">My bookings</Link>
+              <Link to="/bookings" className="">My bookings</Link>
             </li>
             <li>
-              <Link to="/myProfile" className="">My profile</Link>
+              <Link to="/user" className="">My user</Link>
             </li>
             <li>
               <button onClick={onLogout}>Logout</button>

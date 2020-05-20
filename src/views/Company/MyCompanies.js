@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 class MyCompanies extends Component {
   state = {
     // isOwner : undefined,
+    delete: false,
     haveCompanyAssociated : undefined,
     companies : undefined,
   }
@@ -39,8 +40,10 @@ class MyCompanies extends Component {
     apiCompany
     .deleteCompany(idCompany)
     .then((company) => {
-      console.log(company.data)
-      return <p>{ company.data }</p> //necesario setState? //mostrar aviso de que se ha borrado corrrectamente
+      // this.forceUpdate(); //ni uno
+      this.setState({
+        delete: true  //ni el otro funciona
+      })
     })
     .catch((error) => {
       console.log(error)
@@ -73,6 +76,8 @@ class MyCompanies extends Component {
       <div>
         <h1>My companies</h1>
         <p>Welcome {user.name}</p>
+        Do you want to control a new company?
+        <Link to={`/company/create` }><button>Add new company</button></Link>
         {!haveCompanyAssociated && 
           <p> It seems that you dont have a company associated</p>
         }

@@ -20,7 +20,7 @@ class MyEstablishments extends Component {
 
     let owner = undefined;
     return establishments.map((establishment) => {
-      establishment.owners.includes(user.data._id) ? owner = true : owner = false;  //sale error de consola (indicando que está mal)
+      establishment.owners.includes(user._id) ? owner = true : owner = false;  //sale error de consola (indicando que está mal)
       return <div key={establishment._id}>
               <div className="one-establishment-of-the-list">
                 <div className="info-establishment">
@@ -31,9 +31,7 @@ class MyEstablishments extends Component {
                     <button onClick={()=>{this.deleteestablishment(establishment._id)}}>Delete establishment</button>
                   </div>
                   }
-
                   <h5>{establishment.address}</h5>
-
                 </div>
              </div>
              <hr/>
@@ -44,9 +42,9 @@ class MyEstablishments extends Component {
   deleteCompany(idCompany){
     apiCompany
     .deleteCompany(idCompany)
-    .then((company) => {
-      console.log(company.data)
-      return <p>{ company.data }</p> //necesario setState? //mostrar aviso de que se ha borrado corrrectamente
+    .then(({ data: company }) => {
+      console.log(company)
+      return <p>{ company }</p> //necesario setState? //mostrar aviso de que se ha borrado corrrectamente
     })
     .catch((error) => {
       console.log(error)
@@ -56,11 +54,11 @@ class MyEstablishments extends Component {
   componentDidMount(){
     apiEstablishment
     .establishment()
-    .then((establishment) => {
-      console.log(establishment.data)
+    .then(({ data: establishment }) => {
+      console.log(establishment)
       this.setState({
         haveEstablishmentsAssociated : true,
-        establishments : establishment.data,
+        establishments : establishment,
       });
     })
     .catch((error) => {
