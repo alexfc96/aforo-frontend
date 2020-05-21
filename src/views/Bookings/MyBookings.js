@@ -14,23 +14,30 @@ class MyBookings extends Component {
   }
 
   async getNameEstablishment(establishment){
-    console.log('estoy dentro de getnameEstablishment', establishment)
-    apiEstablishment
-    .getEstablishment(establishment)
-    .then(({ data: establishment }) => {
-      console.log(establishment.name)
-      return establishment.name
-    })
-    .catch((error) => {
+    console.log(establishment)
+    try {
+      const nameEstablishment = await apiEstablishment.getEstablishment(establishment)
+      console.log('El name de ',nameEstablishment)
+    } catch (error) {
       console.log(error)
-    });
+    }
+    // apiEstablishment
+    // .getEstablishment(establishment)
+    // .then(({ data: establishment }) => {
+    //   console.log(establishment.name)
+    //   return establishment.name
+    // })
+    // .catch((error) => {
+    //   console.log(error)
+    // });
   }
 
   async getEstablishment(establishment){
-    const nameOfEstablishment = await this.getNameEstablishment(establishment)
+    console.log("entroooooo")
+    const nameOfEstablishment = await this.getNameEstablishment(establishment);
     console.log(nameOfEstablishment)
       return (
-        <div key={establishment}>
+        <div>
           <div className="one-establishment-of-the-list">
             <div className="info-establishment">
             sadads
@@ -42,7 +49,18 @@ class MyBookings extends Component {
       )
   }
 
-  componentDidMount(){
+  deleteBooking = (idBooking, idEstablishment) => {
+    apiBookings
+    .deleteBooking(idEstablishment, idBooking)
+    .then(() => {
+      this.getBookings()
+    })
+    .catch((error) => {
+      console.log(error)
+    });
+  }
+
+  getBookings(){
     apiBookings
     .bookings()
     .then(({ data:bookings }) => {
@@ -59,6 +77,10 @@ class MyBookings extends Component {
     });
   }
 
+  componentDidMount(){
+    this.getBookings()
+  }
+
   render() {
     // const { user } = this.props;
     const { companies, establishments, bookings } = this.state;
@@ -68,20 +90,18 @@ class MyBookings extends Component {
         {!bookings &&
           <p> It seems that you dont any booking scheduled</p>
         }
-        {bookings && 
+        {bookings &&
           <div>
             <ul>
               {bookings.map((booking)=>{
+                console.log(booking)
                 //this.getCompany(booking.idEstablishment) //tendremos que buscar la company apartir del establishment
-                return (
-                  <div key={booking._id}>
-                    {this.getEstablishment(booking.idEstablishment)}
-                    <li>
+                return <li key={booking._id}>
+                        {/* {this.getEstablishment(booking.idEstablishment)} */}
+                        <button onClick={()=>{this.deleteBooking(booking._id, booking.idEstablishment)}}>Delete Booking</button>
                         <h3>{booking.startTime}</h3>
                         <h3>{booking.endingTime}</h3>
-                    </li>
-                  </div>
-                )
+                      </li>
               })
             }
             </ul>

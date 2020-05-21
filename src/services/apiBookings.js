@@ -16,9 +16,9 @@ class ApiBookings {
   //   return this.apiBookings.get(`/bookings/${idBooking}`);
   // }
 
-  // deleteCompany(idCompany) {
-  //   return this.apiEstablishment.delete(`/company/${idCompany}`);
-  // }
+  deleteBooking(idEstablishment,idBooking) {
+    return this.apiBookings.delete(`/establishment/${idEstablishment}/delete-booking/${idBooking}`);
+  }
 
 }
 
