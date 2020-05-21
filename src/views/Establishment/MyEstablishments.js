@@ -28,7 +28,7 @@ class MyEstablishments extends Component {
                   {owner && 
                   <div>
                     <p>Eres el owner del establishment</p>
-                    <button onClick={()=>{this.deleteestablishment(establishment._id)}}>Delete establishment</button>
+                    <button onClick={()=>{this.deleteEstablishment(establishment._id)}}>Delete establishment</button>
                   </div>
                   }
                   <h5>{establishment.address}</h5>
@@ -39,19 +39,21 @@ class MyEstablishments extends Component {
     })
   }
 
-  deleteCompany(idCompany){
-    apiCompany
-    .deleteCompany(idCompany)
+  deleteEstablishment(idEstablishment){
+    apiEstablishment
+    .deleteEstablishment(idEstablishment)
     .then(({ data: company }) => {
-      console.log(company)
-      return <p>{ company }</p> //necesario setState? //mostrar aviso de que se ha borrado corrrectamente
+      this.setState({
+        delete: true
+      })
+      this.getEstablishments()
     })
     .catch((error) => {
       console.log(error)
     });
   }
 
-  componentDidMount(){
+  getEstablishments(){
     apiEstablishment
     .establishment()
     .then(({ data: establishment }) => {
@@ -69,6 +71,10 @@ class MyEstablishments extends Component {
     });
   }
 
+  componentDidMount(){
+    this.getEstablishments()
+  }
+
   render() {
     const { user } = this.props;
     const { haveEstablishmentsAssociated, establishments} = this.state;
@@ -76,6 +82,8 @@ class MyEstablishments extends Component {
     return (
       <div>
         <h1>My establishments</h1>
+        Do you want to control a new company?
+        <Link to={`/establishment/create` }><button>Add new establishment</button></Link>
         {!haveEstablishmentsAssociated && 
           <p> It seems that you dont have a establishment associated</p>
         }

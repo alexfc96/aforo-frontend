@@ -28,7 +28,6 @@ class User extends Component {
   }
 
   render() {
-    const { user } = this.props;
     const { userObj } = this.state;
     return (
       <div>

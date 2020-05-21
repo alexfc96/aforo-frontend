@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { withAuth } from "../../context/authContext";
 import apiCompany from "../../services/apiCompany";
-import { Link } from "react-router-dom";
 
 class CreateCompany extends Component {
   state = {
@@ -42,8 +41,6 @@ class CreateCompany extends Component {
   };
 
   render() {
-    const { user } = this.props;
-    const { name, description, shareClients} = this.state;
     return (
       <div>
         <h1>Create company</h1>

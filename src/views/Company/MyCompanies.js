@@ -6,7 +6,6 @@ import { Link } from "react-router-dom";
 class MyCompanies extends Component {
   state = {
     // isOwner : undefined,
-    delete: false,
     haveCompanyAssociated : undefined,
     companies : undefined,
   }
@@ -44,20 +43,20 @@ class MyCompanies extends Component {
       this.setState({
         delete: true  //ni el otro funciona
       })
+      this.getCompanies()
     })
     .catch((error) => {
       console.log(error)
     });
   }
 
-  componentDidMount(){
+  getCompanies(){
     apiCompany
     .company()
-    .then((company) => {
-      // console.log(company.data)
+    .then(({ data:company }) => {
       this.setState({
         haveCompanyAssociated : true,
-        companies : company.data,
+        companies : company,
       });
     })
     .catch((error) => {
@@ -66,6 +65,10 @@ class MyCompanies extends Component {
         haveCompanyAssociated : false,
       });
     });
+  }
+
+  componentDidMount(){
+    this.getCompanies()
   }
 
   render() {

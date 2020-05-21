@@ -20,6 +20,14 @@ class ApiEstablishment {
     return this.apiEstablishment.get(`/establishment/${idEstablishment}`);
   }
 
+  createEstablishment(body) {
+    return this.apiEstablishment.post(`/establishment/create`, body);
+  }
+
+  deleteEstablishment(idEstablishment) {
+    return this.apiEstablishment.delete(`/establishment/${idEstablishment}`);
+  }
+
   // deleteCompany(idCompany) {
   //   return this.apiEstablishment.delete(`/company/${idCompany}`);
   // }

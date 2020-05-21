@@ -13,8 +13,8 @@ class MyBookings extends Component {
     establishments: undefined,
   }
 
-  getNameEstablishment(establishment){
-    console.log(establishment)
+  async getNameEstablishment(establishment){
+    console.log('estoy dentro de getnameEstablishment', establishment)
     apiEstablishment
     .getEstablishment(establishment)
     .then(({ data: establishment }) => {
@@ -26,8 +26,8 @@ class MyBookings extends Component {
     });
   }
 
-  getEstablishment(establishment){
-    const nameOfEstablishment = this.getNameEstablishment(establishment) //tengo que hacer que este haga un await
+  async getEstablishment(establishment){
+    const nameOfEstablishment = await this.getNameEstablishment(establishment)
     console.log(nameOfEstablishment)
       return (
         <div key={establishment}>
@@ -72,11 +72,16 @@ class MyBookings extends Component {
           <div>
             <ul>
               {bookings.map((booking)=>{
-                this.getEstablishment(booking.idEstablishment)
-                return <li key={booking._id}>
+                //this.getCompany(booking.idEstablishment) //tendremos que buscar la company apartir del establishment
+                return (
+                  <div key={booking._id}>
+                    {this.getEstablishment(booking.idEstablishment)}
+                    <li>
                         <h3>{booking.startTime}</h3>
                         <h3>{booking.endingTime}</h3>
-                      </li>
+                    </li>
+                  </div>
+                )
               })
             }
             </ul>
