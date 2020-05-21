@@ -16,6 +16,10 @@ class ApiUser {
     return this.apiUser.get(`/user/${idUser}`);
   }
 
+  updateUser(idUser, body) {
+    return this.apiUser.put(`/user/${idUser}/update`, body);
+  }
+
   // getEstablishment(idEstablishment) {
   //   return this.apiEstablishment.get(`/establishment/${idEstablishment}`);
   // }

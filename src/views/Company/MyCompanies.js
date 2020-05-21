@@ -78,7 +78,6 @@ class MyCompanies extends Component {
     return (
       <div>
         <h1>My companies</h1>
-        <p>Welcome {user.name}</p>
         Do you want to control a new company?
         <Link to={`/company/create` }><button>Add new company</button></Link>
         {!haveCompanyAssociated && 

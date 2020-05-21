@@ -64,8 +64,7 @@ class CreateEstablishment extends Component {
   }
 
   render() {
-    const { user } = this.props;
-    const { haveCompanyAssociated, companies, description, percentOfPeopleAllowed, maximumCapacity, company, address, startHourShift, finalHourShift, timeAllowedPerBooking } = this.state;
+    const { haveCompanyAssociated, companies, company } = this.state;
     console.log(company)
     return (
       <div>

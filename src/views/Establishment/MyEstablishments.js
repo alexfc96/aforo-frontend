@@ -5,38 +5,40 @@ import { Link } from "react-router-dom";
 import apiCompany from "../../services/apiCompany";
 import apiEstablishment from "../../services/apiEstablishment";
 
-
 class MyEstablishments extends Component {
   state = {
-    // isOwner : undefined,
     haveEstablishmentsAssociated : undefined,
     establishments: undefined,
-    // companies : undefined,
+    companies : undefined,
   }
 
   showEstablishment(){
-    const {establishments} = this.state;
+    const {establishments, companies} = this.state;
     const { user } = this.props;
 
     let owner = undefined;
-    return establishments.map((establishment) => {
-      establishment.owners.includes(user._id) ? owner = true : owner = false;  //sale error de consola (indicando que está mal)
-      return <div key={establishment._id}>
-              <div className="one-establishment-of-the-list">
-                <div className="info-establishment">
-                  <Link to={`/establishment/${establishment._id}` }><h3>{establishment.name}</h3></Link>
-                  {owner && 
-                  <div>
-                    <p>Eres el owner del establishment</p>
-                    <button onClick={()=>{this.deleteEstablishment(establishment._id)}}>Delete establishment</button>
+    return (
+      establishments.map((establishment) => {
+        // const nameOfCompany = this.getCompany(establishment.company) //controlar la asincronia....
+        establishment.owners.includes(user._id) ? owner = true : owner = false;  //sale error de consola (indicando que está mal)
+        return <div key={establishment._id}>
+                {/* {nameOfCompany.name} */}
+                <div className="one-establishment-of-the-list">
+                  <div className="info-establishment">
+                    <Link to={`/establishment/${establishment._id}` }><h3>{establishment.name}</h3></Link>
+                    {owner && 
+                    <div>
+                      <p>Eres el owner del establishment</p>
+                      <button onClick={()=>{this.deleteEstablishment(establishment._id)}}>Delete establishment</button>
+                    </div>
+                    }
+                    <h5>{establishment.address}</h5>
                   </div>
-                  }
-                  <h5>{establishment.address}</h5>
-                </div>
-             </div>
-             <hr/>
-            </div>
-    })
+              </div>
+              <hr/>
+              </div>
+      })
+    )
   }
 
   deleteEstablishment(idEstablishment){
@@ -47,6 +49,20 @@ class MyEstablishments extends Component {
         delete: true
       })
       this.getEstablishments()
+    })
+    .catch((error) => {
+      console.log(error)
+    });
+  }
+
+  getCompany(companyID){  //mirar tema async
+    apiCompany
+    .getCompany(companyID)
+    .then(({ data: dataCompany }) => {
+      this.setState({
+        companies : [...this.state.companies, dataCompany]
+      });
+      //return a palo seco tampoco funciona
     })
     .catch((error) => {
       console.log(error)
@@ -77,7 +93,7 @@ class MyEstablishments extends Component {
 
   render() {
     const { user } = this.props;
-    const { haveEstablishmentsAssociated, establishments} = this.state;
+    const { haveEstablishmentsAssociated, establishments, companies } = this.state;
     // console.log(companies)
     return (
       <div>
