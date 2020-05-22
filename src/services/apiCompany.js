@@ -28,6 +28,10 @@ class ApiCompany {
     return this.apiCompany.delete(`/company/${idCompany}`);
   }
 
+  updateCompany(idCompany, body) {
+    return this.apiCompany.put(`/company/${idCompany}/admin`, body);
+  }
+
   getProtected() {
     return this.apiCompany.get("/protected");
   }

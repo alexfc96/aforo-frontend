@@ -11,7 +11,111 @@ class Establishment extends Component {
     company : undefined,
     establishment: undefined,
     owners: [],
+    admin: false,
+    name: undefined,
+    description: undefined,
+    address: undefined,
+    percentOfPeopleAllowed: undefined,
+    maximumCapacity: undefined,
+    startHourShift: undefined,
+    finalHourShift: undefined,
+    timeAllowedPerBooking: undefined,
   }
+
+  handleAdminButton = () => {
+    this.setState({
+      admin: !this.state.admin,
+    });
+  }
+
+  handleChange = (e) => {
+    this.setState({
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  adminEstablishment(){
+    return (
+      <form onSubmit={this.handleSubmitForm}>
+      <label htmlFor="name">Name</label>
+      <input
+        type="text"
+        name="name"
+        id="name"
+        onChange={this.handleChange}
+      />
+      <label htmlFor="description">Description</label>
+      <input
+        type="text"
+        name="description"
+        id="description"
+        onChange={this.handleChange}
+      />
+      <label htmlFor="address">address</label>
+      <input
+        type="text"
+        name="address"
+        id="address"
+        onChange={this.handleChange}
+      />
+      Capacity:
+      <label htmlFor="maximumCapacity">maximumCapacity</label>
+      <input
+        type="number"
+        name="maximumCapacity"
+        id="maximumCapacity"
+        onChange={this.handleChange}
+      />
+      <label htmlFor="percentOfPeopleAllowed">percentOfPeopleAllowed</label>
+      <input
+        type="number"
+        name="percentOfPeopleAllowed"
+        id="percentOfPeopleAllowed"
+        onChange={this.handleChange}
+      />
+      Timetable:
+      <label htmlFor="startHourShift">startHourShift</label>
+      <input
+        type="number"
+        name="startHourShift"
+        id="shareClients"
+        onChange={this.handleChange}
+      />
+      <label htmlFor="finalHourShift">finalHourShift</label>
+      <input
+        type="number"
+        name="finalHourShift"
+        id="shareClients"
+        onChange={this.handleChange}
+      />
+      <label htmlFor="timeAllowedPerBooking">timeAllowedPerBooking</label>
+      <input
+        type="number"
+        name="timeAllowedPerBooking"
+        id="shareClients"
+        onChange={this.handleChange}
+      />
+      <input type="submit" value="submit" />
+    </form>
+    )
+  }
+
+  handleSubmitForm = (e) => {
+    e.preventDefault();
+    const { establishment, name, description, percentOfPeopleAllowed, maximumCapacity, address, startHourShift, finalHourShift, timeAllowedPerBooking } = this.state;
+    const establishmentObj = { name, description, capacity:{percentOfPeopleAllowed, maximumCapacity}, address, timetable:{startHourShift, finalHourShift, timeAllowedPerBooking} }
+    //const establishmentObj = this.checkIfInputIsEmpty() //conseguir asincronía!!
+    console.log(establishmentObj)
+    apiEstablishment
+    .updateEstablishment(establishment._id, establishmentObj)
+    .then(({ data:establishment }) => {
+      this.handleAdminButton()
+      this.getEstablishment()
+    })
+    .catch((error) => {
+      console.log(error)
+    });
+  };
 
   getNameOfCompany(companyID){
     const { establishment } = this.state;
@@ -43,13 +147,25 @@ class Establishment extends Component {
     })
   }
 
-  componentDidMount(){
+  deleteEstablishment(idEstablishment){
+    const { history } = this.props;
+    apiEstablishment
+    .deleteEstablishment(idEstablishment)
+    .then(({ data: company }) => {
+      history.push(`/establishment/`);
+    })
+    .catch((error) => {
+      console.log(error)
+    });
+  }
+
+  getEstablishment(){
     const establishmentID = this.props.match.params.id;
     apiEstablishment
     .getEstablishment(establishmentID)
-    .then((establishment) => {
+    .then(({ data:establishment }) => {
       this.setState({
-        establishment: establishment.data
+        establishment
       })
     })
     .catch((error) => {
@@ -57,14 +173,14 @@ class Establishment extends Component {
     });
   }
 
+  componentDidMount(){
+    this.getEstablishment()
+  }
+
   render() {
     const { user } = this.props;
-    const { establishment, company, owners } = this.state;
-    let owner = undefined
-    if(establishment){
-      // console.log(establishment)
-      establishment.owners.includes(user._id) ? owner = true : owner = false;
-    }
+    const { establishment, company, owners, admin } = this.state;
+    let owner = undefined;
     return (
       <div>
         {!establishment && 
@@ -72,6 +188,7 @@ class Establishment extends Component {
         }
         {establishment &&
           <div key={establishment._id} className="info-establishment">
+            {establishment.owners.includes(user._id) ? owner = true : owner = false}
             <h1>{establishment.name}</h1>
             {!company && this.getNameOfCompany(establishment.company)}
             {company &&
@@ -79,31 +196,37 @@ class Establishment extends Component {
             }
             {owner && 
               <div>
-                <p>Eres el owner de la establishment</p>
-                <button onClick={()=>{this.deleteestablishment(establishment._id)}}>Delete establishment</button>
+                <button onClick={()=>{this.handleAdminButton(establishment._id)}}>Admin establishment</button>
+                <button onClick={()=>{this.deleteEstablishment(establishment._id)}}>Delete establishment</button>
                </div>
             }
+            {admin && 
+              this.adminEstablishment()
+            }
             {/* <img className="img-of-establishment" src={establishment.image_url} alt={establishment.name} /> */}
-            <h5>{establishment.description}</h5>
-            Timetable:
-            <ul>
-              <li>Start hour: {establishment.timetable.startHourShift}</li>
-              <li>Final hour: {establishment.timetable.finalHourShift}</li>
-              <li>Time allowed per booking: {establishment.timetable.timeAllowedPerBooking}</li>
-            </ul>
-            <p>Capacity: {establishment.capacity.maximumCapacity}</p>
-            Created by :
-              {/* {owners.length===0 && this.getOwners(establishment.owners)} puesto después de getnameofcompany para que no se pinten 2 veces*/} 
-              {owners && 
+            {!admin && 
+              <div>
+                <h5>{establishment.description}</h5>
+                Timetable:
                 <ul>
-                  {owners.map((ownerName, index)=>{
-                    return <li key={ownerName}>
-                            <Link to={`/user/${establishment.owners[index]}` }><h3>{ownerName}</h3></Link>
-                           </li>
-                  })}
+                  <li>Start hour: {establishment.timetable.startHourShift}</li>
+                  <li>Final hour: {establishment.timetable.finalHourShift}</li>
+                  <li>Time allowed per booking: {establishment.timetable.timeAllowedPerBooking}</li>
                 </ul>
-              }
-            
+                <p>Capacity: {establishment.capacity.maximumCapacity}</p>
+                Created by :
+                  {/* {owners.length===0 && this.getOwners(establishment.owners)} puesto después de getnameofcompany para que no se pinten 2 veces*/} 
+                  {owners && 
+                    <ul>
+                      {owners.map((ownerName, index)=>{
+                        return <li key={ownerName}>
+                                <Link to={`/user/${establishment.owners[index]}` }><h3>{ownerName}</h3></Link>
+                              </li>
+                      })}
+                    </ul>
+                  }
+              </div>
+            }
           </div>
         }      
         </div>

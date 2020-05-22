@@ -28,7 +28,7 @@ class MyEstablishments extends Component {
                     <Link to={`/establishment/${establishment._id}` }><h3>{establishment.name}</h3></Link>
                     {owner && 
                     <div>
-                      <p>Eres el owner del establishment</p>
+                      <button><Link to={`/establishment/${establishment._id}` }>Admin establishment</Link></button>
                       <button onClick={()=>{this.deleteEstablishment(establishment._id)}}>Delete establishment</button>
                     </div>
                     }
@@ -45,9 +45,6 @@ class MyEstablishments extends Component {
     apiEstablishment
     .deleteEstablishment(idEstablishment)
     .then(({ data: company }) => {
-      this.setState({
-        delete: true
-      })
       this.getEstablishments()
     })
     .catch((error) => {

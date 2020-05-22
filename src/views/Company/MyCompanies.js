@@ -5,27 +5,92 @@ import { Link } from "react-router-dom";
 
 class MyCompanies extends Component {
   state = {
-    // isOwner : undefined,
+    admin: false,
     haveCompanyAssociated : undefined,
     companies : undefined,
+    name: undefined,
+    description: undefined,
+    shareClients: undefined,
+    adminCompany: undefined
   }
 
+  handleAdminButton = (companyID) => {
+    console.log("admin id?", companyID)
+    this.setState({
+      admin: !this.state.admin,
+      adminCompany: companyID
+    });
+  }
+
+  handleChange = (e) => {
+    this.setState({
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  adminCompany(){
+    return (
+      <form onSubmit={this.handleSubmitForm}>
+        <label htmlFor="name">Name</label>
+        <input
+          type="text"
+          name="name"
+          id="name"
+          onChange={this.handleChange}
+        />
+        <label htmlFor="description">description</label>
+        <input
+          type="text"
+          name="description"
+          id="description"
+          onChange={this.handleChange}
+        />
+        <label htmlFor="shareClients">shareClients</label>
+        <input
+          type="checkbox"
+          name="shareClients"
+          id="shareClients"
+          onChange={this.handleChange}
+        />
+        <input type="submit" value="submit" />
+      </form>
+    )
+  }
+
+  handleSubmitForm = (e) => {
+    e.preventDefault();
+    const { name, description, shareClients, adminCompany } = this.state;
+    const companyObj = { name, description, shareClients }
+    //const userObj = this.checkIfInputIsEmpty() //conseguir asincronía!!
+    apiCompany
+    .updateCompany(adminCompany, companyObj)
+    .then(({ data:company }) => {
+      this.getCompanies()
+    })
+    .catch((error) => {
+      console.log(error)
+    });
+  };
+
   showCompany(){
-    const {companies} = this.state;
+    const {companies, admin, adminCompany} = this.state;
     const { user } = this.props;
 
     let owner = undefined;
     return companies.map((company) => {
-      company.owners.includes(user._id) ? owner = true : owner = false;  //sale error de consola (indicando que está mal)
+      company.owners.includes(user._id) ? owner = true : owner = false;
       return <div key={company._id}>
               <div className="one-company-of-the-list">
                 <div className="info-company"> 
-                  {/* no puedo pasarle direcctamente las props hacia abajo? company={company} owner={owner} */}
                   <Link to={`/company/${company._id}` }><h3>{company.name}</h3></Link>
+                  Description:{company.description}
+                  {admin && adminCompany===company._id &&
+                    this.adminCompany(company._id)
+                  }
                   {owner && 
                   <div>
-                    <p>Eres el owner de la company</p>
-                    <button onClick={()=>{this.deleteCompany(company._id)}}>Delete Company</button>
+                    <button onClick={()=>{this.handleAdminButton(company._id)}}>Admin company</button>
+                    <button onClick={()=>{this.deleteCompany(company._id)}}>Delete company</button>
                   </div>
                   }
                 </div>
@@ -39,10 +104,6 @@ class MyCompanies extends Component {
     apiCompany
     .deleteCompany(idCompany)
     .then((company) => {
-      // this.forceUpdate(); //ni uno
-      this.setState({
-        delete: true  //ni el otro funciona
-      })
       this.getCompanies()
     })
     .catch((error) => {
@@ -72,9 +133,7 @@ class MyCompanies extends Component {
   }
 
   render() {
-    const { user } = this.props;
-    const { haveCompanyAssociated, companies} = this.state;
-    // console.log(companies)
+    const { haveCompanyAssociated} = this.state;
     return (
       <div>
         <h1>My companies</h1>

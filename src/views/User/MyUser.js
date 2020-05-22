@@ -28,12 +28,23 @@ class MyUser extends Component {
     });
   };
 
+  checkIfInputIsEmpty(){
+    const { name, years, mail, currentPassword, newPassword } = this.state;
+    const userObj = [];
+    if(!name.length===0){userObj.push(name)}
+    if(!years===undefined){userObj.push(years)}
+    if(!mail===undefined){userObj.push(mail)}
+    if(!currentPassword===undefined && !newPassword===undefined){userObj.push(currentPassword, newPassword)}
+    return userObj;
+  }
+
   handleSubmitForm = (e) => {
     e.preventDefault();
-    const { name, years, mail, currentPassword, newPassword } = this.state;
     const { user, onLogout } = this.props;
     const { history } = this.props;
+    const { name, years, mail, currentPassword, newPassword } = this.state;
     const userObj = { name, years, mail, currentPassword, newPassword }
+    //const userObj = this.checkIfInputIsEmpty() //conseguir asincronía!!
     apiUser
     .updateUser(user._id, userObj)
     .then(({ data:user }) => {

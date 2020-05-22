@@ -24,6 +24,10 @@ class ApiEstablishment {
     return this.apiEstablishment.post(`/establishment/create`, body);
   }
 
+  updateEstablishment(idEstablishment, body) {
+    return this.apiEstablishment.put(`/establishment/${idEstablishment}/admin`, body);
+  }
+
   deleteEstablishment(idEstablishment) {
     return this.apiEstablishment.delete(`/establishment/${idEstablishment}`);
   }
