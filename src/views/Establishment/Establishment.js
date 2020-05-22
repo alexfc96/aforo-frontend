@@ -2,6 +2,7 @@ import React, { Component } from "react";
 
 import { withAuth } from "../../context/authContext";
 import apiCompany from "../../services/apiCompany";
+import apiUser from "../../services/apiUser";
 import apiEstablishment from "../../services/apiEstablishment";
 import { Link } from "react-router-dom";
 
@@ -12,6 +13,8 @@ class Establishment extends Component {
     establishment: undefined,
     owners: [],
     admin: false,
+    adminOwners: false,
+    mail: undefined,
     name: undefined,
     description: undefined,
     address: undefined,
@@ -25,6 +28,14 @@ class Establishment extends Component {
   handleAdminButton = () => {
     this.setState({
       admin: !this.state.admin,
+      // [e.target.name]: e.target.value, hacer que este metodo sirva para todos los true/false.
+    });
+  }
+
+  handleAdminOwnersButton = () => {
+    this.setState({
+      adminOwners: !this.state.adminOwners,
+      // [e.target.name]: e.target.value, hacer que este metodo sirva para todos los true/false.
     });
   }
 
@@ -33,6 +44,32 @@ class Establishment extends Component {
       [e.target.name]: e.target.value,
     });
   };
+
+  searchUserByMail(){
+    const { mail } = this.state;
+    apiUser
+    .getUserByMail(mail)
+    .then(({ data:user}) => {
+      return user
+    })
+    .catch((error) => {
+      console.log(error)
+    });
+  }
+
+  handleSubmitFormAddNewOwner = (e) =>{
+    e.preventDefault();
+    const { mail, establishment } = this.state;
+    const user = this.searchUserByMail(); // de nuevo tema async
+    apiEstablishment
+    .joinOwner(establishment._id, user._id)
+    .then(({ data:owner }) => {
+      this.getEstablishment()
+    })
+    .catch((error) => {
+      console.log(error)
+    });
+  }
 
   adminEstablishment(){
     return (
@@ -179,7 +216,7 @@ class Establishment extends Component {
 
   render() {
     const { user } = this.props;
-    const { establishment, company, owners, admin } = this.state;
+    const { establishment, company, owners, admin, adminOwners } = this.state;
     let owner = undefined;
     return (
       <div>
@@ -198,6 +235,7 @@ class Establishment extends Component {
               <div>
                 <button onClick={()=>{this.handleAdminButton(establishment._id)}}>Admin establishment</button>
                 <button onClick={()=>{this.deleteEstablishment(establishment._id)}}>Delete establishment</button>
+                <button onClick={()=>{this.handleAdminOwnersButton(establishment._id)}}>Admin owners of establishment</button>
                </div>
             }
             {admin && 
@@ -215,7 +253,21 @@ class Establishment extends Component {
                 </ul>
                 <p>Capacity: {establishment.capacity.maximumCapacity}</p>
                 Created by :
-                  {/* {owners.length===0 && this.getOwners(establishment.owners)} puesto después de getnameofcompany para que no se pinten 2 veces*/} 
+                  {adminOwners && 
+                    <div>
+                      <p>Add new Owner</p>
+                      <form onSubmit={this.handleSubmitFormAddNewOwner}>
+                        <label htmlFor="mail">Mail</label>
+                        <input
+                          type="mail"
+                          name="mail"
+                          id="mail"
+                          onChange={this.handleChange}
+                        />
+                        <input type="submit" value="submit" />
+                      </form>
+                    </div>
+                  }
                   {owners && 
                     <ul>
                       {owners.map((ownerName, index)=>{

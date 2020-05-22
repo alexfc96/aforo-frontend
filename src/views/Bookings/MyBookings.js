@@ -13,11 +13,24 @@ class MyBookings extends Component {
     establishments: undefined,
   }
 
-  async getNameEstablishment(establishment){
-    console.log(establishment)
+  //esto demomento está parao.
+  async getNameCompany(establishment){//tiene que recibir el objeto completo de establishment o el id de la company
+    // console.log('Enntro en nameEstabli',establishment)
     try {
-      const nameEstablishment = await apiEstablishment.getEstablishment(establishment)
-      console.log('El name de ',nameEstablishment)
+      const nameCompany = await apiCompany.getCompany(establishment.company)
+      console.log('El name de la company ',nameCompany.data.name)
+      return nameCompany.data.name  //espera setState para que se pueda pintar en la pantalla? pero entonces pierdo el hilo del map
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  async getNameEstablishment(establishmentID){
+    console.log('Enntro en nameEstabli',establishmentID)
+    try {
+      const nameEstablishment = await apiEstablishment.getEstablishment(establishmentID)
+      console.log('El name del establishment',nameEstablishment.data.name)
+      return nameEstablishment.data.name  //espera setState para que se pueda pintar en la pantalla? pero entonces pierdo el hilo del map
     } catch (error) {
       console.log(error)
     }
@@ -32,16 +45,15 @@ class MyBookings extends Component {
     // });
   }
 
-  async getEstablishment(establishment){
-    console.log("entroooooo")
-    const nameOfEstablishment = await this.getNameEstablishment(establishment);
+  async getEstablishment(establishmentID){
+    const nameOfEstablishment = await this.getNameEstablishment(establishmentID);
     console.log(nameOfEstablishment)
       return (
         <div>
           <div className="one-establishment-of-the-list">
             <div className="info-establishment">
             sadads
-              <Link to={`/establishment/${establishment}` }><h3>{nameOfEstablishment}</h3></Link>
+              <Link to={`/establishment/${establishmentID}`}><h3>{nameOfEstablishment}</h3></Link>
             </div>
           </div>
           <hr/>
@@ -93,11 +105,10 @@ class MyBookings extends Component {
         {bookings &&
           <div>
             <ul>
-              {bookings.map((booking)=>{
-                console.log(booking)
+              {bookings.map(async(booking)=>{
                 //this.getCompany(booking.idEstablishment) //tendremos que buscar la company apartir del establishment
                 return <li key={booking._id}>
-                        {/* {this.getEstablishment(booking.idEstablishment)} */}
+                        {await this.getEstablishment(booking.idEstablishment)}
                         <button onClick={()=>{this.deleteBooking(booking._id, booking.idEstablishment)}}>Delete Booking</button>
                         <h3>{booking.startTime}</h3>
                         <h3>{booking.endingTime}</h3>

@@ -16,6 +16,10 @@ class ApiUser {
     return this.apiUser.get(`/user/${idUser}`);
   }
 
+  getUserByMail(mail) {
+    return this.apiUser.get(`/user/by-mail`, mail);
+  }
+
   updateUser(idUser, body) {
     return this.apiUser.put(`/user/${idUser}/update`, body);
   }
