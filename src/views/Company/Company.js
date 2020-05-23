@@ -13,24 +13,39 @@ class Company extends Component {
     establishments: [],
   }
 
-  getEstablishments(establishments){
-    if(establishments.length === 0){
-      return <p>It seems that this company does not yet have establishments</p>
-    } else {
-      establishments.map(async(establishment)=>{
-        await apiEstablishment
-          .getEstablishment(establishment)
-          .then(( { data: dataEstablishment }) => {
-            this.setState({
-              establishments: [...this.state.establishments, dataEstablishment.name]
-            });
-          })
-          .catch((error) => {
-            console.log(error)
-          });
-        }
-      )}
+  getEstablishments(){
+    //search establishments by company
+    const { company } = this.state;
+
+    apiEstablishment
+      .getEstablishmentByCompany(company._id)
+      .then(( { data: establishments }) => {
+        this.setState({
+          establishments
+        });
+      })
+      .catch((error) => {
+        console.log(error)
+      });
   }
+
+    // if(establishments.length === 0){
+    //   return <p>It seems that this company does not yet have establishments</p>
+    // } else {
+    //   establishments.map(async(establishment)=>{
+    //     await apiEstablishment
+    //       .getEstablishment(establishment)
+    //       .then(( { data: dataEstablishment }) => {
+    //         this.setState({
+    //           establishments: [...this.state.establishments, dataEstablishment.name]
+    //         });
+    //       })
+    //       .catch((error) => {
+    //         console.log(error)
+    //       });
+    //     }
+    //   )}
+    // };
 
   getOwners(owners){
     owners.map(async(owner)=>{
@@ -56,7 +71,7 @@ class Company extends Component {
         company
       });
       this.getOwners(company.owners)
-      this.getEstablishments(company.establishments)
+      this.getEstablishments()
     })
     .catch((error) => {
       console.log(error)
@@ -97,9 +112,10 @@ class Company extends Component {
             <p>Establishments:</p>
               {establishments && 
                 <ul>
-                  {establishments.map((establishmentName, index)=>{
-                    return <li key={establishmentName}>
-                            <Link to={`/establishment/${company.establishments[index]}` }><h3>{establishmentName}</h3></Link>
+                  {establishments.map((establishment)=>{
+                    console.log(establishment)
+                    return <li key={establishment._id}>
+                            <Link to={`/establishment/${establishment._id}` }><h3>{establishment.name}</h3></Link>
                           </li>
                   })}
                 </ul>
