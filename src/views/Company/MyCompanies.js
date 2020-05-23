@@ -10,15 +10,18 @@ class MyCompanies extends Component {
     companies : undefined,
     name: undefined,
     description: undefined,
-    shareClients: undefined,
+    shareClientsInAllEstablishments: false,
     adminCompany: undefined
   }
 
-  handleAdminButton = (companyID) => {
-    console.log("admin id?", companyID)
+  handleAdminButton = (company) => {
+    console.log(company)
     this.setState({
       admin: !this.state.admin,
-      adminCompany: companyID
+      adminCompany: company._id,
+      name: company.name,
+      description: company.description,
+      shareClientsInAllEstablishments: company.shareClientsInAllEstablishments,
     });
   }
 
@@ -28,7 +31,14 @@ class MyCompanies extends Component {
     });
   };
 
+  handleBoolean = (e) => {
+    this.setState({
+      shareClientsInAllEstablishments: !this.state.shareClientsInAllEstablishments,
+    });
+  };
+
   adminCompany(){
+    const { name, description, shareClientsInAllEstablishments } = this.state;
     return (
       <form onSubmit={this.handleSubmitForm}>
         <label htmlFor="name">Name</label>
@@ -36,6 +46,7 @@ class MyCompanies extends Component {
           type="text"
           name="name"
           id="name"
+          value={name}
           onChange={this.handleChange}
         />
         <label htmlFor="description">description</label>
@@ -43,14 +54,16 @@ class MyCompanies extends Component {
           type="text"
           name="description"
           id="description"
+          value={description}
           onChange={this.handleChange}
         />
-        <label htmlFor="shareClients">shareClients</label>
+        <label htmlFor="shareClientsInAllEstablishments">shareClientsInAllEstablishments</label>
         <input
           type="checkbox"
-          name="shareClients"
-          id="shareClients"
-          onChange={this.handleChange}
+          name="shareClientsInAllEstablishments"
+          id="shareClientsInAllEstablishments"
+          checked={shareClientsInAllEstablishments? true : false}
+          onChange={this.handleBoolean}
         />
         <input type="submit" value="submit" />
       </form>
@@ -59,8 +72,8 @@ class MyCompanies extends Component {
 
   handleSubmitForm = (e) => {
     e.preventDefault();
-    const { name, description, shareClients, adminCompany } = this.state;
-    const companyObj = { name, description, shareClients }
+    const { name, description, shareClientsInAllEstablishments, adminCompany } = this.state;
+    const companyObj = { name, description, shareClientsInAllEstablishments }
     //const userObj = this.checkIfInputIsEmpty() //conseguir asincronía!!
     apiCompany
     .updateCompany(adminCompany, companyObj)
@@ -85,11 +98,11 @@ class MyCompanies extends Component {
                   <Link to={`/company/${company._id}` }><h3>{company.name}</h3></Link>
                   Description:{company.description}
                   {admin && adminCompany===company._id &&
-                    this.adminCompany(company._id)
+                    this.adminCompany()
                   }
                   {owner && 
                   <div>
-                    <button onClick={()=>{this.handleAdminButton(company._id)}}>Admin company</button>
+                    <button onClick={()=>{this.handleAdminButton(company)}}>Admin company</button>
                     <button onClick={()=>{this.deleteCompany(company._id)}}>Delete company</button>
                   </div>
                   }

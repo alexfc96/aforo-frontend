@@ -6,12 +6,12 @@ class CreateCompany extends Component {
   state = {
     name: "",
     description: "",
-    shareClients: false,
+    shareClientsInAllEstablishments: false,
   }
 
   handleCheckBox = (e) => {
     this.setState({
-      shareClients: !this.state.shareClients,
+      shareClientsInAllEstablishments: !this.state.shareClientsInAllEstablishments,
     });
   }
 
@@ -23,9 +23,9 @@ class CreateCompany extends Component {
 
   handleSubmitForm = (e) => {
     e.preventDefault();
-    const { name, description, shareClients} = this.state;
+    const { name, description, shareClientsInAllEstablishments} = this.state;
     const { history } = this.props;
-    const companyObj = { name, description, shareClients}
+    const companyObj = { name, description, shareClientsInAllEstablishments}
     apiCompany
     .createCompany(companyObj)
     .then(({ data:company }) => {
@@ -59,11 +59,11 @@ class CreateCompany extends Component {
             id="description"
             onChange={this.handleChange}
           />
-          <label htmlFor="shareClients">Do you want share the clients in all the establishments?</label>
+          <label htmlFor="shareClientsInAllEstablishments">Do you want share the clients in all the establishments?</label>
           <input
             type="checkbox"
-            name="shareClients"
-            id="shareClients"
+            name="shareClientsInAllEstablishments"
+            id="shareClientsInAllEstablishments"
             onChange={this.handleCheckBox}
           />
           <input type="submit" value="submit" />

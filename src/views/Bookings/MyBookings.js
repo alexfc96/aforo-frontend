@@ -45,15 +45,15 @@ class MyBookings extends Component {
     // });
   }
 
-  async getEstablishment(establishmentID){
-    const nameOfEstablishment = await this.getNameEstablishment(establishmentID);
-    console.log(nameOfEstablishment)
+  getEstablishment(establishmentID){
+    // const nameOfEstablishment = await this.getNameEstablishment(establishmentID);
+    // console.log(nameOfEstablishment)
       return (
         <div>
           <div className="one-establishment-of-the-list">
             <div className="info-establishment">
-            sadads
-              <Link to={`/establishment/${establishmentID}`}><h3>{nameOfEstablishment}</h3></Link>
+              {establishmentID}
+              {/* <Link to={`/establishment/${establishmentID}`}><h3>{nameOfEstablishment}</h3></Link> */}
             </div>
           </div>
           <hr/>
@@ -76,6 +76,7 @@ class MyBookings extends Component {
     apiBookings
     .bookings()
     .then(({ data:bookings }) => {
+      console.log('bookings',bookings)
       this.setState({
         bookings
       });
@@ -105,10 +106,10 @@ class MyBookings extends Component {
         {bookings &&
           <div>
             <ul>
-              {bookings.map(async(booking)=>{
+              {bookings.map((booking)=>{
                 //this.getCompany(booking.idEstablishment) //tendremos que buscar la company apartir del establishment
                 return <li key={booking._id}>
-                        {await this.getEstablishment(booking.idEstablishment)}
+                        {/* {this.getEstablishment(booking.idEstablishment)} */}
                         <button onClick={()=>{this.deleteBooking(booking._id, booking.idEstablishment)}}>Delete Booking</button>
                         <h3>{booking.startTime}</h3>
                         <h3>{booking.endingTime}</h3>
