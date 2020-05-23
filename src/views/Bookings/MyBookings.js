@@ -25,42 +25,6 @@ class MyBookings extends Component {
     }
   }
 
-  async getNameEstablishment(establishmentID){
-    console.log('Enntro en nameEstabli',establishmentID)
-    try {
-      const nameEstablishment = await apiEstablishment.getEstablishment(establishmentID)
-      console.log('El name del establishment',nameEstablishment.data.name)
-      return nameEstablishment.data.name  //espera setState para que se pueda pintar en la pantalla? pero entonces pierdo el hilo del map
-    } catch (error) {
-      console.log(error)
-    }
-    // apiEstablishment
-    // .getEstablishment(establishment)
-    // .then(({ data: establishment }) => {
-    //   console.log(establishment.name)
-    //   return establishment.name
-    // })
-    // .catch((error) => {
-    //   console.log(error)
-    // });
-  }
-
-  getEstablishment(establishmentID){
-    // const nameOfEstablishment = await this.getNameEstablishment(establishmentID);
-    // console.log(nameOfEstablishment)
-      return (
-        <div>
-          <div className="one-establishment-of-the-list">
-            <div className="info-establishment">
-              {establishmentID}
-              {/* <Link to={`/establishment/${establishmentID}`}><h3>{nameOfEstablishment}</h3></Link> */}
-            </div>
-          </div>
-          <hr/>
-        </div>
-      )
-  }
-
   deleteBooking = (idBooking, idEstablishment) => {
     apiBookings
     .deleteBooking(idEstablishment, idBooking)
@@ -109,10 +73,11 @@ class MyBookings extends Component {
               {bookings.map((booking)=>{
                 //this.getCompany(booking.idEstablishment) //tendremos que buscar la company apartir del establishment
                 return <li key={booking._id}>
+                        <Link to={`/establishment/${booking.idEstablishment._id}`}><h3>{booking.idEstablishment.name}</h3></Link>
                         {/* {this.getEstablishment(booking.idEstablishment)} */}
+                        <h3>Start hour:{booking.startTime}</h3>
+                        <h3>Finish hour:{booking.endingTime}</h3>
                         <button onClick={()=>{this.deleteBooking(booking._id, booking.idEstablishment)}}>Delete Booking</button>
-                        <h3>{booking.startTime}</h3>
-                        <h3>{booking.endingTime}</h3>
                       </li>
               })
             }

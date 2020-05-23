@@ -26,9 +26,17 @@ class Establishment extends Component {
   }
 
   handleAdminButton = () => {
+    const { establishment } = this.state
     this.setState({
       admin: !this.state.admin,
-      // [e.target.name]: e.target.value, hacer que este metodo sirva para todos los true/false.
+      name: establishment.name,
+      description: establishment.description,
+      percentOfPeopleAllowed: establishment.capacity.percentOfPeopleAllowed,
+      maximumCapacity: establishment.capacity.maximumCapacity,
+      address: establishment.address,
+      startHourShift: establishment.timetable.startHourShift,
+      finalHourShift: establishment.timetable.finalHourShift,
+      timeAllowedPerBooking: establishment.timetable.timeAllowedPerBooking
     });
   }
 
@@ -45,22 +53,31 @@ class Establishment extends Component {
     });
   };
 
-  searchUserByMail(){
+  //no consigo enviarle el req.body el objeto mail para que lo procese el back. 
+  async searchUserByMail(){
     const { mail } = this.state;
-    apiUser
-    .getUserByMail(mail)
-    .then(({ data:user}) => {
-      return user
+    console.log("mail:", mail)
+    const getUserByMail = await apiUser.getUserByMail({
+      // mail
+      mail: "test@gmail.com"	
     })
-    .catch((error) => {
-      console.log(error)
-    });
+    console.log("El user solicitado por email es", getUserByMail)
+    return getUserByMail.data._id
+    // apiUser
+    // .getUserByMail({mail}) //comproBAR ESTO EN POOOOOOSTMAN
+    // .then(({ data:user}) => {
+    //   console.log("El user solicitado por email es", user)
+    //   return user
+    // })
+    // .catch((error) => {
+    //   console.log(error)
+    // });
   }
 
-  handleSubmitFormAddNewOwner = (e) =>{
+  handleSubmitFormAddNewOwner = async(e) =>{
     e.preventDefault();
     const { mail, establishment } = this.state;
-    const user = this.searchUserByMail(); // de nuevo tema async
+    const user = await this.searchUserByMail(); // de nuevo tema async
     apiEstablishment
     .joinOwner(establishment._id, user._id)
     .then(({ data:owner }) => {
@@ -72,7 +89,8 @@ class Establishment extends Component {
   }
 
   adminEstablishment(){
-    const { name, description, percentOfPeopleAllowed, maximumCapacity, company, address, startHourShift, finalHourShift, timeAllowedPerBooking } = this.state;
+    const { name, description, percentOfPeopleAllowed, maximumCapacity, address, startHourShift, finalHourShift, timeAllowedPerBooking } = this.state;
+    console.log('startHouur',startHourShift)
     return (
       <form onSubmit={this.handleSubmitForm}>
       <label htmlFor="name">Name</label>
@@ -88,6 +106,7 @@ class Establishment extends Component {
         type="text"
         name="description"
         id="description"
+        value={description}
         onChange={this.handleChange}
       />
       <label htmlFor="address">address</label>
@@ -95,6 +114,7 @@ class Establishment extends Component {
         type="text"
         name="address"
         id="address"
+        value={address}
         onChange={this.handleChange}
       />
       Capacity:
@@ -103,6 +123,7 @@ class Establishment extends Component {
         type="number"
         name="maximumCapacity"
         id="maximumCapacity"
+        value={maximumCapacity}
         onChange={this.handleChange}
       />
       <label htmlFor="percentOfPeopleAllowed">percentOfPeopleAllowed</label>
@@ -110,6 +131,7 @@ class Establishment extends Component {
         type="number"
         name="percentOfPeopleAllowed"
         id="percentOfPeopleAllowed"
+        value={percentOfPeopleAllowed}
         onChange={this.handleChange}
       />
       Timetable:
@@ -117,21 +139,24 @@ class Establishment extends Component {
       <input
         type="number"
         name="startHourShift"
-        id="shareClients"
+        id="tartHourShift"
+        value={startHourShift}
         onChange={this.handleChange}
       />
       <label htmlFor="finalHourShift">finalHourShift</label>
       <input
         type="number"
         name="finalHourShift"
-        id="shareClients"
+        id="finalHourShift"
+        value={finalHourShift}
         onChange={this.handleChange}
       />
       <label htmlFor="timeAllowedPerBooking">timeAllowedPerBooking</label>
       <input
         type="number"
         name="timeAllowedPerBooking"
-        id="shareClients"
+        id="timeAllowedPerBooking"
+        value={timeAllowedPerBooking}
         onChange={this.handleChange}
       />
       <input type="submit" value="submit" />
@@ -249,9 +274,8 @@ class Establishment extends Component {
                     {owners && 
                       <ul>
                         {establishment.owners.map((owner, index)=>{
-                          console.log('owner',owner)
                           return <li key={owner._id}>
-                                  <Link to={`/user/${owner._id}` }><h3>{owner.name}</h3></Link>
+                                  <Link to={`/user/${owner._id}`}><h3>{owner.name}</h3></Link>
                                 </li>
                         })}
                       </ul>

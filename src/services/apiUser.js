@@ -16,8 +16,9 @@ class ApiUser {
     return this.apiUser.get(`/user/${idUser}`);
   }
 
-  getUserByMail(mail) {
-    return this.apiUser.get(`/user/by-mail`, mail);
+  getUserByMail(body) {
+    console.log(body)
+    return this.apiUser.get(`/user/by-mail`, body);
   }
 
   updateUser(idUser, body) {
