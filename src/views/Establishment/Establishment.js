@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 
 import { withAuth } from "../../context/authContext";
-import apiCompany from "../../services/apiCompany";
 import apiUser from "../../services/apiUser";
 import apiEstablishment from "../../services/apiEstablishment";
 import { Link } from "react-router-dom";
@@ -9,6 +8,7 @@ import { Link } from "react-router-dom";
 class Establishment extends Component {
 
   state = {
+    iAmOwner : false,
     company : undefined,
     establishment: undefined,
     owners: [],
@@ -72,6 +72,7 @@ class Establishment extends Component {
   }
 
   adminEstablishment(){
+    const { name, description, percentOfPeopleAllowed, maximumCapacity, company, address, startHourShift, finalHourShift, timeAllowedPerBooking } = this.state;
     return (
       <form onSubmit={this.handleSubmitForm}>
       <label htmlFor="name">Name</label>
@@ -79,6 +80,7 @@ class Establishment extends Component {
         type="text"
         name="name"
         id="name"
+        value={name}
         onChange={this.handleChange}
       />
       <label htmlFor="description">Description</label>
@@ -154,36 +156,6 @@ class Establishment extends Component {
     });
   };
 
-  getNameOfCompany(companyID){
-    const { establishment } = this.state;
-    apiCompany
-    .getCompany(companyID)
-    .then((company) => {
-      this.setState({
-        company: company.data.name
-      });
-      this.getOwners(establishment.owners)//lo pongo aquí porque si no se pinta 2 veces los nombres de los owners
-    })
-    .catch((error) => {
-      console.log(error)
-    });
-  }
-  
-  getOwners(owners){
-    owners.map(async(owner)=>{
-      await apiEstablishment
-      .getUser(owner)
-      .then((dataOwner) => {
-        this.setState({
-          owners: [...this.state.owners, dataOwner.data.name]
-        });
-      })
-      .catch((error) => {
-        console.log(error)
-      });
-    })
-  }
-
   deleteEstablishment(idEstablishment){
     const { history } = this.props;
     apiEstablishment
@@ -195,6 +167,13 @@ class Establishment extends Component {
       console.log(error)
     });
   }
+  
+  iAmOwner(){
+    const { establishment } = this.state;
+    this.setState({
+      iAmOwner : true
+    })
+  }
 
   getEstablishment(){
     const establishmentID = this.props.match.params.id;
@@ -204,6 +183,7 @@ class Establishment extends Component {
       this.setState({
         establishment
       })
+      this.iAmOwner()
     })
     .catch((error) => {
       console.log(error)
@@ -216,7 +196,7 @@ class Establishment extends Component {
 
   render() {
     const { user } = this.props;
-    const { establishment, company, owners, admin, adminOwners } = this.state;
+    const { establishment, owners, admin, adminOwners, iAmOwner } = this.state;
     let owner = undefined;
     return (
       <div>
@@ -227,58 +207,57 @@ class Establishment extends Component {
           <div key={establishment._id} className="info-establishment">
             {establishment.owners.includes(user._id) ? owner = true : owner = false}
             <h1>{establishment.name}</h1>
-            {!company && this.getNameOfCompany(establishment.company)}
-            {company &&
-              <h2>Company:<Link to={`/company/${establishment.company}` }><h3>{company}</h3></Link></h2> 
-            }
-            {owner && 
-              <div>
-                <button onClick={()=>{this.handleAdminButton(establishment._id)}}>Admin establishment</button>
-                <button onClick={()=>{this.deleteEstablishment(establishment._id)}}>Delete establishment</button>
-                <button onClick={()=>{this.handleAdminOwnersButton(establishment._id)}}>Admin owners of establishment</button>
-               </div>
-            }
-            {admin && 
-              this.adminEstablishment()
-            }
-            {/* <img className="img-of-establishment" src={establishment.image_url} alt={establishment.name} /> */}
-            {!admin && 
-              <div>
-                <h5>{establishment.description}</h5>
-                Timetable:
-                <ul>
-                  <li>Start hour: {establishment.timetable.startHourShift}</li>
-                  <li>Final hour: {establishment.timetable.finalHourShift}</li>
-                  <li>Time allowed per booking: {establishment.timetable.timeAllowedPerBooking}</li>
-                </ul>
-                <p>Capacity: {establishment.capacity.maximumCapacity}</p>
-                Created by :
-                  {adminOwners && 
-                    <div>
-                      <p>Add new Owner</p>
-                      <form onSubmit={this.handleSubmitFormAddNewOwner}>
-                        <label htmlFor="mail">Mail</label>
-                        <input
-                          type="mail"
-                          name="mail"
-                          id="mail"
-                          onChange={this.handleChange}
-                        />
-                        <input type="submit" value="submit" />
-                      </form>
-                    </div>
+              <h2>Company:<Link to={`/company/${establishment.company._id}` }><h3>{establishment.company.name}</h3></Link></h2> 
+              {iAmOwner && 
+                <div>
+                  <button onClick={()=>{this.handleAdminButton(establishment._id)}}>Admin establishment</button>
+                  <button onClick={()=>{this.deleteEstablishment(establishment._id)}}>Delete establishment</button>
+                  <button onClick={()=>{this.handleAdminOwnersButton(establishment._id)}}>Admin owners of establishment</button>
+                  {admin && 
+                    this.adminEstablishment()
                   }
-                  {owners && 
-                    <ul>
-                      {owners.map((ownerName, index)=>{
-                        return <li key={ownerName}>
-                                <Link to={`/user/${establishment.owners[index]}` }><h3>{ownerName}</h3></Link>
-                              </li>
-                      })}
-                    </ul>
-                  }
-              </div>
-            }
+                </div>
+              }
+
+              {/* <img className="img-of-establishment" src={establishment.image_url} alt={establishment.name} /> */}
+              {!admin && 
+                <div>
+                  <h5>{establishment.description}</h5>
+                  Timetable:
+                  <ul>
+                    <li>Start hour: {establishment.timetable.startHourShift}</li>
+                    <li>Final hour: {establishment.timetable.finalHourShift}</li>
+                    <li>Time allowed per booking: {establishment.timetable.timeAllowedPerBooking}</li>
+                  </ul>
+                  <p>Capacity: {establishment.capacity.maximumCapacity}</p>
+                  Created by :
+                    {adminOwners && 
+                      <div>
+                        <p>Add new Owner</p>
+                        <form onSubmit={this.handleSubmitFormAddNewOwner}>
+                          <label htmlFor="mail">Mail</label>
+                          <input
+                            type="mail"
+                            name="mail"
+                            id="mail"
+                            onChange={this.handleChange}
+                          />
+                          <input type="submit" value="submit" />
+                        </form>
+                      </div>
+                    }
+                    {owners && 
+                      <ul>
+                        {establishment.owners.map((owner, index)=>{
+                          console.log('owner',owner)
+                          return <li key={owner._id}>
+                                  <Link to={`/user/${owner._id}` }><h3>{owner.name}</h3></Link>
+                                </li>
+                        })}
+                      </ul>
+                    }
+                </div>
+              }
           </div>
         }      
         </div>
