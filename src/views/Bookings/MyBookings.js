@@ -40,7 +40,7 @@ class MyBookings extends Component {
     apiBookings
     .bookings()
     .then(({ data:bookings }) => {
-      console.log('bookings',bookings)
+      // console.log('bookings',bookings)
       this.setState({
         bookings
       });
@@ -64,7 +64,7 @@ class MyBookings extends Component {
     return (
       <div>
         <h1>My bookings</h1>
-        {!bookings &&
+        {bookings && bookings.length === 0 &&
           <p> It seems that you dont any booking scheduled</p>
         }
         {bookings &&
@@ -75,8 +75,9 @@ class MyBookings extends Component {
                 return <li key={booking._id}>
                         <Link to={`/establishment/${booking.idEstablishment._id}`}><h3>{booking.idEstablishment.name}</h3></Link>
                         {/* {this.getEstablishment(booking.idEstablishment)} */}
-                        <h3>Start hour:{booking.startTime}</h3>
-                        <h3>Finish hour:{booking.endingTime}</h3>
+                        <h3>Day:{booking.day}</h3>
+                        <h3>Start hour:{booking.startHour}</h3>
+                        <h3>Duration:{booking.duration} mins</h3>
                         <button onClick={()=>{this.deleteBooking(booking._id, booking.idEstablishment)}}>Delete Booking</button>
                       </li>
               })

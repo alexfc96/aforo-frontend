@@ -35,14 +35,6 @@ class ApiEstablishment {
   deleteEstablishment(idEstablishment) {
     return this.apiEstablishment.delete(`/establishment/${idEstablishment}`);
   }
-
-  // deleteCompany(idCompany) {
-  //   return this.apiEstablishment.delete(`/company/${idCompany}`);
-  // }
-
-  // getProtected() {
-  //   return this.apiEstablishment.get("/protected");
-  // }
 }
 
 const apiEstablishment = new ApiEstablishment();

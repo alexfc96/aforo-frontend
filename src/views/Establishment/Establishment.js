@@ -4,10 +4,14 @@ import { withAuth } from "../../context/authContext";
 import apiUser from "../../services/apiUser";
 import apiEstablishment from "../../services/apiEstablishment";
 import { Link } from "react-router-dom";
+import Calendar from "../../components/Calendar";
+import apiBookings from "../../services/apiBookings";
+import CreateBooking from "../Bookings/CreateBooking";
 
 class Establishment extends Component {
 
   state = {
+    
     iAmOwner : false,
     company : undefined,
     establishment: undefined,
@@ -52,6 +56,23 @@ class Establishment extends Component {
       [e.target.name]: e.target.value,
     });
   };
+
+  //la paso al component createBoking
+  // handleNewBooking = (e) => {
+  //   e.preventDefault()
+  //   console.log("datos para realizar la booking:",dataBooking);
+  //   // const { establishment } = this.state; //he perdido la referencia
+  //   // const { history } = this.props; //esto parece que tampoco lo tengo
+  //   // apiBookings
+  //   //   .newBooking(idEstablishment, date)
+  //   //   .then(({ data:booking }) => {
+  //   //     // history.push(`/bookings/`);
+  //   //     this.forceUpdate()
+  //   //   })
+  //   //   .catch((error)=> {
+  //   //     console.log(error)
+  //   //   })
+  // }
 
   //no consigo enviarle el req.body el objeto mail para que lo procese el back. 
   async searchUserByMail(){
@@ -243,7 +264,9 @@ class Establishment extends Component {
                   }
                 </div>
               }
-
+              Do you wanna booking?
+              <CreateBooking establishment={establishment} />
+              {/* <Calendar handleDate={this.handleDate} idEstablishment={establishment._id} /> */}
               {/* <img className="img-of-establishment" src={establishment.image_url} alt={establishment.name} /> */}
               {!admin && 
                 <div>

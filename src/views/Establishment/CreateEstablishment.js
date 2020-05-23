@@ -124,14 +124,14 @@ class CreateEstablishment extends Component {
             Timetable:
             <label htmlFor="startHourShift">startHourShift</label>
             <input
-              type="number"
+              type="time"
               name="startHourShift"
               id="shareClients"
               onChange={this.handleChange}
             />
             <label htmlFor="finalHourShift">finalHourShift</label>
             <input
-              type="number"
+              type="time"
               name="finalHourShift"
               id="shareClients"
               onChange={this.handleChange}
