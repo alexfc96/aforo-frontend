@@ -9,26 +9,24 @@ class MyEstablishments extends Component {
   state = {
     haveEstablishmentsAssociated : undefined,
     establishments: undefined,
-    companies : undefined,
   }
 
   showEstablishment(){
-    const {establishments, companies} = this.state;
+    const {establishments, } = this.state;
     const { user } = this.props;
 
     let owner = undefined;
     return (
       establishments.map((establishment) => {
-        // const nameOfCompany = this.getCompany(establishment.company) //controlar la asincronia....
-        establishment.owners.includes(user._id) ? owner = true : owner = false;  //sale error de consola (indicando que está mal)
+        //pensar si poner el nombre de la company. yo creo que no.
+        establishment.owners.includes(user._id) ? owner = true : owner = false;
         return <div key={establishment._id}>
-                {/* {nameOfCompany.name} */}
                 <div className="one-establishment-of-the-list">
                   <div className="info-establishment">
-                    <Link to={`/establishment/${establishment._id}` }><h3>{establishment.name}</h3></Link>
+                    <Link to={`/establishment/${establishment._id}`}><h3>{establishment.name}</h3></Link>
                     {owner && 
                     <div>
-                      <button><Link to={`/establishment/${establishment._id}` }>Admin establishment</Link></button>
+                      <button><Link to={`/establishment/${establishment._id}`}>Admin establishment</Link></button>
                       <button onClick={()=>{this.deleteEstablishment(establishment._id)}}>Delete establishment</button>
                     </div>
                     }
@@ -44,22 +42,8 @@ class MyEstablishments extends Component {
   deleteEstablishment(idEstablishment){
     apiEstablishment
     .deleteEstablishment(idEstablishment)
-    .then(({ data: company }) => {
+    .then(() => {
       this.getEstablishments()
-    })
-    .catch((error) => {
-      console.log(error)
-    });
-  }
-
-  getCompany(companyID){  //mirar tema async
-    apiCompany
-    .getCompany(companyID)
-    .then(({ data: dataCompany }) => {
-      this.setState({
-        companies : [...this.state.companies, dataCompany]
-      });
-      //return a palo seco tampoco funciona
     })
     .catch((error) => {
       console.log(error)
@@ -69,11 +53,10 @@ class MyEstablishments extends Component {
   getEstablishments(){
     apiEstablishment
     .establishment()
-    .then(({ data: establishment }) => {
-      console.log(establishment)
+    .then(({ data: establishments }) => {
       this.setState({
         haveEstablishmentsAssociated : true,
-        establishments : establishment,
+        establishments
       });
     })
     .catch((error) => {
@@ -89,14 +72,12 @@ class MyEstablishments extends Component {
   }
 
   render() {
-    const { user } = this.props;
-    const { haveEstablishmentsAssociated, establishments, companies } = this.state;
-    // console.log(companies)
+    const { haveEstablishmentsAssociated } = this.state;
     return (
       <div>
         <h1>My establishments</h1>
         Add new establishment?
-        <Link to={`/establishment/create` }><button>New establishment</button></Link>
+        <Link to={`/establishment/create`}><button>New establishment</button></Link>
         {!haveEstablishmentsAssociated && 
           <p> It seems that you dont have a establishment associated</p>
         }
