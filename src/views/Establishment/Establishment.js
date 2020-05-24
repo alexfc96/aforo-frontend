@@ -1,13 +1,13 @@
 import React, { Component } from "react";
 
 import { withAuth } from "../../context/authContext";
-import apiUser from "../../services/apiUser";
 import apiEstablishment from "../../services/apiEstablishment";
 import { Link } from "react-router-dom";
 // import Calendar from "../../components/Calendar";
 // import apiBookings from "../../services/apiBookings";
 import CreateBooking from "../Bookings/CreateBooking";
 import AdminEstablishment from "./AdminEstablishment";
+import ManageUsersOfEstablishment from "./ManageUsersOfEstablishment";
 
 class Establishment extends Component {
 
@@ -29,6 +29,12 @@ class Establishment extends Component {
     timeAllowedPerBooking: undefined,
   }
 
+  handleChange = (e) => {
+    this.setState({
+      [e.target.name]: e.target.value,
+    });
+  };
+
   handleAdminButton = () => {
     this.setState({
       admin: !this.state.admin,
@@ -41,45 +47,7 @@ class Establishment extends Component {
       adminOwners: !this.state.adminOwners,
       // [e.target.name]: e.target.value, hacer que este metodo sirva para todos los true/false.
     });
-  }
-
-  handleChange = (e) => {
-    this.setState({
-      [e.target.name]: e.target.value,
-    });
-  };
-
-  async searchUserByMail(){
-    const { mail } = this.state;
-    await apiUser
-    .getUserByMail(mail)
-    .then(({ data: user }) => {
-      console.log("El user solicitado por email es", user)
-      // return user
-      this.setState({
-        user
-      })
-    })
-    .catch((error) => {
-      console.log(error)
-    });
-  }
-
-  handleSubmitFormAddNewOwner = async(e) =>{
-    e.preventDefault();
-    const { mail, establishment } = this.state;
-    console.log("email que nos pasa el state", mail)
-    await this.searchUserByMail();
-    const { user } = this.state;
-    console.log("El user que nos retorna es", user)
-    apiEstablishment
-    .joinOwner(establishment._id, user._id)
-    .then(({ data:owner }) => {
-      this.getEstablishment()
-    })
-    .catch((error) => {
-      console.log(error)
-    });
+    this.getEstablishment()
   }
 
   showEstablishment(){
@@ -117,22 +85,10 @@ class Establishment extends Component {
               Created by :
               {iAmOwner && 
                 <div>
-                  <button onClick={()=>{this.handleAdminOwnersButton(establishment._id)}}>Admin owners of establishment</button>
+                  <button onClick={this.handleAdminOwnersButton}>Admin owners of establishment</button>
                   {adminOwners && 
-                    <div>
-                      <p>Add new Owner</p>
-                      <form onSubmit={this.handleSubmitFormAddNewOwner}>
-                        <label htmlFor="mail">Mail</label>
-                        <input
-                          type="mail"
-                          name="mail"
-                          id="mail"
-                          onChange={this.handleChange}
-                        />
-                        <input type="submit" value="submit" />
-                      </form>
-                    </div>
-                }
+                    <ManageUsersOfEstablishment establishment={establishment} refresh={this.handleAdminOwnersButton} />
+                  }
                 </div>
 
               }
@@ -189,7 +145,7 @@ class Establishment extends Component {
   }
 
   render() {
-    const { establishment } = this.state;
+    const { establishment, adminOwners } = this.state;
     return (
       <div>
         {!establishment && 

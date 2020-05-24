@@ -32,7 +32,7 @@ class ApiEstablishment {
     return this.apiEstablishment.put(`/establishment/${idEstablishment}/admin`, body);
   }
 
-  joinOwner(idEstablishment, userID) {
+  joinOwnerEstablishment(idEstablishment, userID) {
     return this.apiEstablishment.post(`/establishment/${idEstablishment}/join-owner/${userID}`);
   }
 
