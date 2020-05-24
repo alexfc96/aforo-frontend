@@ -82,6 +82,7 @@ class CreateEstablishment extends Component {
               type="text"
               name="name"
               id="name"
+              required
               onChange={this.handleChange}
             />
             <label htmlFor="description">Description</label>
@@ -112,6 +113,7 @@ class CreateEstablishment extends Component {
               type="number"
               name="maximumCapacity"
               id="maximumCapacity"
+              required
               onChange={this.handleChange}
             />
             <label htmlFor="percentOfPeopleAllowed">percentOfPeopleAllowed</label>
@@ -119,6 +121,7 @@ class CreateEstablishment extends Component {
               type="number"
               name="percentOfPeopleAllowed"
               id="percentOfPeopleAllowed"
+              required
               onChange={this.handleChange}
             />
             Timetable:
@@ -127,6 +130,7 @@ class CreateEstablishment extends Component {
               type="time"
               name="startHourShift"
               id="shareClients"
+              required
               onChange={this.handleChange}
             />
             <label htmlFor="finalHourShift">finalHourShift</label>
@@ -134,6 +138,7 @@ class CreateEstablishment extends Component {
               type="time"
               name="finalHourShift"
               id="shareClients"
+              required
               onChange={this.handleChange}
             />
             <label htmlFor="timeAllowedPerBooking">timeAllowedPerBooking</label>
@@ -141,6 +146,7 @@ class CreateEstablishment extends Component {
               type="number"
               name="timeAllowedPerBooking"
               id="shareClients"
+              required
               onChange={this.handleChange}
             />
             <input type="submit" value="submit" />

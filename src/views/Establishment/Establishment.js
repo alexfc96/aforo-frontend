@@ -158,7 +158,7 @@ class Establishment extends Component {
       Timetable:
       <label htmlFor="startHourShift">startHourShift</label>
       <input
-        type="number"
+        type="time"
         name="startHourShift"
         id="tartHourShift"
         value={startHourShift}
@@ -166,7 +166,7 @@ class Establishment extends Component {
       />
       <label htmlFor="finalHourShift">finalHourShift</label>
       <input
-        type="number"
+        type="time"
         name="finalHourShift"
         id="finalHourShift"
         value={finalHourShift}
@@ -275,7 +275,7 @@ class Establishment extends Component {
                   <ul>
                     <li>Start hour: {establishment.timetable.startHourShift}</li>
                     <li>Final hour: {establishment.timetable.finalHourShift}</li>
-                    <li>Time allowed per booking: {establishment.timetable.timeAllowedPerBooking}</li>
+                    <li>Time allowed per booking: {establishment.timetable.timeAllowedPerBooking}mins</li>
                   </ul>
                   <p>Capacity: {establishment.capacity.maximumCapacity}</p>
                   Created by :

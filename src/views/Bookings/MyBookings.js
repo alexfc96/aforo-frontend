@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 
 import apiCompany from "../../services/apiCompany";
 import apiBookings from "../../services/apiBookings";
-import apiEstablishment from "../../services/apiEstablishment";
+// import apiEstablishment from "../../services/apiEstablishment";
 
 class MyBookings extends Component {
   state = {

@@ -95,8 +95,8 @@ class MyEstablishments extends Component {
     return (
       <div>
         <h1>My establishments</h1>
-        Do you want to control a new company?
-        <Link to={`/establishment/create` }><button>Add new establishment</button></Link>
+        Add new establishment?
+        <Link to={`/establishment/create` }><button>New establishment</button></Link>
         {!haveEstablishmentsAssociated && 
           <p> It seems that you dont have a establishment associated</p>
         }

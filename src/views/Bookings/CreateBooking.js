@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { Link } from 'react-router-dom'
 
 import { withAuth } from "../../context/authContext";
 import apiEstablishment from "../../services/apiEstablishment";
@@ -21,15 +22,14 @@ class CreateBooking extends Component {
   handleNewBooking = (e) => {
     e.preventDefault()
     const { day, startHour, duration } = this.state;
-    const { establishment } = this.props;
+    const { establishment, history } = this.props;
     console.log("datos para realizar la booking:",this.state);
     const bookingObj = { day, startHour, duration };
-    const { history } = this.props;
     apiBookings
       .newBooking(establishment._id, bookingObj)
       .then(({ data:booking }) => {
         history.push(`/bookings/`);
-        this.forceUpdate()
+        // this.forceUpdate()
       })
       .catch((error)=> {
         console.log(error)
@@ -46,7 +46,7 @@ class CreateBooking extends Component {
             type="date"
             name="day"
             id="day"
-            require
+            required
             onChange={this.handleChange}
           />
           <label htmlFor="startHour">startHour</label>
@@ -56,7 +56,7 @@ class CreateBooking extends Component {
             id="startHour"
             min={establishment.timetable.startHourShift}
             max={establishment.timetable.finalHourShift}
-            require
+            required
             onChange={this.handleChange}
           />
           <label htmlFor="duration">duration</label>
@@ -66,11 +66,11 @@ class CreateBooking extends Component {
             id="duration"
             placeholder="Specify in minutes"
             pattern="[0-9]{2}"
-            minlength="2" 
-            maxlength="3"
+            minLength="2" 
+            maxLength="3"
             min="10" 
             max={establishment.timetable.timeAllowedPerBooking}
-            require
+            required
             onChange={this.handleChange}
           />
           <input type="submit" value="submit" />

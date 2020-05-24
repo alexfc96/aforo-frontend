@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import { withAuth } from "../../context/authContext";
 import apiCompany from "../../services/apiCompany";
 import { Link } from "react-router-dom";
+import CreateCompany from "./CreateCompany";
+import AdminCompany from "./AdminCompany";
 
 class MyCompanies extends Component {
   state = {
@@ -11,18 +13,8 @@ class MyCompanies extends Component {
     name: undefined,
     description: undefined,
     shareClientsInAllEstablishments: false,
-    adminCompany: undefined
-  }
-
-  handleAdminButton = (company) => {
-    console.log(company)
-    this.setState({
-      admin: !this.state.admin,
-      adminCompany: company._id,
-      name: company.name,
-      description: company.description,
-      shareClientsInAllEstablishments: company.shareClientsInAllEstablishments,
-    });
+    adminCompany: undefined,
+    createCompany: false,
   }
 
   handleChange = (e) => {
@@ -31,58 +23,22 @@ class MyCompanies extends Component {
     });
   };
 
-  handleBoolean = (e) => {
+  handleAdminButton = (company) => {
     this.setState({
-      shareClientsInAllEstablishments: !this.state.shareClientsInAllEstablishments,
+      admin: !this.state.admin,
+      adminCompany: company._id,
+      name: company.name,
+      description: company.description,
+      shareClientsInAllEstablishments: company.shareClientsInAllEstablishments,
     });
-  };
-
-  adminCompany(){
-    const { name, description, shareClientsInAllEstablishments } = this.state;
-    return (
-      <form onSubmit={this.handleSubmitForm}>
-        <label htmlFor="name">Name</label>
-        <input
-          type="text"
-          name="name"
-          id="name"
-          value={name}
-          onChange={this.handleChange}
-        />
-        <label htmlFor="description">description</label>
-        <input
-          type="text"
-          name="description"
-          id="description"
-          value={description}
-          onChange={this.handleChange}
-        />
-        <label htmlFor="shareClientsInAllEstablishments">shareClientsInAllEstablishments</label>
-        <input
-          type="checkbox"
-          name="shareClientsInAllEstablishments"
-          id="shareClientsInAllEstablishments"
-          checked={shareClientsInAllEstablishments? true : false}
-          onChange={this.handleBoolean}
-        />
-        <input type="submit" value="submit" />
-      </form>
-    )
+    this.getCompanies()
   }
 
-  handleSubmitForm = (e) => {
-    e.preventDefault();
-    const { name, description, shareClientsInAllEstablishments, adminCompany } = this.state;
-    const companyObj = { name, description, shareClientsInAllEstablishments }
-    //const userObj = this.checkIfInputIsEmpty() //conseguir asincronía!!
-    apiCompany
-    .updateCompany(adminCompany, companyObj)
-    .then(({ data:company }) => {
-      this.getCompanies()
-    })
-    .catch((error) => {
-      console.log(error)
+  handleCreateCompany = (e) => {
+    this.setState({
+      createCompany: !this.state.createCompany,
     });
+    this.getCompanies()
   };
 
   showCompany(){
@@ -98,7 +54,7 @@ class MyCompanies extends Component {
                   <Link to={`/company/${company._id}` }><h3>{company.name}</h3></Link>
                   Description:{company.description}
                   {admin && adminCompany===company._id &&
-                    this.adminCompany()
+                    <AdminCompany company={company} refresh={this.handleAdminButton} />
                   }
                   {owner && 
                   <div>
@@ -146,12 +102,13 @@ class MyCompanies extends Component {
   }
 
   render() {
-    const { haveCompanyAssociated} = this.state;
+    const { haveCompanyAssociated, createCompany} = this.state;
     return (
       <div>
         <h1>My companies</h1>
         Do you want to control a new company?
-        <Link to={`/company/create` }><button>Add new company</button></Link>
+        <button onClick={this.handleCreateCompany}>Add new company</button>
+        {createCompany && <CreateCompany refresh={this.handleCreateCompany} />}
         {!haveCompanyAssociated && 
           <p> It seems that you dont have a company associated</p>
         }
