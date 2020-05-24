@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 
 import apiCompany from "../../services/apiCompany";
 import apiEstablishment from "../../services/apiEstablishment";
+import SearchEstablishment from "./SearchEstablishment";
 
 class MyEstablishments extends Component {
   state = {
@@ -78,6 +79,7 @@ class MyEstablishments extends Component {
         <h1>My establishments</h1>
         Add new establishment?
         <Link to={`/establishment/create`}><button>New establishment</button></Link>
+        <SearchEstablishment />
         {!haveEstablishmentsAssociated && 
           <p> It seems that you dont have a establishment associated</p>
         }

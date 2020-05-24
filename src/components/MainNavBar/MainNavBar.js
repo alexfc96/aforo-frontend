@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import './mainNavBar.css'
 import { Link } from "react-router-dom";
+// import logo from "./aforo.png";   //no pilla la ruta public...
 
 import { withAuth } from "../../context/authContext";
 
@@ -16,6 +17,7 @@ class MainNavBar extends Component {
       <div className="mainNavBar">
         {!isLoggedIn &&         
         <nav>
+          {/* <img src={logo} alt="logo" /> */}
           <h1><Link to="/" className="">AFORO</Link></h1>
           <ul className="mainLinks">
             <li>

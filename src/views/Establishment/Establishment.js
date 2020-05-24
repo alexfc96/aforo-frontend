@@ -49,31 +49,29 @@ class Establishment extends Component {
     });
   };
 
-  //no consigo enviarle el req.body el objeto mail para que lo procese el back. 
   async searchUserByMail(){
     const { mail } = this.state;
-    console.log("mail:", mail)
-    const getUserByMail = await apiUser.getUserByMail({
-      // mail
-      mail: "test@gmail.com"	
+    await apiUser
+    .getUserByMail(mail)
+    .then(({ data: user }) => {
+      console.log("El user solicitado por email es", user)
+      // return user
+      this.setState({
+        user
+      })
     })
-    console.log("El user solicitado por email es", getUserByMail)
-    return getUserByMail.data._id
-    // apiUser
-    // .getUserByMail({mail}) //comproBAR ESTO EN POOOOOOSTMAN
-    // .then(({ data:user}) => {
-    //   console.log("El user solicitado por email es", user)
-    //   return user
-    // })
-    // .catch((error) => {
-    //   console.log(error)
-    // });
+    .catch((error) => {
+      console.log(error)
+    });
   }
 
   handleSubmitFormAddNewOwner = async(e) =>{
     e.preventDefault();
     const { mail, establishment } = this.state;
-    const user = await this.searchUserByMail(); // de nuevo tema async
+    console.log("email que nos pasa el state", mail)
+    await this.searchUserByMail();
+    const { user } = this.state;
+    console.log("El user que nos retorna es", user)
     apiEstablishment
     .joinOwner(establishment._id, user._id)
     .then(({ data:owner }) => {

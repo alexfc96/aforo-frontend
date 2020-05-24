@@ -8,34 +8,22 @@ class ApiUser {
     });
   }
 
-  // establishment() {
-  //   return this.apiEstablishment.get("/establishment/establishments");
-  // }
-
   getUser(idUser) {
     return this.apiUser.get(`/user/${idUser}`);
   }
 
-  getUserByMail(body) {
-    console.log(body)
-    return this.apiUser.get(`/user/by-mail`, body);
+  getUserByMail(mail) {
+    return this.apiUser.get(`/user/by-mail/${mail}`);
   }
 
   updateUser(idUser, body) {
     return this.apiUser.put(`/user/${idUser}/update`, body);
   }
 
-  // getEstablishment(idEstablishment) {
-  //   return this.apiEstablishment.get(`/establishment/${idEstablishment}`);
-  // }
-
   // deleteCompany(idCompany) {
   //   return this.apiEstablishment.delete(`/company/${idCompany}`);
   // }
 
-  // getProtected() {
-  //   return this.apiEstablishment.get("/protected");
-  // }
 }
 
 const apiUser = new ApiUser();
