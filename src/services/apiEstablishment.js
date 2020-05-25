@@ -36,6 +36,10 @@ class ApiEstablishment {
     return this.apiEstablishment.put(`/establishment/${idEstablishment}/admin`, body);
   }
 
+  joinClientEstablishment(idEstablishment, userID) {
+    return this.apiEstablishment.post(`/establishment/${idEstablishment}/join-client/${userID}`);
+  }
+
   joinOwnerEstablishment(idEstablishment, userID) {
     return this.apiEstablishment.post(`/establishment/${idEstablishment}/join-owner/${userID}`);
   }

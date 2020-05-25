@@ -10,10 +10,10 @@ class Company extends Component {
 
   state = {
     company : undefined,
-    owners: [],
     establishments: [],
     adminOwners: false,
     iAmOwner: false,
+    deleteOwner: false,
   }
 
   getEstablishments(){
@@ -37,7 +37,6 @@ class Company extends Component {
     const { user } = this.props;
 
     company.owners.map((owner)=>{
-      console.log(owner)
       if(owner._id === user._id){
         owner = true;
         this.setState({
@@ -50,6 +49,13 @@ class Company extends Component {
   handleAdminOwnersButton = () => {
     this.setState({
       adminOwners: !this.state.adminOwners,
+    });
+    this.getCompany()
+  }
+
+  handleDeleteOwner = () => {
+    this.setState({
+      deleteOwner: !this.state.deleteOwner,
     });
     this.getCompany()
   }
@@ -87,9 +93,7 @@ class Company extends Component {
   }
 
   render() {
-    const { user } = this.props;
-    const { company, owners, establishments, adminOwners, iAmOwner } = this.state;
-    console.log(iAmOwner)
+    const { company, establishments, adminOwners, iAmOwner, deleteOwner } = this.state;
     return (
       <div>
         {!company && <p>Loading</p>}
@@ -102,37 +106,41 @@ class Company extends Component {
                 <button onClick={()=>{this.deleteCompany(company._id)}}>Delete Company</button>
                </div>
             }
-            {/* <img className="img-of-company" src={company.image_url} alt={company.name} /> */}
             <h5>{company.description}</h5>
-            Created by :
-              {iAmOwner && 
-                <div>
-                  <button onClick={this.handleAdminOwnersButton}>Admin owners of company</button>
-                  {adminOwners && 
-                    <ManageUsersOfCompany company={company} refresh={this.handleAdminOwnersButton} addNewOwner={"True"} />
-                  }
-                </div>
-              }
-              {owners && 
-                <ul>
-                  {company.owners.map((owner, index)=>{
-                    return <li key={owner._id}>
-                            <Link to={`/user/${company.owners[index]._id}` }><h3>{owner.name}</h3></Link>
-                           </li>
-                  })}
-                </ul>
-              }
+            {/* <img className="img-of-company" src={company.image_url} alt={company.name} /> */}
             <p>Establishments:</p>
               {establishments && 
                 <ul>
                   {establishments.map((establishment)=>{
-                    {/* console.log(establishment) */}
                     return <li key={establishment._id}>
-                            <Link to={`/establishment/${establishment._id}` }><h3>{establishment.name}</h3></Link>
+                            <Link to={`/establishment/${establishment._id}`}><h3>{establishment.name}</h3></Link>
                           </li>
                   })}
                 </ul>
               }
+            Created by :               
+            <div>
+              <button onClick={this.handleAdminOwnersButton}>Admin owners of company</button>
+              {adminOwners && 
+                <ManageUsersOfCompany company={company} refresh={this.handleAdminOwnersButton} addNewOwner={"True"} />
+              }
+            </div>
+            <ul>
+              {company.owners.map((owner, index)=>{
+                return <li key={owner._id}>
+                        <Link to={`/user/${company.owners[index]._id}` }><h3>{owner.name}</h3></Link>
+                        {iAmOwner && adminOwners &&
+                              <div>
+                                <button onClick={this.handleDeleteOwner}>Delete owner</button>
+                                {deleteOwner &&
+                                  <ManageUsersOfCompany company={company} refresh={this.handleDeleteOwner} deleteOwner={"True"} owner={owner} />
+                                }
+                              </div>
+                            }
+                        </li>
+              }
+              )}
+            </ul>
           </div>
         }      
         </div>

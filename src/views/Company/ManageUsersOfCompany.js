@@ -49,17 +49,18 @@ class ManageUsersOfCompany extends Component {
     )
   }
 
-  // deleteOwner(){
-  //   const { establishment, owner, refresh } = this.props;
-  //   apiEstablishment
-  //   .deleteOwnerEstablishment(establishment._id, owner._id)
-  //   .then(() => {
-  //     refresh()
-  //   })
-  //   .catch((error) => {
-  //     console.log(error)
-  //   });
-  // }
+  deleteOwner(){
+    const { company, owner, refresh } = this.props;
+    console.log("voy a deletear!!")
+    apiCompany
+    .deleteOwnerCompany(company._id, owner._id)
+    .then(() => {
+      refresh()
+    })
+    .catch((error) => {
+      console.log(error)
+    });
+  }
 
   handleSubmitFormAddNewOwner = async(e) =>{
     e.preventDefault();
@@ -82,7 +83,7 @@ class ManageUsersOfCompany extends Component {
     return (
       <div>
         {addNewOwner && this.addNewOwner()}
-        {/* {deleteOwner && this.deleteOwner()} */}
+        {deleteOwner && this.deleteOwner()}
       </div>
     )
   }

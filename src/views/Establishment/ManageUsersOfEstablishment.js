@@ -31,6 +31,24 @@ class ManageUsersOfEstablishment extends Component {
     });
   }
 
+  addNewClient(){
+    return (
+      <div>
+        <p>Add new Client</p>
+        <form onSubmit={this.handleSubmitFormAddNewClient}>
+          <label htmlFor="mail">Mail</label>
+          <input
+            type="mail"
+            name="mail"
+            id="mail"
+            onChange={this.handleChange}
+          />
+          <input type="submit" value="submit" />
+        </form>
+      </div>
+    )
+  }
+
   addNewOwner(){
     return (
       <div>
@@ -47,6 +65,21 @@ class ManageUsersOfEstablishment extends Component {
         </form>
       </div>
     )
+  }
+
+  handleSubmitFormAddNewClient = async(e) =>{
+    e.preventDefault();
+    await this.searchUserByMail();
+    const { establishment, refresh } = this.props;
+    const { user } = this.state;
+    apiEstablishment
+    .joinClientEstablishment(establishment._id, user._id)
+    .then(() => {
+      refresh()
+    })
+    .catch((error) => {
+      console.log(error)
+    });
   }
 
   deleteOwner(){
@@ -78,11 +111,12 @@ class ManageUsersOfEstablishment extends Component {
   }
 
   render(){
-    const { addNewOwner, deleteOwner } = this.props;
+    const { addNewOwner, deleteOwner, addNewClient } = this.props;
     return (
       <div>
         {addNewOwner && this.addNewOwner()}
         {deleteOwner && this.deleteOwner()}
+        {addNewClient && this.addNewClient()}
       </div>
     )
   }

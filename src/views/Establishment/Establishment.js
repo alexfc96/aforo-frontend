@@ -18,6 +18,7 @@ class Establishment extends Component {
     owners: [],
     admin: false,
     adminOwners: false,
+    adminClients: false,
     deleteOwner: false,
     mail: undefined,
     name: undefined,
@@ -58,9 +59,17 @@ class Establishment extends Component {
     this.getEstablishment()
   }
 
+  handleAdminClientsButton = () => {
+    this.setState({
+      adminClients: !this.state.adminClients,
+      // [e.target.name]: e.target.value, hacer que este metodo sirva para todos los true/false.
+    });
+    this.getEstablishment()
+  }
+
   showEstablishment(){
     const { user } = this.props;
-    const { establishment, owners, admin, adminOwners, iAmOwner, deleteOwner } = this.state;
+    const { establishment, owners, admin, adminOwners, iAmOwner, deleteOwner, adminClients } = this.state;
     let owner = undefined;
     return (
       <div key={establishment._id} className="info-establishment">
@@ -117,11 +126,39 @@ class Establishment extends Component {
                   })}
                 </ul>
               }
+              {iAmOwner && 
+              <div>
+                Clients:
+                <div>
+                  <button onClick={this.handleAdminClientsButton}>Admin clients of establishment</button>
+                  {adminClients && 
+                    <ManageUsersOfEstablishment establishment={establishment} refresh={this.handleAdminClientsButton} addNewClient="True" />
+                  }
+                </div>
+                <ul>
+                  {establishment.clients.map((client, index)=>{
+                    return(
+                      <li key={client._id}>
+                        <Link to={`/user/${establishment.clients[index]._id}`}><h3>{client.name}</h3></Link>
+                        {/* <div>
+                          <button onClick={this.handleDeleteclient}>Delete client</button>
+                          {deleteOwner &&
+                            <ManageUsersOfCompany company={company} refresh={this.handleDeleteOwner} deleteOwner={"True"} owner={owner} />
+                          }
+                        </div> */}
+                      </li>
+                    ) 
+                  }
+                  )}
+                </ul>
+              </div>
+            }
             </div>
           }
       </div>
     )
   }
+  
 
   deleteEstablishment(idEstablishment){
     const { history } = this.props;

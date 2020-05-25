@@ -28,6 +28,10 @@ class ApiCompany {
     return this.apiCompany.post(`/company/${idCompany}/join-owner/${userID}`);
   }
 
+  deleteOwnerCompany(idCompany, userID) {
+    return this.apiCompany.delete(`/company/${idCompany}/remove-owner/${userID}`);
+  }
+
   deleteCompany(idCompany) {
     return this.apiCompany.delete(`/company/${idCompany}`);
   }
