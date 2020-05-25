@@ -20,6 +20,10 @@ class ApiEstablishment {
     return this.apiEstablishment.get(`/establishment/${idEstablishment}`);
   }
 
+  getEstablishmentByCompany(idCompany) {
+    return this.apiEstablishment.get(`/establishment/by-company/${idCompany}`);
+  }
+
   getEstablishmentByName(name) {
     return this.apiEstablishment.get(`/establishment/by-name/${name}`);
   }
@@ -34,6 +38,10 @@ class ApiEstablishment {
 
   joinOwnerEstablishment(idEstablishment, userID) {
     return this.apiEstablishment.post(`/establishment/${idEstablishment}/join-owner/${userID}`);
+  }
+
+  deleteOwnerEstablishment(idEstablishment, userID) {
+    return this.apiEstablishment.delete(`/establishment/${idEstablishment}/remove-owner/${userID}`);
   }
 
   deleteEstablishment(idEstablishment) {

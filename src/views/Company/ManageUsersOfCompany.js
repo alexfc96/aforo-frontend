@@ -1,13 +1,14 @@
 import React, { Component } from "react";
 
 import { withAuth } from "../../context/authContext";
-import apiEstablishment from "../../services/apiEstablishment";
+import apiCompany from "../../services/apiCompany";
 import apiUser from "../../services/apiUser";
 
-class ManageUsersOfEstablishment extends Component {
+class ManageUsersOfCompany extends Component {
 
   state = {
-    email: undefined,
+    mail: undefined,
+    user: undefined,
   }
 
   handleChange = (e) => {
@@ -21,7 +22,6 @@ class ManageUsersOfEstablishment extends Component {
     await apiUser
     .getUserByMail(mail)
     .then(({ data: user }) => {
-      // return user
       this.setState({
         user
       })
@@ -49,26 +49,26 @@ class ManageUsersOfEstablishment extends Component {
     )
   }
 
-  deleteOwner(){
-    const { establishment, owner, refresh } = this.props;
-    apiEstablishment
-    .deleteOwnerEstablishment(establishment._id, owner._id)
-    .then(() => {
-      refresh()
-    })
-    .catch((error) => {
-      console.log(error)
-    });
-    
-  }
+  // deleteOwner(){
+  //   const { establishment, owner, refresh } = this.props;
+  //   apiEstablishment
+  //   .deleteOwnerEstablishment(establishment._id, owner._id)
+  //   .then(() => {
+  //     refresh()
+  //   })
+  //   .catch((error) => {
+  //     console.log(error)
+  //   });
+  // }
 
   handleSubmitFormAddNewOwner = async(e) =>{
     e.preventDefault();
     await this.searchUserByMail();
-    const { establishment, refresh } = this.props;
+    const { company , refresh } = this.props;
     const { user } = this.state;
-    apiEstablishment
-    .joinOwnerEstablishment(establishment._id, user._id)
+    console.log("user en cuestion", user)
+    apiCompany
+    .joinOwnerCompany(company._id, user._id)
     .then(() => {
       refresh()
     })
@@ -82,10 +82,10 @@ class ManageUsersOfEstablishment extends Component {
     return (
       <div>
         {addNewOwner && this.addNewOwner()}
-        {deleteOwner && this.deleteOwner()}
+        {/* {deleteOwner && this.deleteOwner()} */}
       </div>
     )
   }
 }
 
-export default withAuth(ManageUsersOfEstablishment);
+export default withAuth(ManageUsersOfCompany);

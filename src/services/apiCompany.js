@@ -24,6 +24,10 @@ class ApiCompany {
     return this.apiCompany.post(`/company/create`, body);
   }
 
+  joinOwnerCompany(idCompany, userID) {
+    return this.apiCompany.post(`/company/${idCompany}/join-owner/${userID}`);
+  }
+
   deleteCompany(idCompany) {
     return this.apiCompany.delete(`/company/${idCompany}`);
   }

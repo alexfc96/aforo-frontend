@@ -18,6 +18,7 @@ class Establishment extends Component {
     owners: [],
     admin: false,
     adminOwners: false,
+    deleteOwner: false,
     mail: undefined,
     name: undefined,
     description: undefined,
@@ -42,6 +43,13 @@ class Establishment extends Component {
     this.getEstablishment()
   }
 
+  handleDeleteOwner = () => {
+    this.setState({
+      deleteOwner: !this.state.deleteOwner,
+    });
+    this.getEstablishment()
+  }
+
   handleAdminOwnersButton = () => {
     this.setState({
       adminOwners: !this.state.adminOwners,
@@ -52,7 +60,7 @@ class Establishment extends Component {
 
   showEstablishment(){
     const { user } = this.props;
-    const { establishment, owners, admin, adminOwners, iAmOwner } = this.state;
+    const { establishment, owners, admin, adminOwners, iAmOwner, deleteOwner } = this.state;
     let owner = undefined;
     return (
       <div key={establishment._id} className="info-establishment">
@@ -87,20 +95,28 @@ class Establishment extends Component {
                 <div>
                   <button onClick={this.handleAdminOwnersButton}>Admin owners of establishment</button>
                   {adminOwners && 
-                    <ManageUsersOfEstablishment establishment={establishment} refresh={this.handleAdminOwnersButton} />
+                    <ManageUsersOfEstablishment establishment={establishment} refresh={this.handleAdminOwnersButton} addNewOwner="True" />
                   }
                 </div>
 
               }
-                {owners && 
-                  <ul>
-                    {establishment.owners.map((owner, index)=>{
-                      return <li key={owner._id}>
-                              <Link to={`/user/${owner._id}`}><h3>{owner.name}</h3></Link>
-                            </li>
-                    })}
-                  </ul>
-                }
+              {owners && 
+                <ul>
+                  {establishment.owners.map((owner, index)=>{
+                    return <li key={owner._id}>
+                            <Link to={`/user/${owner._id}`}><h3>{owner.name}</h3></Link>
+                            {iAmOwner && adminOwners &&
+                              <div>
+                                <button onClick={this.handleDeleteOwner}>Delete owner</button>
+                                {deleteOwner && //tema asincronía?
+                                  <ManageUsersOfEstablishment establishment={establishment} refresh={this.handleDeleteOwner} deleteOwner={"True"} owner={owner} />
+                                }
+                              </div>
+                            }
+                          </li>
+                  })}
+                </ul>
+              }
             </div>
           }
       </div>

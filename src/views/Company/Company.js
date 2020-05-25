@@ -4,6 +4,7 @@ import { withAuth } from "../../context/authContext";
 import apiCompany from "../../services/apiCompany";
 import apiEstablishment from "../../services/apiEstablishment";
 import { Link } from "react-router-dom";
+import ManageUsersOfCompany from "./ManageUsersOfCompany";
 
 class Company extends Component {
 
@@ -11,6 +12,8 @@ class Company extends Component {
     company : undefined,
     owners: [],
     establishments: [],
+    adminOwners: false,
+    iAmOwner: false,
   }
 
   getEstablishments(){
@@ -29,40 +32,41 @@ class Company extends Component {
       });
   }
 
-    // if(establishments.length === 0){
-    //   return <p>It seems that this company does not yet have establishments</p>
-    // } else {
-    //   establishments.map(async(establishment)=>{
-    //     await apiEstablishment
-    //       .getEstablishment(establishment)
-    //       .then(( { data: dataEstablishment }) => {
-    //         this.setState({
-    //           establishments: [...this.state.establishments, dataEstablishment.name]
-    //         });
-    //       })
-    //       .catch((error) => {
-    //         console.log(error)
-    //       });
-    //     }
-    //   )}
-    // };
+  iAmOwner(){
+    const { company } = this.state;
+    const { user } = this.props;
 
-  getOwners(owners){
-    owners.map(async(owner)=>{
-      await apiCompany
-      .getUser(owner)
-      .then(({ data: dataOwner }) => {
+    company.owners.map((owner)=>{
+      console.log(owner)
+      if(owner._id === user._id){
+        owner = true;
         this.setState({
-          owners: [...this.state.owners, dataOwner.name]
-        });
-      })
-      .catch((error) => {
-        console.log(error)
-      });
+          iAmOwner: true
+        })
+      };
     })
   }
 
-  componentDidMount(){ //alomejor esto es tonteria al ya tener el objeto?
+  handleAdminOwnersButton = () => {
+    this.setState({
+      adminOwners: !this.state.adminOwners,
+    });
+    this.getCompany()
+  }
+
+  deleteCompany = (idCompany) => {
+    const { history } = this.props;
+    apiCompany
+    .deleteCompany(idCompany)
+    .then((company) => {
+      history.push("/company")
+    })
+    .catch((error) => {
+      console.log(error)
+    });
+  }
+
+  getCompany(){
     const companyID = this.props.match.params.id;
     apiCompany
     .getCompany(companyID)
@@ -70,7 +74,7 @@ class Company extends Component {
       this.setState({
         company
       });
-      this.getOwners(company.owners)
+      this.iAmOwner()
       this.getEstablishments()
     })
     .catch((error) => {
@@ -78,20 +82,21 @@ class Company extends Component {
     });
   }
 
+  componentDidMount(){
+    this.getCompany()
+  }
+
   render() {
     const { user } = this.props;
-    const { company, owners, establishments } = this.state;  //avisaron que había que tener cuidado con repetir nombre de variables. esto es con las que estan en el provider o a nivel global?
-    let owner = undefined
-    if(company){
-      company.owners.includes(user._id) ? owner = true : owner = false;
-    }
+    const { company, owners, establishments, adminOwners, iAmOwner } = this.state;
+    console.log(iAmOwner)
     return (
       <div>
         {!company && <p>Loading</p>}
         {company &&
           <div key={company._id} className="info-company">
             <h1>{company.name}</h1>
-            {owner && 
+            {iAmOwner && 
               <div>
                 <p>Eres el owner de la company</p>
                 <button onClick={()=>{this.deleteCompany(company._id)}}>Delete Company</button>
@@ -100,11 +105,19 @@ class Company extends Component {
             {/* <img className="img-of-company" src={company.image_url} alt={company.name} /> */}
             <h5>{company.description}</h5>
             Created by :
+              {iAmOwner && 
+                <div>
+                  <button onClick={this.handleAdminOwnersButton}>Admin owners of company</button>
+                  {adminOwners && 
+                    <ManageUsersOfCompany company={company} refresh={this.handleAdminOwnersButton} addNewOwner={"True"} />
+                  }
+                </div>
+              }
               {owners && 
                 <ul>
-                  {owners.map((ownerName, index)=>{
-                    return <li key={ownerName}>
-                            <Link to={`/user/${company.owners[index]}` }><h3>{ownerName}</h3></Link>
+                  {company.owners.map((owner, index)=>{
+                    return <li key={owner._id}>
+                            <Link to={`/user/${company.owners[index]._id}` }><h3>{owner.name}</h3></Link>
                            </li>
                   })}
                 </ul>
@@ -113,14 +126,13 @@ class Company extends Component {
               {establishments && 
                 <ul>
                   {establishments.map((establishment)=>{
-                    console.log(establishment)
+                    {/* console.log(establishment) */}
                     return <li key={establishment._id}>
                             <Link to={`/establishment/${establishment._id}` }><h3>{establishment.name}</h3></Link>
                           </li>
                   })}
                 </ul>
               }
-
           </div>
         }      
         </div>
