@@ -120,7 +120,9 @@ class Company extends Component {
               }
             Created by :               
             <div>
+              {iAmOwner && 
               <button onClick={this.handleAdminOwnersButton}>Admin owners of company</button>
+              }
               {adminOwners && 
                 <ManageUsersOfCompany company={company} refresh={this.handleAdminOwnersButton} addNewOwner={"True"} />
               }

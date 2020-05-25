@@ -9,7 +9,7 @@ class SignUp extends Component {
     password: "",
     name: "",
     mail: "",
-    years: 0,
+    years: undefined,
   };
 
   handleSubmit = (e) => {

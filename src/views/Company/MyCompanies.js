@@ -34,7 +34,7 @@ class MyCompanies extends Component {
     this.getCompanies()
   }
 
-  handleCreateCompany = (e) => {
+  handleCreateCompany = () => {
     this.setState({
       createCompany: !this.state.createCompany,
     });
@@ -44,9 +44,11 @@ class MyCompanies extends Component {
   showCompany(){
     const {companies, admin, adminCompany} = this.state;
     const { user } = this.props;
+    console.log(companies)
 
     let owner = undefined;
     return companies.map((company) => {
+      console.log("company:",company)
       company.owners.includes(user._id) ? owner = true : owner = false;
       return <div key={company._id}>
               <div className="one-company-of-the-list">
@@ -83,10 +85,10 @@ class MyCompanies extends Component {
   getCompanies(){
     apiCompany
     .company()
-    .then(({ data:company }) => {
+    .then(({ data:companies }) => {
       this.setState({
         haveCompanyAssociated : true,
-        companies : company,
+        companies
       });
     })
     .catch((error) => {

@@ -29,14 +29,11 @@ class CreateCompany extends Component {
     const companyObj = { name, description, shareClientsInAllEstablishments}
     apiCompany
     .createCompany(companyObj)
-    .then(({ data:company }) => {
+    .then(() => {
       refresh()
     })
     .catch((error) => {
       console.log(error)
-      this.setState({
-        haveCompanyAssociated : false,
-      });
     });
   };
 
