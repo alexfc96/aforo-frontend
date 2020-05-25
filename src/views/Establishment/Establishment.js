@@ -12,7 +12,7 @@ import ManageUsersOfEstablishment from "./ManageUsersOfEstablishment";
 class Establishment extends Component {
 
   state = {
-    iAmOwner : false,
+    iAmOwner : undefined,
     company : undefined,
     establishment: undefined,
     owners: [],
@@ -70,10 +70,8 @@ class Establishment extends Component {
   showEstablishment(){
     const { user } = this.props;
     const { establishment, owners, admin, adminOwners, iAmOwner, deleteOwner, adminClients } = this.state;
-    let owner = undefined;
     return (
       <div key={establishment._id} className="info-establishment">
-        {establishment.owners.includes(user._id) ? owner = true : owner = false}
         <h1>{establishment.name}</h1>
           <h5>{establishment.description}</h5>
           <h2>Company:<Link to={`/company/${establishment.company._id}` }><h3>{establishment.company.name}</h3></Link></h2> 
@@ -173,9 +171,19 @@ class Establishment extends Component {
   }
   
   iAmOwner(){
-    this.setState({
-      iAmOwner : true
+    const { establishment } = this.state;
+    const { user } = this.props;
+    let iAmOwner = false;
+    establishment.owners.map((owner, index) => {
+      if(owner._id === user._id) {
+        iAmOwner = true;
+      }
     })
+    if(iAmOwner){
+      this.setState({
+        iAmOwner
+      })
+    }
   }
 
   getEstablishment(){
