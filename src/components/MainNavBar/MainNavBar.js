@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import './mainNavBar.css'
 import { Link } from "react-router-dom";
-// import logo from "./aforo.png";   //no pilla la ruta public...
+// import logo from "../../aforo.png";
 
 import { withAuth } from "../../context/authContext";
 
@@ -17,7 +17,7 @@ class MainNavBar extends Component {
       <div className="mainNavBar">
         {!isLoggedIn &&         
         <nav>
-          {/* <img src={logo} alt="logo" /> */}
+          <img src="./aforo.png" alt="logo" className="logo" width="40" />
           <h1><Link to="/" className="">AFORO</Link></h1>
           <ul className="mainLinks">
             <li>
@@ -32,6 +32,7 @@ class MainNavBar extends Component {
 
         {isLoggedIn && 
           <nav>
+          <img src="./aforo.png" alt="logo" className="logo" width="40" />
           <h1><Link to="/home" className="">AFORO</Link></h1>
           <ul className="mainLinks">
             <li>
