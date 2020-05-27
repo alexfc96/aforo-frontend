@@ -42,7 +42,6 @@ class App extends Component {
               <PrivateRoute exact path={"/user"} component={MyUser} /> 
               <PrivateRoute exact path={"/user/:id"} component={User} />
               <PrivateRoute exact path={"/bookings"} component={MyBookings} /> 
-
             </Switch>
           </div>
         </div>

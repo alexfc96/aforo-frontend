@@ -10,7 +10,7 @@ class MyBookings extends Component {
   state = {
     companies : undefined,
     bookings: undefined,
-    establishments: undefined,
+    establishments: [],
   }
 
   //esto demomento está parao.
@@ -23,6 +23,49 @@ class MyBookings extends Component {
     } catch (error) {
       console.log(error)
     }
+  }
+
+  checkEstablishment(establishment){
+    console.log("el establishemnte que recibo",establishment);
+    const { establishments } = this.state;
+    let estabExists = false;
+    establishments.map((estab) =>{
+      if(estab.name === establishment.name){
+        estabExists = true;
+      }
+    if(estabExists){
+        this.setState({
+          establishments: [...establishments, establishment]
+        })
+    }
+    })
+
+  }
+
+  showBookings(){
+    const { companies, establishments, bookings } = this.state;
+    return(
+      <div>
+        <ul>
+          {bookings.map((booking)=>{
+            {/* console.log("una booking", booking)
+            this.checkEstablishment(booking.idEstablishment);
+            const { establishments } = this.state;
+            console.log("Los estbalishments que tenemos en state es:", establishments) */}
+            //this.getCompany(booking.idEstablishment) //tendremos que buscar la company apartir del establishment
+            return <li key={booking._id}>
+                    <Link to={`/establishment/${booking.idEstablishment._id}`}><h3>{booking.idEstablishment.name}</h3></Link>
+                    {/* {this.getEstablishment(booking.idEstablishment)} */}
+                    <h3>Day:{booking.day}</h3>
+                    <h3>Start hour:{booking.startHour}</h3>
+                    <h3>Duration:{booking.duration} mins</h3>
+                    <button onClick={()=>{this.deleteBooking(booking._id, booking.idEstablishment)}}>Delete Booking</button>
+                  </li>
+          })
+        }
+        </ul>
+      </div>
+    )
   }
 
   deleteBooking = (idBooking, idEstablishment) => {
@@ -67,24 +110,7 @@ class MyBookings extends Component {
         {bookings && bookings.length === 0 &&
           <p> It seems that you dont any booking scheduled</p>
         }
-        {bookings &&
-          <div>
-            <ul>
-              {bookings.map((booking)=>{
-                //this.getCompany(booking.idEstablishment) //tendremos que buscar la company apartir del establishment
-                return <li key={booking._id}>
-                        <Link to={`/establishment/${booking.idEstablishment._id}`}><h3>{booking.idEstablishment.name}</h3></Link>
-                        {/* {this.getEstablishment(booking.idEstablishment)} */}
-                        <h3>Day:{booking.day}</h3>
-                        <h3>Start hour:{booking.startHour}</h3>
-                        <h3>Duration:{booking.duration} mins</h3>
-                        <button onClick={()=>{this.deleteBooking(booking._id, booking.idEstablishment)}}>Delete Booking</button>
-                      </li>
-              })
-            }
-            </ul>
-          </div>
-        }
+        {bookings && this.showBookings() }
       </div>
     );
   }

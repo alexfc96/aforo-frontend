@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Link } from 'react-router-dom'
+import { withRouter } from 'react-router-dom'
 
 import { withAuth } from "../../context/authContext";
 import apiEstablishment from "../../services/apiEstablishment";
@@ -23,6 +23,7 @@ class CreateBooking extends Component {
     e.preventDefault()
     const { day, startHour, duration } = this.state;
     const { establishment, history } = this.props;
+    console.log("props del create bookin",this.props)
     console.log("datos para realizar la booking:",this.state);
     const bookingObj = { day, startHour, duration };
     apiBookings
@@ -80,4 +81,4 @@ class CreateBooking extends Component {
   }
 }
 
-export default withAuth(CreateBooking);
+export default withRouter(withAuth(CreateBooking));

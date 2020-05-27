@@ -37,8 +37,10 @@ class MyCompanies extends Component {
   handleCreateCompany = () => {
     this.setState({
       createCompany: !this.state.createCompany,
+    }, ()=>{
+      this.getCompanies()
     });
-    this.getCompanies()
+    
   };
 
   showCompany(){
