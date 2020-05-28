@@ -1,0 +1,5 @@
+.sessions{
+  border: 1px solid;
+  display: flex;
+  width: fit-content;
+}

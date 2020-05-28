@@ -4,13 +4,17 @@ import { withRouter } from 'react-router-dom'
 import { withAuth } from "../../context/authContext";
 import apiEstablishment from "../../services/apiEstablishment";
 import apiBookings from "../../services/apiBookings";
+import './bookings.css'
 
 class CreateBooking extends Component {
 
   state = {
     day: undefined,
     startHour: 0,
-    duration: 0
+    // duration: 0,
+    sessions: false,
+    bookingsInOneDay: undefined,
+    arrayOfSessions: undefined,
   }
 
   handleChange = (e) => {
@@ -19,13 +23,38 @@ class CreateBooking extends Component {
     });
   };
 
-  handleNewBooking = (e) => {
+  handleBookingsInOneDay = (e) => {
     e.preventDefault()
-    const { day, startHour, duration } = this.state;
+    const { day } = this.state;
+    const { establishment, history } = this.props;
+    const bookingObj = { day };
+    apiBookings
+      .bookingsByDay(establishment._id, bookingObj)
+      .then(({ data:bookingsInOneDay }) => {
+        console.log(bookingsInOneDay)
+        this.setState({
+          bookingsInOneDay
+        })
+      })
+      .catch((error)=> {
+        console.log(error)
+      })
+  }
+
+  handleHour(startHour){
+    console.log("session selecionada",startHour)
+    this.setState({
+      startHour
+    })
+  }
+
+  createBooking = (e) =>{
+    e.preventDefault()
+    const { day, startHour } = this.state;
     const { establishment, history } = this.props;
     console.log("props del create bookin",this.props)
     console.log("datos para realizar la booking:",this.state);
-    const bookingObj = { day, startHour, duration };
+    const bookingObj = { day, startHour };
     apiBookings
       .newBooking(establishment._id, bookingObj)
       .then(({ data:booking }) => {
@@ -37,46 +66,124 @@ class CreateBooking extends Component {
       })
   }
 
-  render(){
+  searchSessions(){
     const { establishment } = this.props;
+    let timeAllowedPerBooking = parseInt(establishment.timetable.timeAllowedPerBooking) //pasamos a timeAllowed a number
+    const hourMinutesStrs = establishment.timetable.startHourShift;
+    let startHourShift = parseInt(establishment.timetable.startHourShift);
+    let finalHourShift = parseInt(establishment.timetable.finalHourShift);
+
+    //sacamos los datos de cuantas sesiones de reservas van a haber durante el dia
+    const horasAbierto = finalHourShift-startHourShift;
+    console.log("horas abierto", horasAbierto);
+    const sesionesTotales = (horasAbierto*60)/timeAllowedPerBooking;
+    console.log("sesiones totales", sesionesTotales);
+
+    const arrayOfSessions = [];
+    const temp = hourMinutesStrs.split(':');
+    let countHours = parseInt(temp[0])
+    console.log("primera hora str",countHours)
+    let countMinutes = parseInt(temp[1])
+    let hoursStr = undefined;
+    let minsStr = undefined;
+
+    while (countHours < finalHourShift) {  //sacamos las horas o timeSessions en las que se van a poder reservar.
+      countMinutes = countMinutes + timeAllowedPerBooking;
+      if(countMinutes<60){
+        hoursStr = countHours.toString();
+        hoursStr = "0"+hoursStr;
+        minsStr = countMinutes.toString();
+        let finalTime = hoursStr.concat(':', minsStr);
+        arrayOfSessions.push(finalTime)  //tendremos que hacer un join de las horas y los minutos para que sean una unidad y no 2.
+      } else{
+        countHours = countHours + 1;
+        countMinutes = 0;
+        hoursStr = countHours.toString();
+        if(hoursStr<10){
+          hoursStr = "0"+hoursStr;
+        }
+        minsStr = countMinutes.toString();
+        let finalTime = hoursStr.concat(':', minsStr+0);
+        arrayOfSessions.push(finalTime);
+      }
+    }
+    hoursStr = startHourShift.toString();
+    hoursStr = "0"+hoursStr;
+    minsStr = countMinutes.toString();
+    let finalTime = hoursStr.concat(':', minsStr+0);
+    arrayOfSessions.unshift(finalTime);//en este caso agregamos ya la primera sesion
+    arrayOfSessions.pop();//eliminamos la ultima hora ya que no me insteresa que puedan reservar a esa hora
+    // console.log(arrayOfSessions) //horas de inciios de sesion
+    this.setState({
+      sessions: true,
+      arrayOfSessions
+    })
+    // this.printSessions(arrayOfSessions)
+  }
+
+  printSessions(){
+    const { bookingsInOneDay, arrayOfSessions } = this.state;
+    let cont = 0;
     return(
       <div>
-        <form onSubmit={this.handleNewBooking}>
-          <label htmlFor="day">Day</label>
-          <input
-            type="date"
-            name="day"
-            id="day"
-            required
-            onChange={this.handleChange}
-          />
-          <label htmlFor="startHour">startHour</label>
-          <input
-            type="time"
-            name="startHour"
-            id="startHour"
-            min={establishment.timetable.startHourShift}
-            max={establishment.timetable.finalHourShift}
-            required
-            onChange={this.handleChange}
-          />
-          <label htmlFor="duration">duration</label>
-          <input
-            type="number"
-            name="duration"
-            id="duration"
-            placeholder="Specify in minutes"
-            pattern="[0-9]{2}"
-            minLength="2" 
-            maxLength="3"
-            min="10" 
-            max={establishment.timetable.timeAllowedPerBooking}
-            required
-            onChange={this.handleChange}
-          />
-          <input type="submit" value="submit" />
-        </form>
+        {arrayOfSessions.map((session)=>{
+          cont=0;
+          {/* console.log(session) */}
+          bookingsInOneDay.map((booking)=>{
+            if(booking.startHour===session){
+              console.log("coincide la hora", booking.startHour, session)
+              cont=cont+1
+            }
+          })
+          return (
+            <div key={session} className="sessions">
+              <button onClick={()=>{this.handleHour(session)}}>{session}</button>
+              Reservas realizadas a esa hora: {cont}
+            </div>
+          ) 
+        })}
       </div>
+    )
+  }
+
+  render(){
+    const { establishment } = this.props;
+    const { bookingsInOneDay, arrayOfSessions, sessions } = this.state;
+    return(
+      <div>
+        {!bookingsInOneDay &&
+          <div>
+            <form onSubmit={this.handleBookingsInOneDay}>
+              <label htmlFor="day">Day</label>
+              <input
+                type="date"
+                name="day"
+                id="day"
+                required
+                onChange={this.handleChange}
+              />
+              <input type="submit" value="submit" />
+            </form>
+        </div>
+        }
+        {bookingsInOneDay &&
+          <div>
+            Mostrar opciones para la reserva: (tabla de horas):
+            {!sessions && this.searchSessions()}
+            {/* {this.printSessions()} */}
+            {arrayOfSessions && this.printSessions()}
+
+            las bookings ya realizadas en ese dia:
+            {bookingsInOneDay.map((booking)=>{
+            return <p key={booking._id}>{booking.startHour}</p>
+            })
+            }
+            <button onClick={this.createBooking}>Create booking</button>
+          </div>
+
+        }
+      </div>
+
     )
   }
 }
