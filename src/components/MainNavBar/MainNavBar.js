@@ -1,53 +1,54 @@
 import React, { Component } from "react";
-import styles from './mainNavBar.module.css'
+import styles from './mainNavBar.css'
 import { Link } from "react-router-dom";
-// import logo from "../../aforo.png";
 
 import { withAuth } from "../../context/authContext";
 
 class MainNavBar extends Component {
+  state = {
+    toggle:false
+  }
   
+  handleToggle = () => {
+    this.setState({toggle:!this.state.toggle})
+  }
+
   render() {
-    // const { username } = this.state;
-    const { onLogout, isLoggedIn } = this.props;
+    // const { toogle } = this.state;
+    const { onLogout, isLoggedIn, user } = this.props;
     return (
-      <div className={styles.mainNavBar}>
-        <nav>
-          <div className={styles.mainLogo}>
-            <img src="./aforo.png" alt="logo" className={styles.logo} />
-            <h1><Link to="/" className="">AFORO</Link></h1>
+      <div className="nav">
+        <input type="checkbox" id="nav-check" />
+        <div className="nav-header">
+          <div className="nav-title">
+            <a href="/"><img className='nav-hack' id="logo-nav" src="./aforo.png" alt="logo"></img></a>
+            <span className="main-title">AFORO</span>
           </div>
-            {!isLoggedIn &&   
-              <ul>    
-                <li>
-                  <Link to="/login" className="">Login</Link>
-                </li>
-                <li>
-                  <Link to="/signup" className="">Signup</Link>
-                </li>
-              </ul>
-            }
-            {isLoggedIn && 
-              <ul>      
-                <li>
-                  <Link to="/company" className="">My companies</Link>
-                </li>
-                <li>
-                  <Link to="/establishment" className="">My establishments</Link>
-                </li>
-                <li>
-                  {/* valorar si merece la pena */}
-                  <Link to="/bookings" className="">My bookings</Link>
-                </li>
-                <li>
-                  <Link to="/user" className="">My user</Link>
-                </li>
-                <li>
-                  <button onClick={onLogout}>Logout</button>
-                </li>
-              </ul>
-            }
-        </nav>
+        </div>
+        <div className="nav-btn">
+          <label for="nav-check">
+            <span></span>
+            <span></span>
+            <span></span>
+          </label>
+        </div>
+
+        {isLoggedIn &&
+          <div className="nav-links">
+            <Link to="/company"><a href="">Companys</a></Link>
+            <Link to="/establishment"><a href="">Establishments</a></Link>
+            <Link to="/bookings"><a href="">My bookings</a></Link>
+            <Link to="/user"><a href="">My profile</a></Link>
+            <a onClick={onLogout}>Logout</a>
+          </div>
+        }
+        {!isLoggedIn &&
+          <div className="nav-links">
+            <Link to="/signup"><a href="">Signup</a></Link>
+            <Link to="/login"><a href="">Login</a></Link>
+          </div>
+        }
+
       </div>
     );
   }
