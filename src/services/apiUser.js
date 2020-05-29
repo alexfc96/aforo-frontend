@@ -20,9 +20,9 @@ class ApiUser {
     return this.apiUser.put(`/user/${idUser}/update`, body);
   }
 
-  // deleteCompany(idCompany) {
-  //   return this.apiEstablishment.delete(`/company/${idCompany}`);
-  // }
+  deleteUser() {
+    return this.apiUser.delete(`/user/delete`);
+  }
 
 }
 

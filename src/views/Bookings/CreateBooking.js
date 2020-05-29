@@ -123,6 +123,11 @@ class CreateBooking extends Component {
 
   printSessions(){
     const { bookingsInOneDay, arrayOfSessions } = this.state;
+    const { establishment } = this.props;
+    const { maximumCapacity, percentOfPeopleAllowed } = establishment.capacity;
+    const percentOfUsersAllowedInTheEstablishmentInCertainTime = Math.round(  //sacamos el numero total de usuarios que se van a permitir por sesión.
+      (maximumCapacity * percentOfPeopleAllowed) / 100,
+    );
     let cont = 0;
     return(
       <div>
@@ -137,8 +142,13 @@ class CreateBooking extends Component {
           })
           return (
             <div key={session} className="sessions">
-              <button onClick={()=>{this.handleHour(session)}}>{session}</button>
-              Reservas realizadas a esa hora: {cont}
+              {cont >= percentOfUsersAllowedInTheEstablishmentInCertainTime &&
+                <button>{session}</button> //cambiarlo a div
+              }
+              {cont < percentOfUsersAllowedInTheEstablishmentInCertainTime && 
+                <button onClick={()=>{this.handleHour(session)}}>{session}</button>
+              }
+              Reservas realizadas a esa hora: {cont}/{percentOfUsersAllowedInTheEstablishmentInCertainTime}
             </div>
           ) 
         })}
@@ -173,7 +183,7 @@ class CreateBooking extends Component {
             {/* {this.printSessions()} */}
             {arrayOfSessions && this.printSessions()}
 
-            las bookings ya realizadas en ese dia:
+            las bookings ya realizadas en ese dia: esto solamente es para mostrar que los datos son reales! las boookings
             {bookingsInOneDay.map((booking)=>{
             return <p key={booking._id}>{booking.startHour}</p>
             })

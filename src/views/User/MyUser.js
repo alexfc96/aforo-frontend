@@ -17,8 +17,12 @@ class MyUser extends Component {
   }
 
   handleAdminButton = (e) => {
+    const { user } = this.props;
     this.setState({
       admin: !this.state.admin,
+      name: user.name,
+      mail: user.mail,
+      years: user.years
     });
   }
 
@@ -58,6 +62,19 @@ class MyUser extends Component {
     });
   };
 
+  deleteUser(){
+    const { history } = this.props;
+    apiUser
+    .deleteUser()
+    .then(() => {
+      history.push("/");
+      window.location.reload();
+    })
+    .catch((error) => {
+      console.log(error)
+    });
+  }
+
   componentDidMount(){
     apiCompany
     .company()
@@ -96,6 +113,7 @@ class MyUser extends Component {
             type="text"
             name="name"
             id="name"
+            value={name}
             onChange={this.handleChange}
           />
           <label htmlFor="years">years</label>
@@ -103,6 +121,7 @@ class MyUser extends Component {
             type="number"
             name="years"
             id="years"
+            value={years}
             onChange={this.handleChange}
           />
           <label htmlFor="mail">mail</label>
@@ -110,6 +129,7 @@ class MyUser extends Component {
             type="mail"
             name="mail"
             id="mail"
+            value={mail}
             onChange={this.handleChange}
           />
           <label htmlFor="currentPassword">currentPassword</label>
@@ -137,11 +157,14 @@ class MyUser extends Component {
           <ul>
             {companies.map((company)=>{
               return <li key={company._id}>
-                      <Link to={`/company/${company._id}` }><h3>{company.name}</h3></Link>
+                      <Link to={`/company/${company._id}`}><h3>{company.name}</h3></Link>
                     </li>
             })
           }
           </ul>
+        }
+        {admin && 
+          <button onClick={()=>{this.deleteUser()}}>Delete profile(hacerlo!)</button>//crear dekete user
         }
       </div>
     );
