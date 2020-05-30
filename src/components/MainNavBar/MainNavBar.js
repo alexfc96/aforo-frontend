@@ -14,11 +14,11 @@ class MainNavBar extends Component {
   }
 
   render() {
-    // const { toogle } = this.state;
+    const { toggle } = this.state;
     const { onLogout, isLoggedIn, user } = this.props;
     return (
       <div className="nav">
-        <input type="checkbox" id="nav-check" />
+        <input type="checkbox" id="nav-check" onClick={this.handleToggle} />
         <div className="nav-header">
           <div className="nav-title">
             <a><Link to="/"><img className='nav-hack' id="logo-nav" src="./aforo.png" alt="logo"></img></Link></a>
@@ -32,22 +32,27 @@ class MainNavBar extends Component {
             <span></span>
           </label>
         </div>
-
-        {isLoggedIn &&
+        {/* {toggle &&
+          <div> */}
+          {isLoggedIn &&
           <div className="nav-links">
-            <Link to="/company"><a href="">Companys</a></Link>
-            <Link to="/establishment"><a href="">Establishments</a></Link>
-            <Link to="/bookings"><a href="">My bookings</a></Link>
-            <Link to="/user"><a href="">My profile</a></Link>
+            <Link to="/company">Companys</Link>
+            <Link to="/establishment">Establishments</Link>
+            <Link to="/bookings">My bookings</Link>
+            <Link to="/user">My profile</Link>
             <a onClick={onLogout}>Logout</a>
           </div>
         }
         {!isLoggedIn &&
           <div className="nav-links">
-            <Link to="/signup"><a href="">Signup</a></Link>
-            <Link to="/login"><a href="">Login</a></Link>
+            <Link to="/signup">Signup</Link>
+            <Link to="/login">Login</Link>
           </div>
+          
         }
+          {/* </div>
+        } */}
+
 
       </div>
     );

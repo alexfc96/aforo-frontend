@@ -51,19 +51,21 @@ class CreateBooking extends Component {
   createBooking = (e) =>{
     e.preventDefault()
     const { day, startHour } = this.state;
-    const { establishment, history } = this.props;
-    console.log("props del create bookin",this.props)
-    console.log("datos para realizar la booking:",this.state);
-    const bookingObj = { day, startHour };
-    apiBookings
-      .newBooking(establishment._id, bookingObj)
-      .then(({ data:booking }) => {
-        history.push(`/bookings/`);
-        // this.forceUpdate()
-      })
-      .catch((error)=> {
-        console.log(error)
-      })
+    if(startHour){
+      const { establishment, history } = this.props;
+      console.log("props del create bookin",this.props)
+      console.log("datos para realizar la booking:",this.state);
+      const bookingObj = { day, startHour };
+      apiBookings
+        .newBooking(establishment._id, bookingObj)
+        .then(({ data:booking }) => {
+          history.push(`/bookings/`);
+          // this.forceUpdate()
+        })
+        .catch((error)=> {
+          console.log(error)
+        })
+    }
   }
 
   searchSessions(){
@@ -143,7 +145,7 @@ class CreateBooking extends Component {
           return (
             <div key={session} className="sessions">
               {cont >= percentOfUsersAllowedInTheEstablishmentInCertainTime &&
-                <button>{session}</button> //cambiarlo a div
+                <div>{session}</div> //cambiarlo a div
               }
               {cont < percentOfUsersAllowedInTheEstablishmentInCertainTime && 
                 <button onClick={()=>{this.handleHour(session)}}>{session}</button>
@@ -183,11 +185,11 @@ class CreateBooking extends Component {
             {/* {this.printSessions()} */}
             {arrayOfSessions && this.printSessions()}
 
-            las bookings ya realizadas en ese dia: esto solamente es para mostrar que los datos son reales! las boookings
+            {/* las bookings ya realizadas en ese dia: esto solamente es para mostrar que los datos son reales! las boookings
             {bookingsInOneDay.map((booking)=>{
             return <p key={booking._id}>{booking.startHour}</p>
             })
-            }
+            } */}
             <button onClick={this.createBooking}>Create booking</button>
           </div>
 
