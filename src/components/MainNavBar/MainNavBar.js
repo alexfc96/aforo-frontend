@@ -21,7 +21,7 @@ class MainNavBar extends Component {
         <input type="checkbox" id="nav-check" />
         <div className="nav-header">
           <div className="nav-title">
-            <a href="/"><img className='nav-hack' id="logo-nav" src="./aforo.png" alt="logo"></img></a>
+            <a><Link to="/"><img className='nav-hack' id="logo-nav" src="./aforo.png" alt="logo"></img></Link></a>
             <span className="main-title">AFORO</span>
           </div>
         </div>
