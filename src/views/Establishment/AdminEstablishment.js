@@ -3,6 +3,9 @@ import React, { Component } from "react";
 import { withAuth } from "../../context/authContext";
 import apiEstablishment from "../../services/apiEstablishment";
 
+import '../../App.css'
+import './establishment.css'
+
 class AdminEstablishment extends Component {
 
   state = {
@@ -26,6 +29,7 @@ class AdminEstablishment extends Component {
     const { name, description, percentOfPeopleAllowed, maximumCapacity, address, startHourShift, finalHourShift, timeAllowedPerBooking } = this.state;
     return (
       <form onSubmit={this.handleSubmitForm}>
+      <p>
       <label htmlFor="name">Name</label>
       <input
         type="text"
@@ -34,14 +38,19 @@ class AdminEstablishment extends Component {
         value={name}
         onChange={this.handleChange}
       />
+      </p>
+      <p>
       <label htmlFor="description">Description</label>
-      <input
+      <textarea
         type="text"
         name="description"
         id="description"
+        cols={20} rows={3}
         value={description}
         onChange={this.handleChange}
       />
+      </p>
+      <p>
       <label htmlFor="address">address</label>
       <input
         type="text"
@@ -50,24 +59,34 @@ class AdminEstablishment extends Component {
         value={address}
         onChange={this.handleChange}
       />
-      Capacity:
+      </p>
+
+      <p className="title-section"><u>Capacity:</u></p>
+      <p>
       <label htmlFor="maximumCapacity">maximumCapacity</label>
       <input
         type="number"
+        className="numbers"
         name="maximumCapacity"
         id="maximumCapacity"
         value={maximumCapacity}
         onChange={this.handleChange}
       />
+      </p>
+      <p>
       <label htmlFor="percentOfPeopleAllowed">percentOfPeopleAllowed</label>
       <input
         type="number"
+        className="numbers"
         name="percentOfPeopleAllowed"
         id="percentOfPeopleAllowed"
         value={percentOfPeopleAllowed}
         onChange={this.handleChange}
       />
-      Timetable:
+      </p>
+
+      <p className="title-section"><u>Timetable:</u></p>
+      <p>
       <label htmlFor="startHourShift">startHourShift</label>
       <input
         type="time"
@@ -76,6 +95,8 @@ class AdminEstablishment extends Component {
         value={startHourShift}
         onChange={this.handleChange}
       />
+      </p>
+      <p>
       <label htmlFor="finalHourShift">finalHourShift</label>
       <input
         type="time"
@@ -84,15 +105,21 @@ class AdminEstablishment extends Component {
         value={finalHourShift}
         onChange={this.handleChange}
       />
+      </p>
+      <p>
       <label htmlFor="timeAllowedPerBooking">timeAllowedPerBooking</label>
       <input
         type="number"
+        className="numbers"
+        min="5" max="1440"
         name="timeAllowedPerBooking"
         id="timeAllowedPerBooking"
         value={timeAllowedPerBooking}
         onChange={this.handleChange}
       />
-      <input type="submit" value="submit" />
+      </p>
+
+      <input type="submit" value="Update" className="btn-create-2" />
     </form>
     )
   }

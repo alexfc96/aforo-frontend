@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import { withAuth } from "../../context/authContext";
+
 import './auth.css'
+import '../../App.css'
 
 class Login extends Component {
   state = {
@@ -38,7 +40,6 @@ class Login extends Component {
         <h1>Login</h1>
         <form onSubmit={this.handleSubmit} className="auth-form">
           <p>Your username:</p>
-
           <input
             type="text"
             name="username"
@@ -48,7 +49,7 @@ class Login extends Component {
             required
             onChange={this.handleChange}
           />
-          <p>Your password
+          <p>Your password</p>
           <input
             type="password"
             name="password"
@@ -58,8 +59,7 @@ class Login extends Component {
             value={password}
             onChange={this.handleChange}
           />
-          </p>
-          <input type="submit" value="Login" />
+          <p><input type="submit" value="Login" className="btn-create" /></p>
         </form>
       </div>
     );

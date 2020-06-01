@@ -165,21 +165,17 @@ class CreateBooking extends Component {
     const { bookingsInOneDay, arrayOfSessions, sessions } = this.state;
     return(
       <div>
-        {!bookingsInOneDay &&
-          <div>
-            <form onSubmit={this.handleBookingsInOneDay}>
-              <label htmlFor="day">Select the day</label>
-              <input
-                type="date"
-                name="day"
-                id="day"
-                required
-                onChange={this.handleChange}
-              />
-              <input type="submit" value="Select" className="btn-create-2" />
-            </form>
-        </div>
-        }
+        <form onSubmit={this.handleBookingsInOneDay}>
+          <label htmlFor="day">Select the day</label>
+          <input
+            type="date"
+            name="day"
+            id="day"
+            required
+            onChange={this.handleChange}
+          />
+          <input type="submit" value="Select" className="btn-create-2" />
+        </form><br/>
         {bookingsInOneDay &&
           <div>
             Available hours:
