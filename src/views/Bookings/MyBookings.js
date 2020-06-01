@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { withAuth } from "../../context/authContext";
 import { Link } from "react-router-dom";
+import Moment from 'react-moment';
 
 import apiCompany from "../../services/apiCompany";
 import apiBookings from "../../services/apiBookings";
@@ -46,7 +47,7 @@ class MyBookings extends Component {
     const { companies, establishments, bookings } = this.state;
     return(
       <div>
-        <ul>
+        <ul className="showBooking">
           {bookings.map((booking)=>{
             console.log("booking", booking)
             {/* console.log("una booking", booking)
@@ -55,12 +56,15 @@ class MyBookings extends Component {
             console.log("Los estbalishments que tenemos en state es:", establishments) */}
             //this.getCompany(booking.idEstablishment) //tendremos que buscar la company apartir del establishment
             return <li key={booking._id}>
-                    <Link to={`/establishment/${booking.idEstablishment._id}`}><h3>{booking.idEstablishment.name}</h3></Link>
+                    <div>
+                      <Link to={`/establishment/${booking.idEstablishment._id}`}>{booking.idEstablishment.name}</Link>
+                      <button onClick={()=>{this.deleteBooking(booking._id, booking.idEstablishment)}}>Delete Booking</button>
+                    </div>
                     {/* {this.getEstablishment(booking.idEstablishment)} */}
-                    <h3>Day:{booking.day}</h3>
+                    <h3>Day:<Moment format='LL' date={booking.day} /></h3>
                     <h3>Start hour:{booking.startHour}</h3>
                     {/* <h3>Duration:{booking.duration} mins</h3> */}
-                    <button onClick={()=>{this.deleteBooking(booking._id, booking.idEstablishment)}}>Delete Booking</button>
+                    <hr/>
                   </li>
           })
         }

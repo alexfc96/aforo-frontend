@@ -27,7 +27,8 @@ hr{
 
 @media (max-width: 768px) {
   .br-for-mobile{
-    display: block
+    display: block;
+    margin-bottom: 3.5%;
   }
   /* .br-for-mobile:after {
     content: '\A';

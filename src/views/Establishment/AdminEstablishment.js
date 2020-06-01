@@ -30,7 +30,7 @@ class AdminEstablishment extends Component {
     return (
       <form onSubmit={this.handleSubmitForm}>
       <p>
-      <label htmlFor="name">Name</label>
+      <label htmlFor="name">Name:</label>
       <input
         type="text"
         name="name"
@@ -40,7 +40,7 @@ class AdminEstablishment extends Component {
       />
       </p>
       <p>
-      <label htmlFor="description">Description</label>
+      <label htmlFor="description">Description:</label>
       <textarea
         type="text"
         name="description"
@@ -51,7 +51,7 @@ class AdminEstablishment extends Component {
       />
       </p>
       <p>
-      <label htmlFor="address">address</label>
+      <label htmlFor="address">Address:</label>
       <input
         type="text"
         name="address"
@@ -63,7 +63,7 @@ class AdminEstablishment extends Component {
 
       <p className="title-section"><u>Capacity:</u></p>
       <p>
-      <label htmlFor="maximumCapacity">maximumCapacity</label>
+      <label htmlFor="maximumCapacity">Maximum capacity:</label>
       <input
         type="number"
         className="numbers"
@@ -74,7 +74,7 @@ class AdminEstablishment extends Component {
       />
       </p>
       <p>
-      <label htmlFor="percentOfPeopleAllowed">percentOfPeopleAllowed</label>
+      <label htmlFor="percentOfPeopleAllowed">Percent of people allowed:</label>
       <input
         type="number"
         className="numbers"
@@ -82,12 +82,12 @@ class AdminEstablishment extends Component {
         id="percentOfPeopleAllowed"
         value={percentOfPeopleAllowed}
         onChange={this.handleChange}
-      />
+      />%
       </p>
 
       <p className="title-section"><u>Timetable:</u></p>
       <p>
-      <label htmlFor="startHourShift">startHourShift</label>
+      <label htmlFor="startHourShift">Start hour shift:</label>
       <input
         type="time"
         name="startHourShift"
@@ -97,7 +97,7 @@ class AdminEstablishment extends Component {
       />
       </p>
       <p>
-      <label htmlFor="finalHourShift">finalHourShift</label>
+      <label htmlFor="finalHourShift">Final hour shift:</label>
       <input
         type="time"
         name="finalHourShift"
@@ -107,7 +107,7 @@ class AdminEstablishment extends Component {
       />
       </p>
       <p>
-      <label htmlFor="timeAllowedPerBooking">timeAllowedPerBooking</label>
+      <label htmlFor="timeAllowedPerBooking">Time allowed per booking:</label>
       <input
         type="number"
         className="numbers"
@@ -116,7 +116,7 @@ class AdminEstablishment extends Component {
         id="timeAllowedPerBooking"
         value={timeAllowedPerBooking}
         onChange={this.handleChange}
-      />
+      />mins
       </p>
 
       <input type="submit" value="Update" className="btn-create-2" />

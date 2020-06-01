@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import { withRouter } from 'react-router-dom'
 
 import { withAuth } from "../../context/authContext";
-import apiEstablishment from "../../services/apiEstablishment";
 import apiBookings from "../../services/apiBookings";
 
 import './bookings.css'
@@ -161,7 +160,6 @@ class CreateBooking extends Component {
   }
 
   render(){
-    const { establishment } = this.props;
     const { bookingsInOneDay, arrayOfSessions, sessions } = this.state;
     return(
       <div>

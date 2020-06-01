@@ -38,7 +38,7 @@ class ManageUsersOfCompany extends Component {
     const { error } = this.state;
     return (
       <div>
-        <h4>Add new Owner</h4>
+        <h4 style={{textAlign:"center"}}>Add new Owner</h4>
         <form onSubmit={this.handleSubmitFormAddNewOwner} className="new-owner">
           <label htmlFor="mail">Mail</label>
           <input

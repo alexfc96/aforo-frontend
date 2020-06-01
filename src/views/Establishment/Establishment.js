@@ -3,7 +3,7 @@ import React, { Component } from "react";
 import { withAuth } from "../../context/authContext";
 import apiEstablishment from "../../services/apiEstablishment";
 import { Link } from "react-router-dom";
-// import Calendar from "../../components/Calendar";
+import Calendar from "../../components/Calendar";
 // import apiBookings from "../../services/apiBookings";
 import CreateBooking from "../Bookings/CreateBooking";
 import AdminEstablishment from "./AdminEstablishment";
