@@ -1,6 +1,6 @@
-* {
+/* * {
   box-sizing: border-box;
-}
+} */
 
 body {
   margin: 0px;
@@ -16,43 +16,44 @@ body {
   justify-content: space-between;
 }
 
-.nav > .nav-header {
+.nav-header {
   display: inline;
 }
 .nav-hack {
   height: 3rem;
 }
 
-.nav-header > .nav-title{
+.nav-title{
   padding-top: 4px;
   display: inline-flex;
   font-weight: bold;
   font-size: 32px;
 } 
 
-.nav-header > .nav-title > .main-title{
+.nav-title > .main-title{
   padding-top: 4px;
 } 
 
-.nav  {
+.nav {
   /* display: inline-block; */
+  box-sizing: border-box;
 
   font-size: 22px;
   color: #2f2842;
   padding: 0px 10px 20px 10px;
 }
 
-.nav > .nav-btn {
+.nav-btn {
   display: none;
 }
 
-.nav > .nav-links {
+.nav-links > div > a{
   display: inline;
   /* float: right; */
   font-size: 18px;
 }
 
-.nav > .nav-links > a {
+.nav-links > div > a {
   display: inline-block;
   padding: 13px 10px 13px 10px;
   text-decoration: none;
@@ -76,6 +77,7 @@ a:hover, a:visited, a:link, a:active{
 
 @media (max-width: 768px) {
   .nav > .nav-btn {
+    
     display: inline-block;
     position: absolute;
     right: 0px;
@@ -94,7 +96,7 @@ a:hover, a:visited, a:link, a:active{
   }
   .nav > .nav-btn > label > span {
     display: block;
-    width: 25px;
+    width: 28px;
     height: 10px;
     border-top: 2px solid #2f2842;
   }

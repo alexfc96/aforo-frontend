@@ -4,6 +4,7 @@ import apiCompany from "../../services/apiCompany";
 import { Link } from "react-router-dom";
 import CreateCompany from "./CreateCompany";
 import AdminCompany from "./AdminCompany";
+import '../../App.css'
 
 class MyCompanies extends Component {
   state = {
@@ -40,6 +41,7 @@ class MyCompanies extends Component {
     this.setState({
       createCompany: !this.state.createCompany,
     }, ()=>{
+      this.getMyCompanies()
       this.getCompanies()
     });
     
@@ -91,7 +93,13 @@ class MyCompanies extends Component {
                   {owner && 
                   <div>
                     <button onClick={()=>{this.handleAdminButton(company)}}>Admin company</button>
-                    <button onClick={()=>{this.deleteCompany(company._id)}}>Delete company</button>
+                    <button style={{color:"red"}} 
+                      // onClick={()=>{this.deleteCompany(company._id)}}
+                      onClick={e =>
+                      window.confirm("Are you sure you wish to delete this company? All associated clients and owners and their bookings will be deleted.") &&
+                      this.deleteCompany(company._id)
+                      }
+                    >Delete company</button>
                   </div>
                   }
                 </div>
@@ -106,6 +114,7 @@ class MyCompanies extends Component {
     .deleteCompany(idCompany)
     .then((company) => {
       this.getCompanies()
+      this.getMyCompanies()
     })
     .catch((error) => {
       console.log(error)
@@ -157,15 +166,12 @@ class MyCompanies extends Component {
       <div>
         <h1>My companies</h1>
         Do you want to control a new company?
-        <button onClick={this.handleCreateCompany}>Add new company</button>
+        <button onClick={this.handleCreateCompany} className="btn-create">Add new company</button>
         {createCompany && <CreateCompany refresh={this.handleCreateCompany} />}
-        {!haveCompanyAssociated && 
+        {!haveCompanyAssociated && !haveCompany &&
           <p> It seems that you dont have a company associated</p>
         }
         {haveCompanyAssociated && this.showCompany()}
-        {!haveCompany && 
-          <p> It seems that you dont have a company </p>
-        }
         {haveCompany && this.showMyCompany()}
       </div>
     );

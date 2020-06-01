@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { withAuth } from "../../context/authContext";
 import apiCompany from "../../services/apiCompany";
+import './company.css'
 
 class AdminCompany extends Component {
   state = {
@@ -53,30 +54,30 @@ class AdminCompany extends Component {
         <h1>Admin company</h1>
         <form onSubmit={this.handleSubmitForm}>
           <label htmlFor="name">Name</label>
-          <input
+          <span className="br-for-mobile"><input
             type="text"
             name="name"
             id="name"
             value={name}
             onChange={this.handleChange}
-          />
+          /></span>
           <label htmlFor="description">description</label>
-          <input
+          <span className="br-for-mobile"><textarea
             type="text"
             name="description"
             id="description"
             value={description}
             onChange={this.handleChange}
-          />
+          /></span>
           <label htmlFor="shareClientsInAllEstablishments">shareClientsInAllEstablishments</label>
-          <input
+          <span className="br-for-mobile"><input
             type="checkbox"
             name="shareClientsInAllEstablishments"
             id="shareClientsInAllEstablishments"
             checked={shareClientsInAllEstablishments? true : false}
             onChange={this.handleBoolean}
-          />
-          <input type="submit" value="submit" />
+          /></span>
+          <input type="submit" value="Update" />
         </form>
       </div>
     );

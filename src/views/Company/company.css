@@ -1,0 +1,12 @@
+
+@media (max-width: 768px) {
+  .br-for-mobile{
+    display: block
+  }
+  /* .br-for-mobile:after {
+    content: '\A';
+    white-space: pre;
+} */
+/* .br-for-mobile:before { content: '\A'; } */
+
+}

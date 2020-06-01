@@ -102,8 +102,14 @@ class Company extends Component {
             <h1>{company.name}</h1>
             {iAmOwner && 
               <div>
-                <p>Eres el owner de la company</p>
-                <button onClick={()=>{this.deleteCompany(company._id)}}>Delete Company</button>
+                {/* <p>Eres el owner de la company</p> */}
+                <button style={{color:"red"}} 
+                // onClick={()=>{this.deleteCompany(company._id)}}
+                onClick={e =>
+                      window.confirm("Are you sure you wish to delete this company? All associated clients and owners and their bookings will be deleted.") &&
+                      this.deleteCompany(company._id)
+                      }
+                >Delete Company</button>
                </div>
             }
             <h5>{company.description}</h5>
