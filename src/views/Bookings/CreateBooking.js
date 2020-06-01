@@ -132,7 +132,7 @@ class CreateBooking extends Component {
     );
     let cont = 0;
     return(
-      <div>
+      <div className="show-sessions">
         {arrayOfSessions.map((session)=>{
           cont=0;
           {/* console.log(session) */}
@@ -143,14 +143,14 @@ class CreateBooking extends Component {
             }
           })
           return (
-            <div key={session} className="sessions">
+            <div key={session} className="show-session" >
               {cont >= percentOfUsersAllowedInTheEstablishmentInCertainTime &&
-                <div>{session}</div> //cambiarlo a div
+                <div>{session}</div>
               }
               {cont < percentOfUsersAllowedInTheEstablishmentInCertainTime && 
                 <button onClick={()=>{this.handleHour(session)}}>{session}</button>
               }
-              Reservas realizadas a esa hora: {cont}/{percentOfUsersAllowedInTheEstablishmentInCertainTime}
+              Reserved sessions: {cont}/{percentOfUsersAllowedInTheEstablishmentInCertainTime}
             </div>
           ) 
         })}
@@ -180,7 +180,7 @@ class CreateBooking extends Component {
         }
         {bookingsInOneDay &&
           <div>
-            Mostrar opciones para la reserva: (tabla de horas):
+            Available hours:
             {!sessions && this.searchSessions()}
             {/* {this.printSessions()} */}
             {arrayOfSessions && this.printSessions()}

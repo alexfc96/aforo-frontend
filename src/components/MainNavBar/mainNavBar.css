@@ -77,7 +77,6 @@ a:hover, a:visited, a:link, a:active{
 
 @media (max-width: 768px) {
   .nav > .nav-btn {
-    
     display: inline-block;
     position: absolute;
     right: 0px;
@@ -107,7 +106,7 @@ a:hover, a:visited, a:link, a:active{
     background-color: #ECE7E3;
     height: 0px;
     transition: all 0.1s ease-in;
-    overflow-y: hidden;
+    /* overflow-y: hidden; */
     top: 50px;
     left: 0px;
   }
@@ -120,8 +119,8 @@ a:hover, a:visited, a:link, a:active{
   }
   #nav-check:checked ~ .nav-links {
     height: auto;
-    z-index: 1000;
-    overflow-y: auto;
+    /* z-index: 1000; */
+    /* overflow-y: auto; */
   }
 
 }

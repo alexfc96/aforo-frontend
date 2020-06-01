@@ -9,6 +9,8 @@ import CreateBooking from "../Bookings/CreateBooking";
 import AdminEstablishment from "./AdminEstablishment";
 import ManageUsersOfEstablishment from "./ManageUsersOfEstablishment";
 
+import './establishment.css'
+
 class Establishment extends Component {
 
   state = {
@@ -74,11 +76,11 @@ class Establishment extends Component {
       <div key={establishment._id} className="info-establishment">
         <h1>{establishment.name}</h1>
           <h5>{establishment.description}</h5>
-          <h2>Company:<Link to={`/company/${establishment.company._id}` }><h3>{establishment.company.name}</h3></Link></h2> 
+          <h3>Company:<Link to={`/company/${establishment.company._id}`}>{establishment.company.name}</Link></h3>
           {iAmOwner && 
             <div>
               <button onClick={this.handleAdminButton}>Admin establishment</button>
-              <button onClick={()=>{this.deleteEstablishment(establishment._id)}}>Delete establishment</button>
+              <button onClick={()=>{this.deleteEstablishment(establishment._id)}}>Delete establishment</button><br/><br/>
               {admin && 
                 <AdminEstablishment establishment={establishment} refresh={this.handleAdminButton} />
               }

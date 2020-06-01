@@ -10,7 +10,9 @@ class MainNavBar extends Component {
   }
   
   handleToggle = () => {
-    this.setState({toggle:!this.state.toggle})
+    this.setState({
+      toggle: !this.state.toggle
+    })
   }
 
   logout = () => {
@@ -28,12 +30,12 @@ class MainNavBar extends Component {
         <input type="checkbox" id="nav-check" onClick={this.handleToggle} />
         <div className="nav-header">
           <div className="nav-title">
-            <a><Link to="/"><img className='nav-hack' id="logo-nav" src="./aforo.png" alt="logo"></img></Link></a>
+            <Link to="/"><img className='nav-hack' id="logo-nav" src="./aforo.png" alt="logo"></img></Link>
             <span className="main-title"><Link to="/">AFORO</Link></span>
           </div>
         </div>
         <div className="nav-btn">
-          <label for="nav-check">
+          <label htmlFor="nav-check">
             <span></span>
             <span></span>
             <span></span>

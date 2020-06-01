@@ -1,7 +1,25 @@
+.info-company{
+  text-align: left;
+  margin: 0px 7%;
+}
+
 .form-add-establishment{
   text-align: center;
 }
 
 .numbers{
   width: 3em;
+}
+
+.show-sessions{
+  margin: 5% 0;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+}
+
+.show-session{
+  border: 1px solid;
+  width: fit-content
 }
