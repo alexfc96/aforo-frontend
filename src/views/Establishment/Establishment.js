@@ -80,7 +80,13 @@ class Establishment extends Component {
           {iAmOwner && 
             <div>
               <button onClick={this.handleAdminButton}>Admin establishment</button>
-              <button onClick={()=>{this.deleteEstablishment(establishment._id)}}>Delete establishment</button><br/><br/>
+              <button style={{color:"red"}} 
+                      // onClick={()=>{this.deleteEstablishment(establishment._id)}}
+                      onClick={e =>
+                      window.confirm("Are you sure you wish to delete this establishment? All associated clients and owners and their bookings will be deleted.") &&
+                      this.deleteEstablishment(establishment._id)
+                      }
+              >Delete establishment</button><br/><br/>
               {admin && 
                 <AdminEstablishment establishment={establishment} refresh={this.handleAdminButton} />
               }
@@ -88,73 +94,74 @@ class Establishment extends Component {
           }
           {!admin && 
             <div>
-              Do you wanna booking?
-              <CreateBooking establishment={establishment} />
+              <u className="title-section">Timetable:</u>
+              <ul>
+                <li className="timetable">Start hour: {establishment.timetable.startHourShift}</li>
+                <li className="timetable">Final hour: {establishment.timetable.finalHourShift}</li>
+                <li className="timetable">Time allowed per booking: {establishment.timetable.timeAllowedPerBooking}mins</li>
+              </ul>
+              <p><u className="title-section">Capacity: {establishment.capacity.maximumCapacity} persons</u></p>
+
+              <u className="title-section">Do you wanna booking?</u><br/>
+              <CreateBooking establishment={establishment} /><br/>
               {/* <Calendar handleDate={this.handleDate} idEstablishment={establishment._id} /> */}
               {/* <img className="img-of-establishment" src={establishment.image_url} alt={establishment.name} /> */}
-              Timetable:
-              <ul>
-                <li>Start hour: {establishment.timetable.startHourShift}</li>
-                <li>Final hour: {establishment.timetable.finalHourShift}</li>
-                <li>Time allowed per booking: {establishment.timetable.timeAllowedPerBooking}mins</li>
-              </ul>
-              <p>Capacity: {establishment.capacity.maximumCapacity}</p>
-              Created by :
-              {iAmOwner && 
-                <div>
-                  <button onClick={this.handleAdminOwnersButton}>Admin owners of establishment</button>
-                  {adminOwners && 
-                    <ManageUsersOfEstablishment establishment={establishment} refresh={this.handleAdminOwnersButton} addNewOwner="True" />
-                  }
-                </div>
 
+              <div className="title-section-inline">
+              <u>Created by:</u>
+              {iAmOwner && <button className="btn-admin" onClick={this.handleAdminOwnersButton}>Admin owners</button>}
+              </div>
+              {iAmOwner && adminOwners && 
+                <ManageUsersOfEstablishment establishment={establishment} refresh={this.handleAdminOwnersButton} addNewOwner="True" />
               }
+
               {owners && 
-                <ul>
+                <ul className="list-owners">
                   {establishment.owners.map((owner, index)=>{
                     return <li key={owner._id}>
-                            <Link to={`/user/${owner._id}`}><h3>{owner.name}</h3></Link>
-                            {iAmOwner && adminOwners &&
-                              <div>
-                                <button onClick={this.handleDeleteOwner}>Delete owner</button>
-                                {deleteOwner && //tema asincronía?
-                                  <ManageUsersOfEstablishment establishment={establishment} refresh={this.handleDeleteOwner} deleteOwner={"True"} owner={owner} />
-                                }
-                              </div>
+                            <Link to={`/user/${owner._id}`}>{owner.name}  </Link>
+                            {iAmOwner && adminOwners && <button className="btn-delete-user" 
+                            // onClick={this.handleDeleteOwner}>Delete owner</button>}
+                            onClick={e =>
+                            window.confirm("Are you sure you wish to delete this owner? All reservations made at this establishment will be lost") &&
+                            this.handleDeleteOwner
+                            }>  Delete owner</button>}
+                            {iAmOwner && adminOwners && deleteOwner && //tema asincronía?
+                                <ManageUsersOfEstablishment establishment={establishment} refresh={this.handleDeleteOwner} deleteOwner={"True"} owner={owner} />
                             }
                           </li>
                   })}
                 </ul>
               }
               {iAmOwner && 
-              <div>
-                Clients:
-                <div>
-                  <button onClick={this.handleAdminClientsButton}>Admin clients of establishment</button>
-                  {adminClients && 
-                    <ManageUsersOfEstablishment establishment={establishment} refresh={this.handleAdminClientsButton} addNewClient="True" />
-                  }
+                <div className="title-section-inline">
+                  <u>Clients:</u>
+                  <button className="btn-admin" onClick={this.handleAdminClientsButton}>Admin clients</button>
                 </div>
+              }
+              {adminClients && iAmOwner && 
+                <ManageUsersOfEstablishment establishment={establishment} refresh={this.handleAdminClientsButton} addNewClient="True" />
+              }
+              {iAmOwner && 
                 <ul>
-                  {establishment.clients.map((client, index)=>{
-                    return(
-                      <li key={client._id}>
-                        <Link to={`/user/${establishment.clients[index]._id}`}><h3>{client.name}</h3></Link>
-                        {/* <div>
-                          <button onClick={this.handleDeleteclient}>Delete client</button>
-                          {deleteOwner &&
-                            <ManageUsersOfCompany company={company} refresh={this.handleDeleteOwner} deleteOwner={"True"} owner={owner} />
-                          }
-                        </div> */}
-                      </li>
-                    ) 
-                  }
-                  )}
-                </ul>
+                {establishment.clients.map((client, index)=>{
+                  return(
+                    <li key={client._id} className="list-clients">
+                      <Link to={`/user/${establishment.clients[index]._id}`}>{client.name}</Link>
+                      {/* <div>
+                        <button onClick={this.handleDeleteclient}>Delete client</button>
+                        {deleteOwner &&
+                          <ManageUsersOfCompany company={company} refresh={this.handleDeleteOwner} deleteOwner={"True"} owner={owner} />
+                        }
+                      </div> */}
+                    </li>
+                  ) 
+                }
+                )}
+              </ul>
+              }
               </div>
             }
-            </div>
-          }
       </div>
     )
   }

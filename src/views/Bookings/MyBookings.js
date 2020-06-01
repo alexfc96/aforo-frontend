@@ -48,6 +48,7 @@ class MyBookings extends Component {
       <div>
         <ul>
           {bookings.map((booking)=>{
+            console.log("booking", booking)
             {/* console.log("una booking", booking)
             this.checkEstablishment(booking.idEstablishment);
             const { establishments } = this.state;
@@ -58,7 +59,7 @@ class MyBookings extends Component {
                     {/* {this.getEstablishment(booking.idEstablishment)} */}
                     <h3>Day:{booking.day}</h3>
                     <h3>Start hour:{booking.startHour}</h3>
-                    <h3>Duration:{booking.duration} mins</h3>
+                    {/* <h3>Duration:{booking.duration} mins</h3> */}
                     <button onClick={()=>{this.deleteBooking(booking._id, booking.idEstablishment)}}>Delete Booking</button>
                   </li>
           })

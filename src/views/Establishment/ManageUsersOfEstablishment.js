@@ -4,6 +4,8 @@ import { withAuth } from "../../context/authContext";
 import apiEstablishment from "../../services/apiEstablishment";
 import apiUser from "../../services/apiUser";
 
+import '../../App.css'
+
 class ManageUsersOfEstablishment extends Component {
 
   state = {
@@ -34,7 +36,7 @@ class ManageUsersOfEstablishment extends Component {
   addNewClient(){
     return (
       <div>
-        <p>Add new Client</p>
+        <h5>Add new Client</h5>
         <form onSubmit={this.handleSubmitFormAddNewClient}>
           <label htmlFor="mail">Mail</label>
           <input
@@ -43,7 +45,7 @@ class ManageUsersOfEstablishment extends Component {
             id="mail"
             onChange={this.handleChange}
           />
-          <input type="submit" value="submit" />
+          <input type="submit" value="submit" className="btn-create-2" />
         </form>
       </div>
     )
@@ -52,7 +54,7 @@ class ManageUsersOfEstablishment extends Component {
   addNewOwner(){
     return (
       <div>
-        <p>Add new Owner</p>
+        <h5>Add new Owner</h5>
         <form onSubmit={this.handleSubmitFormAddNewOwner}>
           <label htmlFor="mail">Mail</label>
           <input
@@ -61,7 +63,7 @@ class ManageUsersOfEstablishment extends Component {
             id="mail"
             onChange={this.handleChange}
           />
-          <input type="submit" value="submit" />
+          <input type="submit" value="Add" className="btn-create-2" />
         </form>
       </div>
     )

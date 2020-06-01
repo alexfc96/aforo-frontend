@@ -23,3 +23,55 @@
   border: 1px solid;
   width: fit-content
 }
+
+.title-section{
+  display: flex;
+  margin-left: 5%;
+}
+
+.title-section-inline{
+  margin-left: 5%;
+  display: flex;
+  justify-content: space-between;
+}
+
+.btn-admin{
+  margin-right: 5%;
+}
+
+.timetable{
+  width: fit-content;
+}
+
+.list-owners{
+  width: fit-content;
+  display: flex;
+}
+
+.list-owners > li {
+  margin: 0px;
+}
+
+.list-clients{
+  width: fit-content;
+}
+
+.btn-session:active{
+  background-color: olivedrab;
+}
+
+.btn-session:focus{
+  background-color: olivedrab;
+}
+
+.btn-delete-user{
+  /* display: flex; */
+  align-items: center;
+  justify-content: center;
+  /* width: 69px; */
+  height: 25px;
+  font-size: 13px;
+  border-radius: 5px;
+  border-width: 0px;
+  color: red;
+}

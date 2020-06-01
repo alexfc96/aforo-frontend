@@ -37,7 +37,6 @@ class MyEstablishments extends Component {
                       window.confirm("Are you sure you wish to delete this establishment? All associated clients and owners and their bookings will be deleted.") &&
                       this.deleteEstablishment(establishment._id)
                       }
-                      
                       >Delete establishment</button>
                     </div>
                     }

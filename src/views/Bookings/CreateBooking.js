@@ -4,7 +4,9 @@ import { withRouter } from 'react-router-dom'
 import { withAuth } from "../../context/authContext";
 import apiEstablishment from "../../services/apiEstablishment";
 import apiBookings from "../../services/apiBookings";
+
 import './bookings.css'
+import '../../App.css'
 
 class CreateBooking extends Component {
 
@@ -148,7 +150,7 @@ class CreateBooking extends Component {
                 <div>{session}</div>
               }
               {cont < percentOfUsersAllowedInTheEstablishmentInCertainTime && 
-                <button onClick={()=>{this.handleHour(session)}}>{session}</button>
+                <button onClick={()=>{this.handleHour(session)}} className="btn-session">{session}</button>
               }
               Reserved sessions: {cont}/{percentOfUsersAllowedInTheEstablishmentInCertainTime}
             </div>
@@ -166,7 +168,7 @@ class CreateBooking extends Component {
         {!bookingsInOneDay &&
           <div>
             <form onSubmit={this.handleBookingsInOneDay}>
-              <label htmlFor="day">Day</label>
+              <label htmlFor="day">Select the day</label>
               <input
                 type="date"
                 name="day"
@@ -174,7 +176,7 @@ class CreateBooking extends Component {
                 required
                 onChange={this.handleChange}
               />
-              <input type="submit" value="submit" />
+              <input type="submit" value="Select" className="btn-create-2" />
             </form>
         </div>
         }

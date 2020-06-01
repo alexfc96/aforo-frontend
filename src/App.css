@@ -19,6 +19,18 @@
   background-color: #4FAB5A;
 }
 
+.btn-create-2 {
+  /* display: flex; */
+  align-items: center;
+  justify-content: center;
+  /* width: 69px; */
+  height: 25px;
+  font-size: 13px;
+  border-radius: 5px;
+  border-width: 0px;
+  background-color: #4FAB5A;
+}
+
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {
     animation: App-logo-spin infinite 20s linear;
