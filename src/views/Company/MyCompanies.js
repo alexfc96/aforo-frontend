@@ -9,7 +9,9 @@ class MyCompanies extends Component {
   state = {
     admin: false,
     haveCompanyAssociated : undefined,
+    haveCompany : undefined,
     companies : undefined,
+    myCompanies : undefined,
     name: undefined,
     description: undefined,
     shareClientsInAllEstablishments: false,
@@ -46,11 +48,37 @@ class MyCompanies extends Component {
   showCompany(){
     const {companies, admin, adminCompany} = this.state;
     const { user } = this.props;
-    console.log(companies)
 
     let owner = undefined;
     return companies.map((company) => {
-      console.log("company:",company)
+      company.owners.includes(user._id) ? owner = true : owner = false;
+      return <div key={company._id}>
+              <div className="one-company-of-the-list">
+                <div className="info-company"> 
+                  <Link to={`/company/${company._id}` }><h3>{company.name}</h3></Link>
+                  Description:{company.description}
+                  {admin && adminCompany===company._id &&
+                    <AdminCompany company={company} refresh={this.handleAdminButton} />
+                  }
+                  {owner && 
+                  <div>
+                    <button onClick={()=>{this.handleAdminButton(company)}}>Admin company</button>
+                    <button onClick={()=>{this.deleteCompany(company._id)}}>Delete company</button>
+                  </div>
+                  }
+                </div>
+             </div>
+             <hr/>
+            </div>
+    })
+  }
+
+  showMyCompany(){
+    const {myCompanies, admin, adminCompany} = this.state;
+    const { user } = this.props;
+
+    let owner = undefined;
+    return myCompanies.map((company) => {
       company.owners.includes(user._id) ? owner = true : owner = false;
       return <div key={company._id}>
               <div className="one-company-of-the-list">
@@ -84,7 +112,7 @@ class MyCompanies extends Component {
     });
   }
 
-  getCompanies(){
+  getCompanies(){ //where I am client
     apiCompany
     .company()
     .then(({ data:companies }) => {
@@ -101,12 +129,30 @@ class MyCompanies extends Component {
     });
   }
 
+  getMyCompanies(){ //where I am owner
+    apiCompany
+    .myCompanies()
+    .then(({ data:myCompanies }) => {
+      this.setState({
+        haveCompany : true,
+        myCompanies
+      });
+    })
+    .catch((error) => {
+      console.log(error)
+      this.setState({
+        haveCompany : false,
+      });
+    });
+  }
+
   componentDidMount(){
+    this.getMyCompanies()
     this.getCompanies()
   }
 
   render() {
-    const { haveCompanyAssociated, createCompany} = this.state;
+    const { haveCompanyAssociated, haveCompany, createCompany} = this.state;
     return (
       <div>
         <h1>My companies</h1>
@@ -117,6 +163,10 @@ class MyCompanies extends Component {
           <p> It seems that you dont have a company associated</p>
         }
         {haveCompanyAssociated && this.showCompany()}
+        {!haveCompany && 
+          <p> It seems that you dont have a company </p>
+        }
+        {haveCompany && this.showMyCompany()}
       </div>
     );
   }

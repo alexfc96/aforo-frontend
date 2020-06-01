@@ -8,6 +8,10 @@ class ApiCompany {
     });
   }
 
+  myCompanies(){
+    return this.apiCompany.get("/company/my-companies");
+  }
+
   company() {
     return this.apiCompany.get("/company/companies");
   }
