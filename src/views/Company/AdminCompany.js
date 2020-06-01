@@ -50,8 +50,8 @@ class AdminCompany extends Component {
   render() {
     const { name, description, shareClientsInAllEstablishments } = this.state;
     return (
-      <div>
-        <h1>Admin company</h1>
+      <div className="admin-company">
+        <h4>Admin company</h4>
         <form onSubmit={this.handleSubmitForm}>
           <label htmlFor="name">Name</label>
           <span className="br-for-mobile"><input

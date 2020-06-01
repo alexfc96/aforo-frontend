@@ -4,11 +4,14 @@ import { withAuth } from "../../context/authContext";
 import apiCompany from "../../services/apiCompany";
 import apiUser from "../../services/apiUser";
 
+import '../../App.css'
+
 class ManageUsersOfCompany extends Component {
 
   state = {
     mail: undefined,
     user: undefined,
+    error: undefined
   }
 
   handleChange = (e) => {
@@ -32,10 +35,11 @@ class ManageUsersOfCompany extends Component {
   }
 
   addNewOwner(){
+    const { error } = this.state;
     return (
       <div>
-        <p>Add new Owner</p>
-        <form onSubmit={this.handleSubmitFormAddNewOwner}>
+        <h4>Add new Owner</h4>
+        <form onSubmit={this.handleSubmitFormAddNewOwner} className="new-owner">
           <label htmlFor="mail">Mail</label>
           <input
             type="mail"
@@ -43,8 +47,9 @@ class ManageUsersOfCompany extends Component {
             id="mail"
             onChange={this.handleChange}
           />
-          <input type="submit" value="submit" />
+          <input type="submit" value="Invite" className="btn-create" />
         </form>
+        {error}
       </div>
     )
   }
@@ -67,15 +72,22 @@ class ManageUsersOfCompany extends Component {
     await this.searchUserByMail();
     const { company , refresh } = this.props;
     const { user } = this.state;
-    console.log("user en cuestion", user)
-    apiCompany
-    .joinOwnerCompany(company._id, user._id)
-    .then(() => {
-      refresh()
-    })
-    .catch((error) => {
-      console.log(error)
-    });
+    if(user){
+      console.log("user en cuestion", user)
+      apiCompany
+      .joinOwnerCompany(company._id, user._id)
+      .then(() => {
+        refresh()
+      })
+      .catch((error) => {
+        console.log(error)
+      });
+    } else{
+      this.setState({
+        error: "This mail not exists"
+      })
+    }
+
   }
 
   render(){

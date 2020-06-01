@@ -6,6 +6,8 @@ import apiEstablishment from "../../services/apiEstablishment";
 import { Link } from "react-router-dom";
 import ManageUsersOfCompany from "./ManageUsersOfCompany";
 
+import './company.css'
+
 class Company extends Component {
 
   state = {
@@ -103,16 +105,16 @@ class Company extends Component {
             {iAmOwner && 
               <div>
                 {/* <p>Eres el owner de la company</p> */}
-                <button style={{color:"red"}} 
+                {/* <button style={{color:"red"}} 
                 // onClick={()=>{this.deleteCompany(company._id)}}
                 onClick={e =>
                       window.confirm("Are you sure you wish to delete this company? All associated clients and owners and their bookings will be deleted.") &&
                       this.deleteCompany(company._id)
                       }
-                >Delete Company</button>
+                >Delete Company</button> */}
                </div>
             }
-            <h5>{company.description}</h5>
+            <h5 style={{textAlign:"center"}}>{company.description}</h5>
             {/* <img className="img-of-company" src={company.image_url} alt={company.name} /> */}
             <p>Establishments:</p>
               {establishments && 
@@ -124,11 +126,13 @@ class Company extends Component {
                   })}
                 </ul>
               }
-            Created by :               
             <div>
+              <div className="admin-owners">
+              Created by:   
               {iAmOwner && 
-              <button onClick={this.handleAdminOwnersButton}>Admin owners of company</button>
+              <button className="btn-right" onClick={this.handleAdminOwnersButton}>Admin owners</button>
               }
+              </div>
               {adminOwners && 
                 <ManageUsersOfCompany company={company} refresh={this.handleAdminOwnersButton} addNewOwner={"True"} />
               }
@@ -139,7 +143,14 @@ class Company extends Component {
                         <Link to={`/user/${company.owners[index]._id}` }><h3>{owner.name}</h3></Link>
                         {iAmOwner && adminOwners &&
                               <div>
-                                <button onClick={this.handleDeleteOwner}>Delete owner</button>
+                                <button 
+                                // onClick={this.handleDeleteOwner}
+                                style={{color:"red"}} 
+                                onClick={e =>
+                                window.confirm("Are you sure you want to delete this owner? It will be deleted from all the establishments of this company where it was the owner and its bookings.") &&
+                                this.handleDeleteOwner
+                                }
+                                >Delete owner</button>
                                 {deleteOwner &&
                                   <ManageUsersOfCompany company={company} refresh={this.handleDeleteOwner} deleteOwner={"True"} owner={owner} />
                                 }

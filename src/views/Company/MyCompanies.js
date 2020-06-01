@@ -87,9 +87,6 @@ class MyCompanies extends Component {
                 <div className="info-company"> 
                   <Link to={`/company/${company._id}` }><h3>{company.name}</h3></Link>
                   Description:{company.description}
-                  {admin && adminCompany===company._id &&
-                    <AdminCompany company={company} refresh={this.handleAdminButton} />
-                  }
                   {owner && 
                   <div>
                     <button onClick={()=>{this.handleAdminButton(company)}}>Admin company</button>
@@ -101,6 +98,9 @@ class MyCompanies extends Component {
                       }
                     >Delete company</button>
                   </div>
+                  }
+                  {admin && adminCompany===company._id &&
+                    <AdminCompany company={company} refresh={this.handleAdminButton} />
                   }
                 </div>
              </div>
@@ -125,6 +125,14 @@ class MyCompanies extends Component {
     apiCompany
     .company()
     .then(({ data:companies }) => {
+      const { myCompanies } = this.state;
+      for (let i = 0; i < myCompanies.length; i++) {
+        for (let x = 0; x < companies.length; x++) {
+          if(myCompanies[i]._id===companies[x]._id){
+            companies.splice(x, 1)
+          }
+        }
+      }
       this.setState({
         haveCompanyAssociated : true,
         companies

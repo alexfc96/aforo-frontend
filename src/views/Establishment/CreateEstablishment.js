@@ -48,7 +48,7 @@ class CreateEstablishment extends Component {
 
   componentDidMount(){
     apiCompany
-    .company()
+    .myCompanies()
     .then(({ data: companies }) => {
       this.setState({
         haveCompanyAssociated : true,

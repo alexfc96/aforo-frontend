@@ -1,4 +1,25 @@
 
+.info-company{
+  text-align: left;
+}
+
+.admin-owners{
+  display: flex;
+  justify-content: space-between;
+}
+
+.new-owner{
+  text-align: center;
+}
+
+.admin-company{
+  text-align: center;
+}
+
+.btn-right{
+  align-items:"right"
+}
+
 @media (max-width: 768px) {
   .br-for-mobile{
     display: block
