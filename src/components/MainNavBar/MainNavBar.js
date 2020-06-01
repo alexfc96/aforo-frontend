@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import styles from './mainNavBar.css'
+import './mainNavBar.css'
 import { Link } from "react-router-dom";
 
 import { withAuth } from "../../context/authContext";
@@ -13,16 +13,23 @@ class MainNavBar extends Component {
     this.setState({toggle:!this.state.toggle})
   }
 
+  logout = () => {
+    const { onLogout } = this.props;
+
+    this.setState({toggle:!this.state.toggle})
+    onLogout()
+  }
+
   render() {
     const { toggle } = this.state;
-    const { onLogout, isLoggedIn, user } = this.props;
+    const { isLoggedIn } = this.props;
     return (
       <div className="nav">
         <input type="checkbox" id="nav-check" onClick={this.handleToggle} />
         <div className="nav-header">
           <div className="nav-title">
             <a><Link to="/"><img className='nav-hack' id="logo-nav" src="./aforo.png" alt="logo"></img></Link></a>
-            <span className="main-title">AFORO</span>
+            <span className="main-title"><Link to="/">AFORO</Link></span>
           </div>
         </div>
         <div className="nav-btn">
@@ -32,27 +39,25 @@ class MainNavBar extends Component {
             <span></span>
           </label>
         </div>
-        {/* {toggle &&
-          <div> */}
-          {isLoggedIn &&
+        {toggle &&
           <div className="nav-links">
-            <Link to="/company">Companys</Link>
-            <Link to="/establishment">Establishments</Link>
-            <Link to="/bookings">My bookings</Link>
-            <Link to="/user">My profile</Link>
-            <a onClick={onLogout}>Logout</a>
+            {isLoggedIn &&
+            <div>
+              <Link to="/company" onClick={this.handleToggle} >Companys</Link>
+              <Link to="/establishment" onClick={this.handleToggle}>Establishments</Link>
+              <Link to="/bookings" onClick={this.handleToggle}>My bookings</Link>
+              <Link to="/user" onClick={this.handleToggle}>My profile</Link>
+              <Link to="/login" onClick={this.logout}>Logout</Link>
+            </div>
+            }
+            {!isLoggedIn &&
+            <div>
+              <Link to="/signup" onClick={this.handleToggle}>Signup</Link>
+              <Link to="/login" onClick={this.handleToggle}>Login</Link>
+            </div>
+            }
           </div>
         }
-        {!isLoggedIn &&
-          <div className="nav-links">
-            <Link to="/signup">Signup</Link>
-            <Link to="/login">Login</Link>
-          </div>
-          
-        }
-          {/* </div>
-        } */}
-
 
       </div>
     );

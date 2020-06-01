@@ -98,7 +98,7 @@ a:hover, a:visited, a:link, a:active{
     height: 10px;
     border-top: 2px solid #2f2842;
   }
-  .nav > .nav-links {
+  .nav-links  {
     position: absolute;
     display: block;
     width: 100%;
@@ -109,14 +109,14 @@ a:hover, a:visited, a:link, a:active{
     top: 50px;
     left: 0px;
   }
-  .nav > .nav-links > a {
+  .nav-links > div > a {
     display: block;
     width: 100%;
   }
-  .nav > #nav-check:not(:checked) ~ .nav-links {
+  #nav-check:not(:checked) ~ .nav-links {
     height: 0px;
   }
-  .nav > #nav-check:checked ~ .nav-links {
+  #nav-check:checked ~ .nav-links {
     height: auto;
     z-index: 1000;
     overflow-y: auto;
