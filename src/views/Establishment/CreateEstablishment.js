@@ -4,6 +4,9 @@ import apiCompany from "../../services/apiCompany";
 import apiEstablishment from "../../services/apiEstablishment";
 import { Link } from "react-router-dom";
 
+import '../../App.css'
+import './establishment.css'
+
 class CreateEstablishment extends Component {
   state = {
     haveCompanyAssociated : false,
@@ -17,6 +20,7 @@ class CreateEstablishment extends Component {
     startHourShift: 0,
     finalHourShift: 0,
     timeAllowedPerBooking: 0,
+    error: undefined
   }
 
   handleCompany = (event) => {
@@ -33,17 +37,23 @@ class CreateEstablishment extends Component {
     e.preventDefault();
     const { name, description, percentOfPeopleAllowed, maximumCapacity, company, address, startHourShift, finalHourShift, timeAllowedPerBooking } = this.state;
     console.log('company antes de enviarlo', company)
-    const { history } = this.props;
-    const establishmentObj = { name, description, capacity:{percentOfPeopleAllowed, maximumCapacity}, company, address, timetable:{startHourShift, finalHourShift, timeAllowedPerBooking} }
-    apiEstablishment
-    .createEstablishment(establishmentObj)
-    .then(({ data:establishment }) => {
-      console.log(establishment)
-      history.push(`/establishment/`);
-    })
-    .catch((error) => {
-      console.log(error)
-    });
+    if(company==="----" || company===undefined){
+      this.setState({
+        error: "Select one company from the list"
+      })
+    } else{
+      const { history } = this.props;
+      const establishmentObj = { name, description, capacity:{percentOfPeopleAllowed, maximumCapacity}, company, address, timetable:{startHourShift, finalHourShift, timeAllowedPerBooking} }
+      apiEstablishment
+      .createEstablishment(establishmentObj)
+      .then(({ data:establishment }) => {
+        console.log(establishment)
+        history.push(`/establishment/`);
+      })
+      .catch((error) => {
+        console.log(error)
+      });
+    }
   };
 
   componentDidMount(){
@@ -64,8 +74,7 @@ class CreateEstablishment extends Component {
   }
 
   render() {
-    const { haveCompanyAssociated, companies, company } = this.state;
-    console.log(company)
+    const { haveCompanyAssociated, companies, company, error } = this.state;
     return (
       <div>
         <h1>Create establishment</h1>
@@ -76,8 +85,9 @@ class CreateEstablishment extends Component {
         </div>
         }
         {haveCompanyAssociated && 
-          <form onSubmit={this.handleSubmitForm}>
-            <label htmlFor="name">Name</label>
+          <form onSubmit={this.handleSubmitForm} className="form-add-establishment">
+            <label htmlFor="name">Name:</label>
+            <p>
             <input
               type="text"
               name="name"
@@ -85,71 +95,95 @@ class CreateEstablishment extends Component {
               required
               onChange={this.handleChange}
             />
-            <label htmlFor="description">Description</label>
-            <input
+            </p>
+            <label htmlFor="description">Description:</label>
+            <p>
+            <textarea
               type="text"
               name="description"
               id="description"
               onChange={this.handleChange}
+              cols={20} rows={3}
             />
-            <label htmlFor="company">company</label>
-            <select id="company" value={company} onChange={this.handleCompany}>
+            </p>
+            <p><label htmlFor="company">Company:</label>
+            <select id="company" value={company} onChange={this.handleCompany} required>
               <option value="----">----</option>
               {companies.map((objCompany)=>{
                 return <option key={objCompany._id} value={objCompany.name}>{objCompany.name}</option>
               })
               }
-            </select><br/>
-            <label htmlFor="address">address</label>
-            <input
+            </select>*
+            </p>
+            {error}
+            <label htmlFor="address">Address:</label>
+            <p><input
               type="text"
               name="address"
               id="address"
+              required
               onChange={this.handleChange}
             />
-            Capacity:
-            <label htmlFor="maximumCapacity">maximumCapacity</label>
+            </p>
+            
+            <p><u>Capacity:</u></p>
+            <p>
+            <label htmlFor="maximumCapacity">Maximum capacity:</label>
             <input
               type="number"
+              className="numbers"
               name="maximumCapacity"
               id="maximumCapacity"
               required
               onChange={this.handleChange}
             />
-            <label htmlFor="percentOfPeopleAllowed">percentOfPeopleAllowed</label>
+            </p>
+            
+            <p><label htmlFor="percentOfPeopleAllowed">Percent of people allowed:</label>
             <input
+              className="numbers"
               type="number"
               name="percentOfPeopleAllowed"
               id="percentOfPeopleAllowed"
               required
               onChange={this.handleChange}
-            />
-            Timetable:
-            <label htmlFor="startHourShift">startHourShift</label>
+            />%
+            </p>
+            
+            <p><u>Timetable:</u></p>
+            <p>
+            <label htmlFor="startHourShift">Start hour shift:</label>
             <input
               type="time"
               name="startHourShift"
-              id="shareClients"
+              id="startHourShift"
               required
               onChange={this.handleChange}
             />
-            <label htmlFor="finalHourShift">finalHourShift</label>
+            </p>
+            
+            <p><label htmlFor="finalHourShift">Final hour shift:</label>
             <input
               type="time"
               name="finalHourShift"
-              id="shareClients"
+              id="finalHourShift"
               required
               onChange={this.handleChange}
             />
-            <label htmlFor="timeAllowedPerBooking">timeAllowedPerBooking</label>
-            <input
-              type="number"
-              name="timeAllowedPerBooking"
-              id="shareClients"
-              required
-              onChange={this.handleChange}
-            />
-            <input type="submit" value="submit" />
+            </p>
+            <p>
+            <label htmlFor="timeAllowedPerBooking">Time allowed per booking:</label>
+              <input
+                type="number"
+                min="5" max="1440"
+                className="numbers"
+                name="timeAllowedPerBooking"
+                id="timeAllowedPerBooking"
+                required
+                onChange={this.handleChange}
+              />mins
+            </p>
+            <input type="submit" value="Create" className="btn-create" />
           </form>
         }
       </div>

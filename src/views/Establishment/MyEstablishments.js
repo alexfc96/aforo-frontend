@@ -5,6 +5,8 @@ import { Link } from "react-router-dom";
 import apiCompany from "../../services/apiCompany";
 import apiEstablishment from "../../services/apiEstablishment";
 import SearchEstablishment from "./SearchEstablishment";
+import '../../App.css'
+
 
 class MyEstablishments extends Component {
   state = {
@@ -25,13 +27,20 @@ class MyEstablishments extends Component {
                 <div className="one-establishment-of-the-list">
                   <div className="info-establishment">
                     <Link to={`/establishment/${establishment._id}`}><h3>{establishment.name}</h3></Link>
+                    <h5>Address:{establishment.address}</h5>
                     {owner && 
                     <div>
                       <button><Link to={`/establishment/${establishment._id}`}>Admin establishment</Link></button>
-                      <button onClick={()=>{this.deleteEstablishment(establishment._id)}}>Delete establishment</button>
+                      <button style={{color:"red"}} 
+                      // onClick={()=>{this.deleteEstablishment(establishment._id)}}
+                      onClick={e =>
+                      window.confirm("Are you sure you wish to delete this establishment? All associated clients and owners and their bookings will be deleted.") &&
+                      this.deleteEstablishment(establishment._id)
+                      }
+                      
+                      >Delete establishment</button>
                     </div>
                     }
-                    <h5>{establishment.address}</h5>
                   </div>
               </div>
               <hr/>
@@ -76,10 +85,12 @@ class MyEstablishments extends Component {
     const { haveEstablishmentsAssociated } = this.state;
     return (
       <div>
+        
+        {haveEstablishmentsAssociated && <SearchEstablishment />}
+
         <h1>My establishments</h1>
         Add new establishment?
-        <Link to={`/establishment/create`}><button>New establishment</button></Link>
-        <SearchEstablishment />
+        <Link to={`/establishment/create`}><button className="btn-create">New establishment</button></Link>
         {!haveEstablishmentsAssociated && 
           <p> It seems that you dont have a establishment associated</p>
         }

@@ -1,6 +1,11 @@
 
 .info-company{
   text-align: left;
+  margin: 0px 7%;
+}
+
+hr{
+  width:85%
 }
 
 .admin-owners{

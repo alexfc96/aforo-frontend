@@ -40,28 +40,29 @@ class SearchEstablishment extends Component {
     })
   }
 
-  searchEstablishments = (input) =>{
+  searchEstablishments = async(input) =>{
     if(input.length>1){
       this.setState({
         status : STATUS.isLoading
       })
 
-      const establishments = this.getEstablishmentByName(input)
+      await this.getEstablishmentByName(input)
+      const { establishments } = this.state;
       console.log("establishments que me acab devolviendo", establishments)
-    //   apiEstablishment
-    //   .getEstablishment(input)
-    //   .then(({ data: establishments})=>{
-    //     console.log(establishments)
-    //     this.setState({
-    //       establishments,
-    //       status : STATUS.isLoaded
-    //     })
-    //   })
-    //   .catch((error) =>{
-    //     this.setState({
-    //       status : STATUS.error
-    //     })
-    //   })
+      apiEstablishment
+      .getEstablishment(input)
+      .then(({ data: establishments})=>{
+        console.log(establishments)
+        this.setState({
+          establishments,
+          status : STATUS.isLoaded
+        })
+      })
+      .catch((error) =>{
+        this.setState({
+          status : STATUS.error
+        })
+      })
     }
   }
 
@@ -71,14 +72,14 @@ class SearchEstablishment extends Component {
     switch (status) {
       case STATUS.isLoading:
         return <div>
-                  <h1>Search Establishment</h1>
+                  <h3>Search Establishment</h3>
                   <input type="text" value={searchValue} onChange={this.handleChange} />
                   <button onClick={()=>this.searchEstablishments(searchValue)}>Search</button>
                   <div>The content is loading</div>
                </div>
       case STATUS.isLoaded:
         return <div>
-                  <h1>Search Establishment</h1>
+                  <h3>Search Establishment</h3>
                   <input type="text" value={searchValue} onChange={this.handleChange} minLength="2" />
                   <button onClick={()=>this.searchEstablishments(searchValue)}>Search</button>
                   {establishments.map((establishment)=>{
