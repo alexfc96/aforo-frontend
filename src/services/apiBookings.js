@@ -12,6 +12,10 @@ class ApiBookings {
     return this.apiBookings.get("/establishment/bookings");
   }
 
+  oldBookings() {
+    return this.apiBookings.get("/establishment/old-bookings");
+  }
+
   bookingsByDay(idEstablishment, body) {
     return this.apiBookings.post(`/establishment/get-bookings-by-day/${idEstablishment}`, body);
   }

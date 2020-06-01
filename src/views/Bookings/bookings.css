@@ -6,6 +6,8 @@
 
 .showBooking{
   display: flex;
+  flex-direction: column;
+  margin-right: 9%;
 }
 
 .showBooking > li > h3{
@@ -18,5 +20,5 @@
 }
 
 .showBooking > li > hr{
-  width: 123%;
+  width: 100%;
 }

@@ -11,6 +11,7 @@ class MyBookings extends Component {
   state = {
     companies : undefined,
     bookings: undefined,
+    oldBookings: undefined,
     establishments: [],
   }
 
@@ -43,13 +44,44 @@ class MyBookings extends Component {
 
   }
 
+  showOldBookings(){
+    const { companies, establishments, oldBookings } = this.state;
+    return(
+      <div>
+        <h4>Your past bookings:</h4>
+        <ul className="showBooking">
+          {oldBookings.map((booking)=>{
+            {/* console.log("booking", booking) */}
+            {/* console.log("una booking", booking)
+            this.checkEstablishment(booking.idEstablishment);
+            const { establishments } = this.state;
+            console.log("Los estbalishments que tenemos en state es:", establishments) */}
+            //this.getCompany(booking.idEstablishment) //tendremos que buscar la company apartir del establishment
+            return <li key={booking._id}>
+                    <div>
+                      <Link to={`/establishment/${booking.idEstablishment._id}`}>{booking.idEstablishment.name}</Link>
+                    </div>
+                    {/* {this.getEstablishment(booking.idEstablishment)} */}
+                    <h3>Day:<Moment format='LL' date={booking.day} /></h3>
+                    <h3>Start hour:{booking.startHour}</h3>
+                    {/* <h3>Duration:{booking.duration} mins</h3> */}
+                    <hr/>
+                  </li>
+          })
+        }
+        </ul>
+      </div>
+    )
+  }
+
+
   showBookings(){
     const { companies, establishments, bookings } = this.state;
     return(
       <div>
         <ul className="showBooking">
           {bookings.map((booking)=>{
-            console.log("booking", booking)
+            {/* console.log("booking", booking) */}
             {/* console.log("una booking", booking)
             this.checkEstablishment(booking.idEstablishment);
             const { establishments } = this.state;
@@ -102,20 +134,41 @@ class MyBookings extends Component {
     });
   }
 
+  getOldBookings(){
+    apiBookings
+    .oldBookings()
+    .then(({ data:oldBookings }) => {
+      // console.log('bookings',bookings)
+      this.setState({
+        oldBookings
+      });
+    })
+    .catch((error) => {
+      console.log(error)
+      this.setState({
+        // companies: false,
+        oldBookings: false,
+      });
+    });
+  }
+
   componentDidMount(){
     this.getBookings()
+    this.getOldBookings()
   }
 
   render() {
     // const { user } = this.props;
-    const { companies, establishments, bookings } = this.state;
+    const { companies, establishments, bookings, oldBookings } = this.state;
     return (
       <div>
-        <h1>My bookings</h1>
+        <h1>My current bookings</h1>
         {bookings && bookings.length === 0 &&
           <p> It seems that you dont any booking scheduled</p>
         }
         {bookings && this.showBookings() }
+        {oldBookings && this.showOldBookings() }
+
       </div>
     );
   }
