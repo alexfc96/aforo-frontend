@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { withRouter } from 'react-router-dom'
+import Moment from 'react-moment';
 
 import { withAuth } from "../../context/authContext";
 import apiBookings from "../../services/apiBookings";
@@ -16,6 +17,7 @@ class CreateBooking extends Component {
     sessions: false,
     bookingsInOneDay: undefined,
     arrayOfSessions: undefined,
+    error: undefined
   }
 
   handleChange = (e) => {
@@ -49,10 +51,24 @@ class CreateBooking extends Component {
     })
   }
 
+  // checkIfIsGreaterThanToday(){
+  //   const today = new Date();
+
+  //   // return <Moment date={today} format='YYYY-MM-DD'  />
+  //   // return <Moment date={this.state.day} format='YYYY-MM-DD' />
+
+  //   if(this.state.day < today) {
+  //     this.setState({
+  //       error: 'Specified date prior to today.'
+  //     })
+  //   }
+  // }
+
   createBooking = (e) =>{
     e.preventDefault()
-    const { day, startHour } = this.state;
-    if(startHour){
+    // this.checkIfIsGreaterThanToday()
+    const { day, startHour, error } = this.state;
+    if(startHour && !error){
       const { establishment, history } = this.props;
       const bookingObj = { day, startHour };
       apiBookings
@@ -151,7 +167,7 @@ class CreateBooking extends Component {
   }
 
   render(){
-    const { bookingsInOneDay, arrayOfSessions, sessions } = this.state;
+    const { bookingsInOneDay, arrayOfSessions, sessions, error } = this.state;
     return(
       <div>
         <form onSubmit={this.handleBookingsInOneDay}>
@@ -165,6 +181,7 @@ class CreateBooking extends Component {
           />
           <input type="submit" value="Select" className="btn-create-2" />
         </form><br/>
+        {error}
         {bookingsInOneDay &&
           <div>
             Available hours:

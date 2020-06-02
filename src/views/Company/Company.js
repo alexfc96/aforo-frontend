@@ -16,6 +16,7 @@ class Company extends Component {
     adminOwners: false,
     iAmOwner: false,
     deleteOwner: false,
+    ownerToDelete: undefined
   }
 
   getEstablishments(){
@@ -56,9 +57,18 @@ class Company extends Component {
     this.getCompany()
   }
 
-  handleDeleteOwner = () => {
+  handleDeleteOwner = (ownerId) => {
     this.setState({
       deleteOwner: !this.state.deleteOwner,
+      ownerToDelete: ownerId,
+    });
+    // this.getCompany()
+  }
+
+  clearDeleteOwner = () => {
+    this.setState({
+      deleteOwner: false,
+      ownerToDelete: undefined,
     });
     this.getCompany()
   }
@@ -96,25 +106,13 @@ class Company extends Component {
   }
 
   render() {
-    const { company, establishments, adminOwners, iAmOwner, deleteOwner } = this.state;
+    const { company, establishments, adminOwners, iAmOwner, deleteOwner, ownerToDelete } = this.state;
     return (
       <div>
         {!company && <p>Loading</p>}
         {company &&
           <div key={company._id} className="info-company">
             <h1>{company.name}</h1>
-            {iAmOwner && 
-              <div>
-                {/* <p>Eres el owner de la company</p> */}
-                {/* <button style={{color:"red"}} 
-                // onClick={()=>{this.deleteCompany(company._id)}}
-                onClick={e =>
-                      window.confirm("Are you sure you wish to delete this company? All associated clients and owners and their bookings will be deleted.") &&
-                      this.deleteCompany(company._id)
-                      }
-                >Delete Company</button> */}
-               </div>
-            }
             <h5 style={{textAlign:"center"}}>{company.description}</h5>
             {/* <img className="img-of-company" src={company.image_url} alt={company.name} /> */}
             <p>Establishments:</p>
@@ -140,24 +138,23 @@ class Company extends Component {
             </div>
             <ul>
               {company.owners.map((owner, index)=>{
-                return <li key={owner._id}>
-                        <Link to={`/user/${company.owners[index]._id}` }><h3>{owner.name}</h3></Link>
-                        {iAmOwner && adminOwners &&
-                              <div>
-                                <button 
-                                // onClick={this.handleDeleteOwner}
-                                style={{color:"red"}} 
-                                onClick={e =>
-                                window.confirm("Are you sure you want to delete this owner? It will be deleted from all the establishments of this company where it was the owner and its bookings.") &&
-                                this.handleDeleteOwner
-                                }
-                                >Delete owner</button>
-                                {deleteOwner &&
-                                  <ManageUsersOfCompany company={company} refresh={this.handleDeleteOwner} deleteOwner={"True"} owner={owner} />
-                                }
-                              </div>
-                            }
-                        </li>
+                return (
+                  <li key={owner._id}>
+                    {deleteOwner && ownerToDelete === owner._id &&
+                      <ManageUsersOfCompany company={company} refresh={this.clearDeleteOwner} deleteOwner={"True"} owner={owner} />
+                    }
+                    <Link to={`/user/${company.owners[index]._id}` }><h3>{owner.name}</h3></Link>
+                    {iAmOwner && adminOwners &&
+                      <button 
+                      style={{color:"red"}} 
+                      onClick={e =>
+                      window.confirm("Are you sure you want to delete this owner? It will be deleted from all the establishments of this company where it was the owner and its bookings.") &&
+                      this.handleDeleteOwner(owner._id)
+                      }
+                      >Delete owner</button>
+                    }
+                  </li>
+                )
               }
               )}
             </ul>

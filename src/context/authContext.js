@@ -76,12 +76,14 @@ class AuthProvider extends Component {
     apiClient
       .login({ username, password })
       .then(({ data: user }) => {
+        // console.log("then",user)//mirar que me llega y si no hay user pasar el error. Problema, que no tengo error.
         this.setState({
           isLoggedIn: true,
           user,
         });
       })
       .catch((error) => {
+        console.log("catch",error)
         this.setState({
           isLoggedIn: false,
           user: null,

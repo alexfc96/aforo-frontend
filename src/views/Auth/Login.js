@@ -8,7 +8,6 @@ class Login extends Component {
   state = {
     username: "",
     password: "",
-    error: undefined
   };
 
   handleSubmit = (e) => {
@@ -40,8 +39,10 @@ class Login extends Component {
   };
 
   render() {
-    const { username, password, error } = this.state;
-    // console.log(error) //se pierde por el camino.
+    const { username, password } = this.state;
+    const { error } = this.props;
+    console.log(error) 
+
     return (
       <div>
         <h1>Login</h1>
