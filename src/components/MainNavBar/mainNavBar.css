@@ -52,8 +52,15 @@ body {
 
 .nav-links > div > a{
   display: inline;
-  /* float: right; */
+  float: right;
   font-size: 18px;
+}
+
+.nav > .nav-links > div > a {
+  display: inline-block;
+  padding: 13px 10px 13px 10px;
+  text-decoration: none;
+  color: #2f2842;
 }
 
 .nav-links > div > a {

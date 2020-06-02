@@ -2,24 +2,22 @@ import React, { Component } from "react";
 
 import { withAuth } from "../../context/authContext";
 import apiUser from "../../services/apiUser";
-// import apiEstablishment from "../../services/apiEstablishment";
 // import { Link } from "react-router-dom";
 
 class User extends Component {
 
   state = {
     userObj : undefined,
-    // establishment: undefined,
-    // owners: [],
   }
 
   componentDidMount(){
     const userID = this.props.match.params.id;
     apiUser
     .getUser(userID)
-    .then((user) => {
+    .then(({ data: userObj}) => {
+      console.log("Dta rcibido", userObj)
       this.setState({
-        userObj: user.data
+        userObj
       })
     })
     .catch((error) => {
@@ -31,19 +29,18 @@ class User extends Component {
     const { userObj } = this.state;
     return (
       <div>
-        {!userObj && 
-        <p>Loading</p>
-        }
-        {userObj &&
-          <div key={userObj._id} className="info-userObj">
-            <h1>{userObj.name}</h1>
-            Dar la opcion q suba una imagen.
-            <h2>{userObj.mail}</h2>
-            Si tiene company que aparezca lista.
-            
+        <h1>User profile</h1>
+        {!userObj && <h5>Loading</h5>}
+        {userObj && 
+          <div className="info-user">
+          <div>
+            <h2>Name: {userObj.name}</h2>
+            {userObj.years && <h3>Years: {userObj.years}</h3>}
+            <h3>Mail: {userObj.mail}</h3>
           </div>
-        }      
         </div>
+        }
+      </div>
     );
   }
 }

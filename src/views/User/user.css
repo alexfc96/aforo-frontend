@@ -1,0 +1,19 @@
+.info-user{
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+  margin-left: 6%;
+}
+
+.info-user > button {
+  width: fit-content;
+  align-self: center;
+}
+
+.admin-user {
+  text-align: justify;
+  /* justify-content: center; */
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+}

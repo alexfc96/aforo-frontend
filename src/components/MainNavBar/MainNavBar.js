@@ -15,6 +15,12 @@ class MainNavBar extends Component {
     })
   }
 
+  handleToggleOff = () => {
+    this.setState({
+      toggle: false
+    })
+  }
+
   logout = () => {
     const { onLogout } = this.props;
 
@@ -30,8 +36,8 @@ class MainNavBar extends Component {
         <input type="checkbox" id="nav-check" onClick={this.handleToggle} />
         <div className="nav-header">
           <div className="nav-title">
-            <Link to="/"><img className='nav-hack' id="logo-nav" src="./aforo.png" alt="logo"></img></Link>
-            <Link to="/" style={{marginTop:"4px"}}><span className="main-title" style={{color:"black"}}>AFORO</span></Link>
+            <Link to="/" onClick={this.handleToggleOff}><img className='nav-hack' id="logo-nav" src="./aforo.png" alt="logo"></img></Link>
+            <Link to="/"  onClick={this.handleToggleOff} style={{marginTop:"4px"}}><span className="main-title" style={{color:"black", marginRight: "31px"}}>AFORO</span></Link>
           </div>
         </div>
         <div className="nav-btn">
@@ -41,7 +47,7 @@ class MainNavBar extends Component {
             <span></span>
           </label>
         </div>
-        {toggle &&
+        {toggle && //esto limita a solo pantallas pequeñas!
           <div className="nav-links">
             {isLoggedIn &&
             <div>
