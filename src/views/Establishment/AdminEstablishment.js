@@ -17,6 +17,7 @@ class AdminEstablishment extends Component {
     startHourShift: undefined,
     finalHourShift: undefined,
     timeAllowedPerBooking: undefined,
+    howOftenCanBookPerDay: undefined
   }
 
   handleChange = (e) => {
@@ -26,97 +27,108 @@ class AdminEstablishment extends Component {
   };
 
   adminEstablishment(){
-    const { name, description, percentOfPeopleAllowed, maximumCapacity, address, startHourShift, finalHourShift, timeAllowedPerBooking } = this.state;
+    const { name, description, percentOfPeopleAllowed, maximumCapacity, address, startHourShift, finalHourShift, timeAllowedPerBooking, howOftenCanBookPerDay } = this.state;
     return (
       <form onSubmit={this.handleSubmitForm}>
       <p>
       <label htmlFor="name">Name:</label>
-      <input
-        type="text"
-        name="name"
-        id="name"
-        value={name}
-        onChange={this.handleChange}
-      />
+        <input
+          type="text"
+          name="name"
+          id="name"
+          value={name}
+          onChange={this.handleChange}
+        />
       </p>
       <p>
       <label htmlFor="description">Description:</label>
-      <textarea
-        type="text"
-        name="description"
-        id="description"
-        cols={20} rows={3}
-        value={description}
-        onChange={this.handleChange}
-      />
+        <textarea
+          type="text"
+          name="description"
+          id="description"
+          cols={20} rows={3}
+          value={description}
+          onChange={this.handleChange}
+        />
       </p>
       <p>
       <label htmlFor="address">Address:</label>
-      <input
-        type="text"
-        name="address"
-        id="address"
-        value={address}
-        onChange={this.handleChange}
-      />
+        <input
+          type="text"
+          name="address"
+          id="address"
+          value={address}
+          onChange={this.handleChange}
+        />
       </p>
 
       <p className="title-section"><u>Capacity:</u></p>
       <p>
       <label htmlFor="maximumCapacity">Maximum capacity:</label>
-      <input
-        type="number"
-        className="numbers"
-        name="maximumCapacity"
-        id="maximumCapacity"
-        value={maximumCapacity}
-        onChange={this.handleChange}
-      />
+        <input
+          type="number"
+          className="numbers"
+          name="maximumCapacity"
+          id="maximumCapacity"
+          value={maximumCapacity}
+          onChange={this.handleChange}
+        />
       </p>
       <p>
       <label htmlFor="percentOfPeopleAllowed">Percent of people allowed:</label>
-      <input
-        type="number"
-        className="numbers"
-        name="percentOfPeopleAllowed"
-        id="percentOfPeopleAllowed"
-        value={percentOfPeopleAllowed}
-        onChange={this.handleChange}
-      />%
+        <input
+          type="number"
+          className="numbers"
+          name="percentOfPeopleAllowed"
+          id="percentOfPeopleAllowed"
+          value={percentOfPeopleAllowed}
+          onChange={this.handleChange}
+        />%
       </p>
-
       <p className="title-section"><u>Timetable:</u></p>
       <p>
       <label htmlFor="startHourShift">Start hour shift:</label>
-      <input
-        type="time"
-        name="startHourShift"
-        id="tartHourShift"
-        value={startHourShift}
-        onChange={this.handleChange}
-      />
+        <input
+          type="time"
+          name="startHourShift"
+          id="tartHourShift"
+          value={startHourShift}
+          onChange={this.handleChange}
+        />
       </p>
       <p>
       <label htmlFor="finalHourShift">Final hour shift:</label>
-      <input
-        type="time"
-        name="finalHourShift"
-        id="finalHourShift"
-        value={finalHourShift}
-        onChange={this.handleChange}
-      />
+        <input
+          type="time"
+          name="finalHourShift"
+          id="finalHourShift"
+          value={finalHourShift}
+          onChange={this.handleChange}
+        />
       </p>
       <p>
       <label htmlFor="timeAllowedPerBooking">Time allowed per booking:</label>
-      <input
-        type="number"
-        className="numbers"
-        min="5" max="1440"
-        name="timeAllowedPerBooking"
-        id="timeAllowedPerBooking"
-        value={timeAllowedPerBooking}
-        onChange={this.handleChange}
-      />mins
+        <input
+          type="number"
+          className="numbers"
+          min="5" max="1440"
+          name="timeAllowedPerBooking"
+          id="timeAllowedPerBooking"
+          value={timeAllowedPerBooking}
+          onChange={this.handleChange}
+        />mins
+      </p>
+      <p>
+      <label htmlFor="howOftenCanBookPerDay">How often can book per day:</label>
+        <input
+          type="number"
+          className="numbers"
+          name="howOftenCanBookPerDay"
+          id="howOftenCanBookPerDay"
+          required
+          value={howOftenCanBookPerDay}
+          onChange={this.handleChange}
+        /> times
       </p>
 
       <input type="submit" value="Update" className="btn-create-2" />
@@ -127,8 +139,8 @@ class AdminEstablishment extends Component {
   handleSubmitForm = (e) => {
     e.preventDefault();
     const { refresh, establishment } = this.props;
-    const { name, description, percentOfPeopleAllowed, maximumCapacity, address, startHourShift, finalHourShift, timeAllowedPerBooking } = this.state;
-    const establishmentObj = { name, description, capacity:{percentOfPeopleAllowed, maximumCapacity}, address, timetable:{startHourShift, finalHourShift, timeAllowedPerBooking} }
+    const { name, description, percentOfPeopleAllowed, maximumCapacity, address, startHourShift, finalHourShift, timeAllowedPerBooking, howOftenCanBookPerDay } = this.state;
+    const establishmentObj = { name, description, capacity:{percentOfPeopleAllowed, maximumCapacity}, address, timetable:{startHourShift, finalHourShift, timeAllowedPerBooking, howOftenCanBookPerDay } }
     apiEstablishment
     .updateEstablishment(establishment._id, establishmentObj)
     .then(({ data:establishment }) => {
@@ -150,6 +162,7 @@ class AdminEstablishment extends Component {
       startHourShift: establishment.timetable.startHourShift,
       finalHourShift: establishment.timetable.finalHourShift,
       timeAllowedPerBooking: establishment.timetable.timeAllowedPerBooking,
+      howOftenCanBookPerDay: establishment.timetable.howOftenCanBookPerDay,
     })
   }
 

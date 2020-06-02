@@ -8,6 +8,7 @@ class Login extends Component {
   state = {
     username: "",
     password: "",
+    error: undefined
   };
 
   handleSubmit = (e) => {
@@ -15,7 +16,13 @@ class Login extends Component {
     const { username, password } = this.state;
     const { onLogin } = this.props;
     if (username !== "" && password !== "") {
-      onLogin({ username, password });
+      try {
+        onLogin({ username, password });
+      } catch (error) {
+        this.setState({
+          error: "Username o password incorrect"
+        })
+      }
     }
   };
 
@@ -33,10 +40,8 @@ class Login extends Component {
   };
 
   render() {
-    const { username, password } = this.state;
-    const { error } = this.props;
-    // console.log(error)
-    
+    const { username, password, error } = this.state;
+    // console.log(error) //se pierde por el camino.
     return (
       <div>
         <h1>Login</h1>
@@ -62,8 +67,9 @@ class Login extends Component {
             onChange={this.handleChange}
           />
           <p><input type="submit" value="Login" className="btn-create" /></p>
+          {error}
         </form>
-        {error}
+        
       </div>
     );
   }

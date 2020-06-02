@@ -15,7 +15,6 @@ class User extends Component {
     apiUser
     .getUser(userID)
     .then(({ data: userObj}) => {
-      console.log("Dta rcibido", userObj)
       this.setState({
         userObj
       })

@@ -20,6 +20,7 @@ class CreateEstablishment extends Component {
     startHourShift: 0,
     finalHourShift: 0,
     timeAllowedPerBooking: 0,
+    howOftenCanBookPerDay: 1,
     error: undefined
   }
 
@@ -35,7 +36,7 @@ class CreateEstablishment extends Component {
 
   handleSubmitForm = (e) => {
     e.preventDefault();
-    const { name, description, percentOfPeopleAllowed, maximumCapacity, company, address, startHourShift, finalHourShift, timeAllowedPerBooking } = this.state;
+    const { name, description, percentOfPeopleAllowed, maximumCapacity, company, address, startHourShift, finalHourShift, timeAllowedPerBooking, howOftenCanBookPerDay } = this.state;
     console.log('company antes de enviarlo', company)
     if(company==="----" || company===undefined){
       this.setState({
@@ -43,7 +44,7 @@ class CreateEstablishment extends Component {
       })
     } else{
       const { history } = this.props;
-      const establishmentObj = { name, description, capacity:{percentOfPeopleAllowed, maximumCapacity}, company, address, timetable:{startHourShift, finalHourShift, timeAllowedPerBooking} }
+      const establishmentObj = { name, description, capacity:{percentOfPeopleAllowed, maximumCapacity}, company, address, timetable:{startHourShift, finalHourShift, timeAllowedPerBooking, howOftenCanBookPerDay } }
       apiEstablishment
       .createEstablishment(establishmentObj)
       .then(({ data:establishment }) => {
@@ -182,6 +183,17 @@ class CreateEstablishment extends Component {
                 required
                 onChange={this.handleChange}
               />mins
+            </p>
+            <p><label htmlFor="howOftenCanBookPerDay">How often can book per day:</label>
+            <input
+              type="number"
+              className="numbers"
+              name="howOftenCanBookPerDay"
+              id="howOftenCanBookPerDay"
+              placeholder="1"
+              required
+              onChange={this.handleChange}
+            /> times
             </p>
             <input type="submit" value="Create" className="btn-create" />
           </form>

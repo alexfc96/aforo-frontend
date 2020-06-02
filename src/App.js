@@ -4,6 +4,7 @@ import { Switch } from "react-router-dom";
 import AnonRoute from "./components/AnonRoute";
 import PrivateRoute from "./components/PriveteRoute";
 
+import MainPage from "./views/MainPage";
 import Home from "./views/Home";
 import LoginWithAuth from "./views/Auth/Login";
 import SignupWithAuth from "./views/Auth/Signup";
@@ -28,6 +29,7 @@ class App extends Component {
           <div className="App">
             <MainNavBar />
             <Switch>
+              <AnonRoute exact path={"/"} component={MainPage} />
               <AnonRoute exact path={"/login"} component={LoginWithAuth} />
               <AnonRoute exact path={"/signup"} component={SignupWithAuth} />
               <PrivateRoute exact path={"/home"} component={Home} />

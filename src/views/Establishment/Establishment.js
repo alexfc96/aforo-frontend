@@ -96,6 +96,7 @@ class Establishment extends Component {
                 <li className="timetable">Start hour: {establishment.timetable.startHourShift}</li>
                 <li className="timetable">Final hour: {establishment.timetable.finalHourShift}</li>
                 <li className="timetable">Time allowed per booking: {establishment.timetable.timeAllowedPerBooking}mins</li>
+                <li className="timetable">How often can book per day: {establishment.timetable.howOftenCanBookPerDay}times</li>
               </ul>
               <p><u className="title-section">Capacity: {establishment.capacity.maximumCapacity} persons</u></p>
 

@@ -32,7 +32,7 @@ class CreateBooking extends Component {
     apiBookings
       .bookingsByDay(establishment._id, bookingObj)
       .then(({ data:bookingsInOneDay }) => {
-        console.log(bookingsInOneDay)
+        // console.log(bookingsInOneDay)
         this.setState({
           bookingsInOneDay
         })
@@ -54,14 +54,11 @@ class CreateBooking extends Component {
     const { day, startHour } = this.state;
     if(startHour){
       const { establishment, history } = this.props;
-      console.log("props del create bookin",this.props)
-      console.log("datos para realizar la booking:",this.state);
       const bookingObj = { day, startHour };
       apiBookings
         .newBooking(establishment._id, bookingObj)
         .then(({ data:booking }) => {
           history.push(`/bookings/`);
-          // this.forceUpdate()
         })
         .catch((error)=> {
           console.log(error)
@@ -78,8 +75,7 @@ class CreateBooking extends Component {
 
     const arrayOfSessions = [];
     const temp = hourMinutesStrs.split(':');
-    let countHours = parseInt(temp[0])
-    console.log("primera hora str",countHours)
+    let countHours = parseInt(temp[0]) //first hour
     let countMinutes = parseInt(temp[1])
     let hoursStr = undefined;
     let minsStr = undefined;
