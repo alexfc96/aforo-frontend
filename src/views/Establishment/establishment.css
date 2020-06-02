@@ -46,10 +46,11 @@
 .list-owners{
   width: fit-content;
   display: flex;
+  flex-direction: column;
 }
 
 .list-owners > li {
-  margin: 0px;
+  margin: 3px;
 }
 
 .list-clients{

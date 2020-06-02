@@ -86,6 +86,7 @@ class ManageUsersOfEstablishment extends Component {
 
   deleteOwner(){
     const { establishment, owner, refresh } = this.props;
+    console.log("entroooo")
     apiEstablishment
     .deleteOwnerEstablishment(establishment._id, owner._id)
     .then(() => {
@@ -94,7 +95,6 @@ class ManageUsersOfEstablishment extends Component {
     .catch((error) => {
       console.log(error)
     });
-    
   }
 
   handleSubmitFormAddNewOwner = async(e) =>{

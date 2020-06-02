@@ -41,14 +41,6 @@ class MyCompanies extends Component {
     window.location.reload(false);
   }
 
-  handleNewCompany = () =>{
-    this.setState({
-      createCompany: !this.state.createCompany,
-    }, ()=>{
-    });
-  };
-
-
   handleCreateCompany = () => {
     this.setState({
       createCompany: !this.state.createCompany,

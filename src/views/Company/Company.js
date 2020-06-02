@@ -62,7 +62,6 @@ class Company extends Component {
       deleteOwner: !this.state.deleteOwner,
       ownerToDelete: ownerId,
     });
-    // this.getCompany()
   }
 
   clearDeleteOwner = () => {
@@ -137,13 +136,13 @@ class Company extends Component {
               }
             </div>
             <ul>
-              {company.owners.map((owner, index)=>{
+              {company.owners.map((owner)=>{
                 return (
                   <li key={owner._id}>
                     {deleteOwner && ownerToDelete === owner._id &&
                       <ManageUsersOfCompany company={company} refresh={this.clearDeleteOwner} deleteOwner={"True"} owner={owner} />
                     }
-                    <Link to={`/user/${company.owners[index]._id}` }><h3>{owner.name}</h3></Link>
+                    <Link to={`/user/${company.owners._id}` }><h3>{owner.name}</h3></Link>
                     {iAmOwner && adminOwners &&
                       <button 
                       style={{color:"red"}} 

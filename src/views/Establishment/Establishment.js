@@ -21,6 +21,7 @@ class Establishment extends Component {
     adminOwners: false,
     adminClients: false,
     deleteOwner: false,
+    ownerToDelete: undefined,
     mail: undefined,
     name: undefined,
     description: undefined,
@@ -45,11 +46,19 @@ class Establishment extends Component {
     this.getEstablishment()
   }
 
-  handleDeleteOwner = () => {
+  clearDeleteOwner = () => {
     this.setState({
-      deleteOwner: !this.state.deleteOwner,
+      deleteOwner: false,
+      ownerToDelete: undefined,
     });
     this.getEstablishment()
+  }
+
+  handleDeleteOwner = (ownerId) => {
+    this.setState({
+      deleteOwner: !this.state.deleteOwner,
+      ownerToDelete: ownerId,
+    });
   }
 
   handleAdminOwnersButton = () => {
@@ -69,7 +78,7 @@ class Establishment extends Component {
   }
 
   showEstablishment(){
-    const { establishment, owners, admin, adminOwners, iAmOwner, iAmClient, deleteOwner, adminClients } = this.state;
+    const { establishment, owners, admin, adminOwners, iAmOwner, iAmClient, deleteOwner, ownerToDelete, adminClients } = this.state;
     return (
       <div key={establishment._id} className="info-establishment">
         <h1>{establishment.name}</h1>
@@ -127,19 +136,25 @@ class Establishment extends Component {
 
               {owners && 
                 <ul className="list-owners">
-                  {establishment.owners.map((owner, index)=>{
-                    return <li key={owner._id}>
-                            <Link to={`/user/${owner._id}`}>{owner.name}  </Link>
-                            {iAmOwner && adminOwners && <button className="btn-delete-user" 
-                            // onClick={this.handleDeleteOwner}>Delete owner</button>}
-                            onClick={e =>
-                            window.confirm("Are you sure you wish to delete this owner? All reservations made at this establishment will be lost") &&
-                            this.handleDeleteOwner
-                            }>  Delete owner</button>}
-                            {iAmOwner && adminOwners && deleteOwner && //tema asincronía?
-                                <ManageUsersOfEstablishment establishment={establishment} refresh={this.handleDeleteOwner} deleteOwner={"True"} owner={owner} />
-                            }
-                          </li>
+                  {establishment.owners.map((owner)=>{
+                    return (
+                      <li key={owner._id}>
+                        {deleteOwner && ownerToDelete === owner._id &&
+                          <ManageUsersOfEstablishment establishment={establishment} refresh={this.clearDeleteOwner} deleteOwner={"True"} owner={owner} />
+                          /* <ManageUsersOfCompany company={company} refresh={this.clearDeleteOwner} deleteOwner={"True"} owner={owner} /> */
+                        }
+                        <Link to={`/user/${owner._id}`}>{owner.name}</Link>
+                        {iAmOwner && adminOwners && <button className="btn-delete-user" 
+                        // onClick={this.handleDeleteOwner}>Delete owner</button>}
+                        onClick={e =>
+                        window.confirm("Are you sure you wish to delete this owner? All reservations made at this establishment will be lost") &&
+                        this.handleDeleteOwner(owner._id)
+                        }>  Delete owner</button>}
+                        {/* {iAmOwner && adminOwners && deleteOwner && //tema asincronía?
+                            <ManageUsersOfEstablishment establishment={establishment} refresh={this.handleDeleteOwner} deleteOwner={"True"} owner={owner} />
+                        } */}
+                      </li>
+                    )
                   })}
                 </ul>
               }
