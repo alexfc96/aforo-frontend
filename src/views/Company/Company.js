@@ -45,6 +45,7 @@ class Company extends Component {
           iAmOwner: true
         })
       };
+      return null
     })
   }
 

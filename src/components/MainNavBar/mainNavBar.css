@@ -30,18 +30,21 @@ body {
   font-size: 32px;
 } 
 
-.nav-title > .main-title{
-  padding-top: 4px;
-} 
-
 .nav {
-  /* display: inline-block; */
+  display: inline-block;
   box-sizing: border-box;
 
   font-size: 22px;
-  color: #2f2842;
+  color: black;
+
+  /* color: #2f2842; */
   padding: 0px 10px 20px 10px;
 }
+
+.nav-title > .main-title{
+  padding-top: 4px;
+  color: black;
+} 
 
 .nav-btn {
   display: none;
@@ -114,13 +117,13 @@ a:hover, a:visited, a:link, a:active{
     display: block;
     width: 100%;
   }
-  #nav-check:not(:checked) ~ .nav-links {
+  /* #nav-check ~ .nav-links {
     height: 0px;
-  }
-  #nav-check:checked ~ .nav-links {
+  } */
+  #nav-check ~ .nav-links {
     height: auto;
-    /* z-index: 1000; */
-    /* overflow-y: auto; */
+    z-index: 1000;
+    overflow-y: auto;
   }
 
 }

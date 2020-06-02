@@ -27,7 +27,7 @@ class CreateBooking extends Component {
   handleBookingsInOneDay = (e) => {
     e.preventDefault()
     const { day } = this.state;
-    const { establishment, history } = this.props;
+    const { establishment } = this.props;
     const bookingObj = { day };
     apiBookings
       .bookingsByDay(establishment._id, bookingObj)
@@ -75,12 +75,6 @@ class CreateBooking extends Component {
     const hourMinutesStrs = establishment.timetable.startHourShift;
     let startHourShift = parseInt(establishment.timetable.startHourShift);
     let finalHourShift = parseInt(establishment.timetable.finalHourShift);
-
-    //sacamos los datos de cuantas sesiones de reservas van a haber durante el dia
-    const horasAbierto = finalHourShift-startHourShift;
-    console.log("horas abierto", horasAbierto);
-    const sesionesTotales = (horasAbierto*60)/timeAllowedPerBooking;
-    console.log("sesiones totales", sesionesTotales);
 
     const arrayOfSessions = [];
     const temp = hourMinutesStrs.split(':');
@@ -136,12 +130,11 @@ class CreateBooking extends Component {
       <div className="show-sessions">
         {arrayOfSessions.map((session)=>{
           cont=0;
-          {/* console.log(session) */}
           bookingsInOneDay.map((booking)=>{
             if(booking.startHour===session){
-              console.log("coincide la hora", booking.startHour, session)
               cont=cont+1
             }
+            return null
           })
           return (
             <div key={session} className="show-session" >

@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import { withAuth } from "../../context/authContext";
 import { Link } from "react-router-dom";
 
-import apiCompany from "../../services/apiCompany";
 import apiEstablishment from "../../services/apiEstablishment";
 import SearchEstablishment from "./SearchEstablishment";
 import '../../App.css'

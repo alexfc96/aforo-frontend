@@ -31,7 +31,7 @@ class MainNavBar extends Component {
         <div className="nav-header">
           <div className="nav-title">
             <Link to="/"><img className='nav-hack' id="logo-nav" src="./aforo.png" alt="logo"></img></Link>
-            <span className="main-title"><Link to="/">AFORO</Link></span>
+            <Link to="/" style={{marginTop:"4px"}}><span className="main-title" style={{color:"black"}}>AFORO</span></Link>
           </div>
         </div>
         <div className="nav-btn">

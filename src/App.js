@@ -12,7 +12,6 @@ import AuthProvider from "./context/authContext";
 import MainNavBar from "./components/MainNavBar/MainNavBar";
 
 import MyCompanies from "./views/Company/MyCompanies";
-import CreateCompany from "./views/Company/CreateCompany";
 import Company from "./views/Company/Company";
 import MyEstablishments from "./views/Establishment/MyEstablishments.js";
 import CreateEstablishment from "./views/Establishment/CreateEstablishment";
@@ -31,10 +30,8 @@ class App extends Component {
             <Switch>
               <AnonRoute exact path={"/login"} component={LoginWithAuth} />
               <AnonRoute exact path={"/signup"} component={SignupWithAuth} />
-              {/* context para tener todos los datos/establishments del user */}
               <PrivateRoute exact path={"/home"} component={Home} />
               <PrivateRoute exact path={"/company"} component={MyCompanies} />
-              <PrivateRoute exact path={"/company/create"} component={CreateCompany} />
               <PrivateRoute exact path={"/company/:id"} component={Company} /> 
               <PrivateRoute exact path={"/establishment"} component={MyEstablishments} />
               <PrivateRoute exact path={"/establishment/create"} component={CreateEstablishment} />

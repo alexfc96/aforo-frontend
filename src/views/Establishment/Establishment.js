@@ -3,8 +3,6 @@ import React, { Component } from "react";
 import { withAuth } from "../../context/authContext";
 import apiEstablishment from "../../services/apiEstablishment";
 import { Link } from "react-router-dom";
-import Calendar from "../../components/Calendar";
-// import apiBookings from "../../services/apiBookings";
 import CreateBooking from "../Bookings/CreateBooking";
 import AdminEstablishment from "./AdminEstablishment";
 import ManageUsersOfEstablishment from "./ManageUsersOfEstablishment";
@@ -70,7 +68,6 @@ class Establishment extends Component {
   }
 
   showEstablishment(){
-    const { user } = this.props;
     const { establishment, owners, admin, adminOwners, iAmOwner, deleteOwner, adminClients } = this.state;
     return (
       <div key={establishment._id} className="info-establishment">
@@ -187,6 +184,7 @@ class Establishment extends Component {
       if(owner._id === user._id) {
         iAmOwner = true;
       }
+      return null
     })
     if(iAmOwner){
       this.setState({
@@ -215,7 +213,7 @@ class Establishment extends Component {
   }
 
   render() {
-    const { establishment, adminOwners } = this.state;
+    const { establishment } = this.state;
     return (
       <div>
         {!establishment && 

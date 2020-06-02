@@ -9,7 +9,7 @@ export const withAuth = (Comp) => {
     render() {
       return (
         <AuthContext.Consumer>
-          {({ handleSignup, handleLogin, user, isLoggedIn, handleLogout }) => {
+          {({ handleSignup, handleLogin, user, isLoggedIn, handleLogout, error}) => {
             return (
               <Comp
                 onSignup={handleSignup}
@@ -17,6 +17,7 @@ export const withAuth = (Comp) => {
                 user={user}
                 isLoggedIn={isLoggedIn}
                 onLogout={handleLogout}
+                error={error}  //tiene sentido? añadido en el metodo de onlogin
                 {...this.props}
               />
             );
@@ -29,9 +30,10 @@ export const withAuth = (Comp) => {
 
 class AuthProvider extends Component {
   state = {
-    isLoggedIn: false,   //HE CAMBIADO ESTO DE FALSE A TRUE PARA QUE NO SE CIERRE LA SESION CADA VEZ QUE ACTUALIZ LA WEB
+    isLoggedIn: false,
     user: null,
     isLoading: true,
+    error: undefined, // lo he añadido para poder recogerlo en las vistas. sense??
   };
 
   componentDidMount() {
@@ -83,6 +85,7 @@ class AuthProvider extends Component {
         this.setState({
           isLoggedIn: false,
           user: null,
+          error
         });
       });
   };
@@ -103,12 +106,13 @@ class AuthProvider extends Component {
 
   render() {
     const { children } = this.props;
-    const { isLoggedIn, user } = this.state;
+    const { isLoggedIn, user, error } = this.state;
     return (
       <AuthContext.Provider
         value={{
           isLoggedIn,
           user,
+          error,
           handleSignup: this.handleSignup,
           handleLogin: this.handleLogin,
           handleLogout: this.handleLogout,

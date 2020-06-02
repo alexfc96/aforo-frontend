@@ -45,7 +45,6 @@ class MyUser extends Component {
   handleSubmitForm = (e) => {
     e.preventDefault();
     const { user, onLogout } = this.props;
-    const { history } = this.props;
     const { name, years, mail, currentPassword, newPassword } = this.state;
     const userObj = { name, years, mail, currentPassword, newPassword }
     //const userObj = this.checkIfInputIsEmpty() //conseguir asincronía!!
