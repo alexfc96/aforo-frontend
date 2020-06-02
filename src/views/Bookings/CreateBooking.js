@@ -84,7 +84,9 @@ class CreateBooking extends Component {
       countMinutes = countMinutes + timeAllowedPerBooking;
       if(countMinutes<60){
         hoursStr = countHours.toString();
-        hoursStr = "0"+hoursStr;
+        if(hoursStr<10){
+          hoursStr = "0"+hoursStr;
+        }
         minsStr = countMinutes.toString();
         let finalTime = hoursStr.concat(':', minsStr);
         arrayOfSessions.push(finalTime)  //tendremos que hacer un join de las horas y los minutos para que sean una unidad y no 2.

@@ -87,7 +87,7 @@ class MyEstablishments extends Component {
         {haveEstablishmentsAssociated && <SearchEstablishment />}
 
         <h1>My establishments</h1>
-        Add new establishment?
+        <p>Add new establishment?</p> 
         <Link to={`/establishment/create`}><button className="btn-create">New establishment</button></Link>
         {!haveEstablishmentsAssociated && 
           <p> It seems that you dont have a establishment associated</p>

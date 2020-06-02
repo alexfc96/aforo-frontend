@@ -37,14 +37,22 @@ class MyCompanies extends Component {
     this.getCompanies()
   }
 
-  handleCreateCompany = () => {
+  refresh(){
+    window.location.reload(false);
+  }
+
+  handleNewCompany = () =>{
     this.setState({
       createCompany: !this.state.createCompany,
     }, ()=>{
-      this.getMyCompanies()
-      this.getCompanies()
     });
-    
+  };
+
+
+  handleCreateCompany = () => {
+    this.setState({
+      createCompany: !this.state.createCompany,
+    });
   };
 
   showCompany(){
@@ -115,6 +123,7 @@ class MyCompanies extends Component {
     .then((company) => {
       this.getCompanies()
       this.getMyCompanies()
+      window.location.reload(false);
     })
     .catch((error) => {
       console.log(error)
@@ -173,9 +182,9 @@ class MyCompanies extends Component {
     return (
       <div>
         <h1>My companies</h1>
-        Do you want to control a new company?
+        <p>Do you want to control a new company?</p>
         <button onClick={this.handleCreateCompany} className="btn-create">Add new company</button>
-        {createCompany && <CreateCompany refresh={this.handleCreateCompany} />}
+        {createCompany && <CreateCompany refresh={this.refresh} />}
         {!haveCompanyAssociated && !haveCompany &&
           <p> It seems that you dont have a company associated</p>
         }

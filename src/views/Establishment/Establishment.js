@@ -13,6 +13,7 @@ class Establishment extends Component {
 
   state = {
     iAmOwner : undefined,
+    iAmClient : undefined,
     company : undefined,
     establishment: undefined,
     owners: [],
@@ -68,7 +69,7 @@ class Establishment extends Component {
   }
 
   showEstablishment(){
-    const { establishment, owners, admin, adminOwners, iAmOwner, deleteOwner, adminClients } = this.state;
+    const { establishment, owners, admin, adminOwners, iAmOwner, iAmClient, deleteOwner, adminClients } = this.state;
     return (
       <div key={establishment._id} className="info-establishment">
         <h1>{establishment.name}</h1>
@@ -100,8 +101,19 @@ class Establishment extends Component {
               </ul>
               <p><u className="title-section">Capacity: {establishment.capacity.maximumCapacity} persons</u></p>
 
-              <u className="title-section">Do you wanna booking?</u><br/>
-              <CreateBooking establishment={establishment} /><br/>
+              {iAmOwner &&
+                <div>
+                  <u className="title-section">Do you wanna booking?</u><br/>
+                  <CreateBooking establishment={establishment} /><br/>
+                </div>
+              }
+              {iAmClient &&
+                <div>
+                  <u className="title-section">Do you wanna booking?</u><br/>
+                  <CreateBooking establishment={establishment} /><br/>
+                </div>
+              }
+
               {/* <Calendar handleDate={this.handleDate} idEstablishment={establishment._id} /> */}
               {/* <img className="img-of-establishment" src={establishment.image_url} alt={establishment.name} /> */}
 
@@ -194,6 +206,23 @@ class Establishment extends Component {
     }
   }
 
+  iAmClient(){
+    const { establishment } = this.state;
+    const { user } = this.props;
+    let iAmClient = false;
+    establishment.clients.map((client, index) => {
+      if(client._id === user._id) {
+        iAmClient = true;
+      }
+      return null
+    })
+    if(iAmClient){
+      this.setState({
+        iAmClient
+      })
+    }
+  }
+
   getEstablishment(){
     const establishmentID = this.props.match.params.id;
     apiEstablishment
@@ -203,6 +232,7 @@ class Establishment extends Component {
         establishment
       })
       this.iAmOwner()
+      this.iAmClient()
     })
     .catch((error) => {
       console.log(error)
