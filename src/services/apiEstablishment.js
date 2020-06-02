@@ -44,6 +44,10 @@ class ApiEstablishment {
     return this.apiEstablishment.post(`/establishment/${idEstablishment}/join-owner/${userID}`);
   }
 
+  deleteClientEstablishment(idEstablishment, userID) {
+    return this.apiEstablishment.delete(`/establishment/${idEstablishment}/remove-client/${userID}`);
+  }
+
   deleteOwnerEstablishment(idEstablishment, userID) {
     return this.apiEstablishment.delete(`/establishment/${idEstablishment}/remove-owner/${userID}`);
   }

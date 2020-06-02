@@ -22,6 +22,8 @@ class Establishment extends Component {
     adminClients: false,
     deleteOwner: false,
     ownerToDelete: undefined,
+    deleteClient: false,
+    clientToDelete: undefined,
     mail: undefined,
     name: undefined,
     description: undefined,
@@ -61,6 +63,21 @@ class Establishment extends Component {
     });
   }
 
+  clearDeleteClient = () => {
+    this.setState({
+      deleteClient: false,
+      clientToDelete: undefined,
+    });
+    this.getEstablishment()
+  }
+
+  handleDeleteClient = (clientId) => {
+    this.setState({
+      deleteClient: !this.state.deleteClient,
+      clientToDelete: clientId,
+    });
+  }
+
   handleAdminOwnersButton = () => {
     this.setState({
       adminOwners: !this.state.adminOwners,
@@ -78,7 +95,7 @@ class Establishment extends Component {
   }
 
   showEstablishment(){
-    const { establishment, owners, admin, adminOwners, iAmOwner, iAmClient, deleteOwner, ownerToDelete, adminClients } = this.state;
+    const { establishment, owners, admin, adminOwners, iAmOwner, iAmClient, deleteOwner, ownerToDelete, adminClients, deleteClient, clientToDelete } = this.state;
     return (
       <div key={establishment._id} className="info-establishment">
         <h1>{establishment.name}</h1>
@@ -172,13 +189,18 @@ class Establishment extends Component {
                 {establishment.clients.map((client, index)=>{
                   return(
                     <li key={client._id} className="list-clients">
-                      <Link to={`/user/${establishment.clients[index]._id}`}>{client.name}</Link>
-                      {/* <div>
-                        <button onClick={this.handleDeleteclient}>Delete client</button>
-                        {deleteOwner &&
-                          <ManageUsersOfCompany company={company} refresh={this.handleDeleteOwner} deleteOwner={"True"} owner={owner} />
+                        {deleteClient && clientToDelete === client._id &&
+                          <ManageUsersOfEstablishment establishment={establishment} refresh={this.clearDeleteClient} deleteClient={"True"} client={client} />
                         }
-                      </div> */}
+                      <Link to={`/user/${establishment.clients[index]._id}`}>{client.name}</Link>
+                      {iAmOwner && adminClients && 
+                        <button className="btn-delete-user" 
+                        onClick={e =>
+                        window.confirm("Are you sure you wish to delete this client? All reservations made at this establishment will be lost") &&
+                        this.handleDeleteClient(client._id)
+                        }>
+                        Delete client</button>
+                      }
                     </li>
                   ) 
                 }
@@ -191,7 +213,6 @@ class Establishment extends Component {
     )
   }
   
-
   deleteEstablishment(idEstablishment){
     const { history } = this.props;
     apiEstablishment

@@ -84,9 +84,20 @@ class ManageUsersOfEstablishment extends Component {
     });
   }
 
+  deleteClient(){
+    const { establishment, client, refresh } = this.props;
+    apiEstablishment
+    .deleteClientEstablishment(establishment._id, client._id)
+    .then(() => {
+      refresh()
+    })
+    .catch((error) => {
+      console.log(error)
+    });
+  }
+
   deleteOwner(){
     const { establishment, owner, refresh } = this.props;
-    console.log("entroooo")
     apiEstablishment
     .deleteOwnerEstablishment(establishment._id, owner._id)
     .then(() => {
@@ -113,12 +124,13 @@ class ManageUsersOfEstablishment extends Component {
   }
 
   render(){
-    const { addNewOwner, deleteOwner, addNewClient } = this.props;
+    const { addNewOwner, deleteOwner, addNewClient, deleteClient } = this.props;
     return (
       <div>
         {addNewOwner && this.addNewOwner()}
         {deleteOwner && this.deleteOwner()}
         {addNewClient && this.addNewClient()}
+        {deleteClient && this.deleteClient()}
       </div>
     )
   }
