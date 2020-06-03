@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { withRouter } from 'react-router-dom'
-import Moment from 'react-moment';
+// import Moment from 'react-moment';
 
 import { withAuth } from "../../context/authContext";
 import apiBookings from "../../services/apiBookings";

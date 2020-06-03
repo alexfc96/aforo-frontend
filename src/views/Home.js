@@ -42,7 +42,7 @@ class Home extends Component {
       <div>
         <h1 style={{textAlign:"left", marginLeft:"5%"}}>Welcome {user.name}</h1><br/>
 
-        <h3>Your next bookings:</h3>
+        <h2>Your next bookings:</h2>
         {bookings && 
           <DayPicker selectedDays={bookings.map((booking)=>{
             return new Date(booking.day)

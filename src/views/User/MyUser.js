@@ -36,22 +36,11 @@ class MyUser extends Component {
     });
   };
 
-  checkIfInputIsEmpty(){
-    const { name, years, mail, currentPassword, newPassword } = this.state;
-    const userObj = [];
-    if(!name.length===0){userObj.push(name)}
-    if(!years===undefined){userObj.push(years)}
-    if(!mail===undefined){userObj.push(mail)}
-    if(!currentPassword===undefined && !newPassword===undefined){userObj.push(currentPassword, newPassword)}
-    return userObj;
-  }
-
   handleSubmitForm = (e) => {
     e.preventDefault();
     const { user, onLogout } = this.props;
     const { name, years, mail, currentPassword, newPassword } = this.state;
     const userObj = { name, years, mail, currentPassword, newPassword }
-    //const userObj = this.checkIfInputIsEmpty() //conseguir asincronía!!
     apiUser
     .updateUser(user._id, userObj)
     .then(({ data:user }) => {
@@ -130,7 +119,7 @@ class MyUser extends Component {
       <div>
         <h1>My profile</h1>
         <div className="info-user">
-          {!admin && 
+          {!admin &&
           <div>
             <h2>Name: {user.name}</h2>
             {years && <h3>Years: {user.years}</h3>}
@@ -138,8 +127,8 @@ class MyUser extends Component {
           </div>
           }
           <button onClick={this.handleAdminButton}>Admin profile</button><br/>
-          
-          {admin && 
+
+          {admin &&
           <form onSubmit={this.handleSubmitForm} className="admin-user">
             <p>
             <label htmlFor="name">Name</label>
@@ -177,6 +166,7 @@ class MyUser extends Component {
               type="password"
               name="currentPassword"
               id="currentPassword"
+              value={currentPassword}
               onChange={this.handleChange}
             />
             </p>
@@ -186,6 +176,7 @@ class MyUser extends Component {
               type="password"
               name="newPassword"
               id="newPassword"
+              value={newPassword}
               onChange={this.handleChange}
             />
             </p>
@@ -194,7 +185,7 @@ class MyUser extends Component {
           </form>
           }
           My companies:
-          {myCompanies && 
+          {myCompanies &&
             <ul>
               {myCompanies.map((company)=>{
                 return <li key={company._id}>
@@ -209,7 +200,7 @@ class MyUser extends Component {
           }
 
           Companies where I am subscribed:
-          {companies && 
+          {companies &&
             <ul>
               {companies.map((company)=>{
                 return <li key={company._id}>
@@ -222,18 +213,18 @@ class MyUser extends Component {
           {!companies &&
             <p> It seems that you dont have a company associated</p>
           }
-          {admin && 
-            <button style={{color:"red"}} 
+          {admin &&
+            <button style={{color:"red"}}
                 //onClick={()=>{this.deleteUser()}}>Delete profile(hacerlo!)</button>//crear dekete user
                 onClick={e =>
                       window.confirm("Are you sure you wish to delete your user? All your bookings will be lost and all establishments and companies will be deleted if there is no other associated owner.") &&
                       this.deleteUser
                       }
                 >Delete user</button>
-            
+
           }
         </div>
-       
+
       </div>
     );
   }
