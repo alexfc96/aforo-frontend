@@ -23,10 +23,13 @@ class SearchEstablishment extends Component {
     });
   };
 
-  async getEstablishmentByName(input){
-    await apiEstablishment
-    .getEstablishmentByName(input)
+  getEstablishmentByName(input){
+    console.log("nput",input)
+    const inputObj = { input }
+    apiEstablishment
+    .getEstablishmentByName(inputObj)
     .then(({ data: establishments})=>{
+      console.log("Lo que me responde", establishments)
       this.setState({
         establishments,
         status : STATUS.isLoaded
@@ -40,29 +43,12 @@ class SearchEstablishment extends Component {
     })
   }
 
-  searchEstablishments = async(input) =>{
+  searchEstablishments = (input) =>{
     if(input.length>1){
       this.setState({
         status : STATUS.isLoading
       })
-
-      await this.getEstablishmentByName(input)
-      const { establishments } = this.state;
-      console.log("establishments que me acab devolviendo", establishments)
-      apiEstablishment
-      .getEstablishment(input)
-      .then(({ data: establishments})=>{
-        console.log(establishments)
-        this.setState({
-          establishments,
-          status : STATUS.isLoaded
-        })
-      })
-      .catch((error) =>{
-        this.setState({
-          status : STATUS.error
-        })
-      })
+      this.getEstablishmentByName(input)
     }
   }
 

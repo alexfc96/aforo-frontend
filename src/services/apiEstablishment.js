@@ -24,8 +24,8 @@ class ApiEstablishment {
     return this.apiEstablishment.get(`/establishment/by-company/${idCompany}`);
   }
 
-  getEstablishmentByName(name) {
-    return this.apiEstablishment.get(`/establishment/by-name/${name}`);
+  getEstablishmentByName(body) {
+    return this.apiEstablishment.post(`/establishment/by-name`, body);
   }
 
   createEstablishment(body) {

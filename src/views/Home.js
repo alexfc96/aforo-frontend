@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import DayPicker from 'react-day-picker';
+//http://react-day-picker.js.org/examples/selected
 
 import 'react-day-picker/lib/style.css';
 import apiBookings from "../services/apiBookings";
@@ -15,7 +16,7 @@ class Home extends Component {
 
   getBookings(){
     apiBookings
-    .bookings()
+    .allBookings()
     .then(({ data:bookings }) => {
       this.setState({
         bookings
@@ -34,13 +35,8 @@ class Home extends Component {
   }
 
   render() {
-    const { onLogout, user } = this.props;
-    // console.log(user)
+    const { user } = this.props;
     const { bookings } = this.state;
-    if(bookings){
-      console.log(bookings[0].day)
-    }
-    // var captureDay = new Date();
 
     return (
       <div>

@@ -8,6 +8,10 @@ class ApiBookings {
     });
   }
 
+  allBookings() {
+    return this.apiBookings.get("/establishment/all-bookings");
+  }
+
   bookings() {
     return this.apiBookings.get("/establishment/bookings");
   }
