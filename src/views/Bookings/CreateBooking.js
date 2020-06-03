@@ -93,6 +93,8 @@ class CreateBooking extends Component {
     const temp = hourMinutesStrs.split(':');
     let countHours = parseInt(temp[0]) //first hour
     let countMinutes = parseInt(temp[1])
+    const saveMinutes = countMinutes;
+
     let hoursStr = undefined;
     let minsStr = undefined;
 
@@ -100,7 +102,7 @@ class CreateBooking extends Component {
       countMinutes = countMinutes + timeAllowedPerBooking;
       if(countMinutes<60){
         hoursStr = countHours.toString();
-        if(hoursStr<10){
+        if(hoursStr<=9){
           hoursStr = "0"+hoursStr;
         }
         minsStr = countMinutes.toString();
@@ -119,9 +121,14 @@ class CreateBooking extends Component {
       }
     }
     hoursStr = startHourShift.toString();
-    hoursStr = "0"+hoursStr;
-    minsStr = countMinutes.toString();
-    let finalTime = hoursStr.concat(':', minsStr+0);
+    if(hoursStr<=9){
+      hoursStr = "0"+hoursStr;
+    }
+    minsStr = saveMinutes.toString();
+    if(minsStr<=9){
+      minsStr = minsStr+"0";
+    }
+    let finalTime = hoursStr.concat(':', minsStr);
     arrayOfSessions.unshift(finalTime);//en este caso agregamos ya la primera sesion
     arrayOfSessions.pop();//eliminamos la ultima hora ya que no me insteresa que puedan reservar a esa hora
     // console.log(arrayOfSessions) //horas de inciios de sesion

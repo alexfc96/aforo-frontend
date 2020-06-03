@@ -62,6 +62,7 @@ class SignUp extends Component {
             id="password"
             placeholder="password"
             required
+            minLength="6"
             value={password}
             onChange={this.handleChange}
           />*
