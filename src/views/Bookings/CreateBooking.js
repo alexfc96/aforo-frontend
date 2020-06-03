@@ -196,7 +196,6 @@ class CreateBooking extends Component {
           <div>
             Available hours:
             {!sessions && this.searchSessions()}
-            {/* {this.printSessions()} */}
             {arrayOfSessions && this.printSessions()}
 
             {/* las bookings ya realizadas en ese dia: esto solamente es para mostrar que los datos son reales! las boookings

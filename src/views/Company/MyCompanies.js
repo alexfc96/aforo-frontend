@@ -127,10 +127,12 @@ class MyCompanies extends Component {
     .company()
     .then(({ data:companies }) => {
       const { myCompanies } = this.state;
-      for (let i = 0; i < myCompanies.length; i++) {
-        for (let x = 0; x < companies.length; x++) {
-          if(myCompanies[i]._id===companies[x]._id){
-            companies.splice(x, 1)
+      if(myCompanies){
+        for (let i = 0; i < myCompanies.length; i++) {
+          for (let x = 0; x < companies.length; x++) {
+            if(myCompanies[i]._id===companies[x]._id){
+              companies.splice(x, 1)
+            }
           }
         }
       }

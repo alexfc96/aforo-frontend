@@ -99,7 +99,7 @@ class Establishment extends Component {
     return (
       <div key={establishment._id} className="info-establishment">
         <h1>{establishment.name}</h1>
-          <h5>{establishment.description}</h5>
+          <h5 style={{margin:"5%"}}>{establishment.description}</h5>
           <h3>Company:<Link to={`/company/${establishment.company._id}`}>{establishment.company.name}</Link></h3>
           {iAmOwner && 
             <div>
