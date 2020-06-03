@@ -25,6 +25,28 @@ hr{
   align-items:"right"
 }
 
+.list-owners{
+  width: fit-content;
+  display: flex;
+  flex-direction: column;
+}
+
+.list-owners > li {
+  margin: 3px;
+}
+
+.btn-delete-user{
+  /* display: flex; */
+  align-items: center;
+  justify-content: center;
+  /* width: 69px; */
+  height: 25px;
+  font-size: 13px;
+  border-radius: 5px;
+  border-width: 0px;
+  color: red;
+}
+
 @media (max-width: 768px) {
   .br-for-mobile{
     display: block;

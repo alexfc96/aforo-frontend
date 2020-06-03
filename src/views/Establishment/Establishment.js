@@ -105,7 +105,6 @@ class Establishment extends Component {
             <div>
               <button onClick={this.handleAdminButton}>Admin establishment</button>
               <button style={{color:"red"}} 
-                      // onClick={()=>{this.deleteEstablishment(establishment._id)}}
                       onClick={e =>
                       window.confirm("Are you sure you wish to delete this establishment? All associated clients and owners and their bookings will be deleted.") &&
                       this.deleteEstablishment(establishment._id)
@@ -140,7 +139,6 @@ class Establishment extends Component {
                 </div>
               }
 
-              {/* <Calendar handleDate={this.handleDate} idEstablishment={establishment._id} /> */}
               {/* <img className="img-of-establishment" src={establishment.image_url} alt={establishment.name} /> */}
 
               <div className="title-section-inline">
@@ -167,9 +165,6 @@ class Establishment extends Component {
                         window.confirm("Are you sure you wish to delete this owner? All reservations made at this establishment will be lost") &&
                         this.handleDeleteOwner(owner._id)
                         }>  Delete owner</button>}
-                        {/* {iAmOwner && adminOwners && deleteOwner && //tema asincronía?
-                            <ManageUsersOfEstablishment establishment={establishment} refresh={this.handleDeleteOwner} deleteOwner={"True"} owner={owner} />
-                        } */}
                       </li>
                     )
                   })}

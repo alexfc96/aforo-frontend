@@ -40,8 +40,8 @@ class Login extends Component {
 
   render() {
     const { username, password } = this.state;
-    const { error } = this.props;
-    console.log(error) 
+    // const { error } = this.props;
+    // console.log(error) 
 
     return (
       <div>
@@ -68,7 +68,7 @@ class Login extends Component {
             onChange={this.handleChange}
           />
           <p><input type="submit" value="Login" className="btn-create" /></p>
-          {error}
+          {/* {error} */}
         </form>
         
       </div>

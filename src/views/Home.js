@@ -11,6 +11,7 @@ class Home extends Component {
         <h1>Protected</h1>
         <p>Welcome {user.name}</p>
         <button onClick={onLogout}>Logout</button>
+        
       </div>
     );
   }
