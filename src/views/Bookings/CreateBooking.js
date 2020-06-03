@@ -110,13 +110,16 @@ class CreateBooking extends Component {
         arrayOfSessions.push(finalTime)  //tendremos que hacer un join de las horas y los minutos para que sean una unidad y no 2.
       } else{
         countHours = countHours + 1;
-        countMinutes = 0;
+        countMinutes = countMinutes-60;
         hoursStr = countHours.toString();
         if(hoursStr<10){
           hoursStr = "0"+hoursStr;
         }
         minsStr = countMinutes.toString();
-        let finalTime = hoursStr.concat(':', minsStr+0);
+        if(minsStr<=9){
+          minsStr = minsStr+"0";
+        }
+        let finalTime = hoursStr.concat(':', minsStr);
         arrayOfSessions.push(finalTime);
       }
     }
