@@ -36,7 +36,7 @@ class GetUsersOfSession extends Component {
       <div>
         <h3>Users at {session}:</h3>
 
-        <ul style={{display:"flex"}}>
+        <ul style={{display:"flex", flexDirection:"column"}}>
         {bookings && 
         bookings.map((booking)=>{
           return (
