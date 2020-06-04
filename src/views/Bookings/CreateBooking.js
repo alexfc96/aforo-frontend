@@ -1,6 +1,5 @@
 import React, { Component } from "react";
-import { withRouter } from 'react-router-dom'
-// import Moment from 'react-moment';
+import { withRouter, Link } from 'react-router-dom'
 
 import { withAuth } from "../../context/authContext";
 import apiBookings from "../../services/apiBookings";
@@ -144,7 +143,7 @@ class CreateBooking extends Component {
 
   printSessions(){
     const { bookingsInOneDay, arrayOfSessions } = this.state;
-    const { establishment } = this.props;
+    const { establishment, iAmOwner } = this.props;
     const { maximumCapacity, percentOfPeopleAllowed } = establishment.capacity;
     const percentOfUsersAllowedInTheEstablishmentInCertainTime = Math.round(  //sacamos el numero total de usuarios que se van a permitir por sesión.
       (maximumCapacity * percentOfPeopleAllowed) / 100,
@@ -168,7 +167,19 @@ class CreateBooking extends Component {
               {cont < percentOfUsersAllowedInTheEstablishmentInCertainTime && 
                 <button onClick={()=>{this.handleHour(session)}} className="btn-session">{session}</button>
               }
-              Reserved sessions: {cont}/{percentOfUsersAllowedInTheEstablishmentInCertainTime}
+              {iAmOwner && cont>0 &&
+                <Link to={`/establishment/${establishment._id}/bookings-in-one-session/${session}`}> Reserved sessions: {cont}/{percentOfUsersAllowedInTheEstablishmentInCertainTime}</Link>
+              }
+              {iAmOwner && cont===0 &&
+                <div style={{display:"flex"}}>
+                Reserved sessions: {cont}/{percentOfUsersAllowedInTheEstablishmentInCertainTime}
+                </div>
+              }
+              {!iAmOwner &&
+                <div style={{display:"flex"}}>
+                  Reserved session: {cont}/{percentOfUsersAllowedInTheEstablishmentInCertainTime}
+                </div>
+              }
             </div>
           ) 
         })}

@@ -24,6 +24,10 @@ class ApiBookings {
     return this.apiBookings.post(`/establishment/get-bookings-by-day/${idEstablishment}`, body);
   }
 
+  bookingsBySession(idEstablishment, body) {
+    return this.apiBookings.post(`/establishment/${idEstablishment}/get-users-of-session/`, body);
+  }
+
   newBooking(idEstablishment, body) {
     return this.apiBookings.post(`/establishment/${idEstablishment}/booking`, body);
   }

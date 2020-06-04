@@ -21,7 +21,8 @@
 
 .show-session{
   border: 1px solid;
-  width: fit-content
+  width: fit-content;
+  display: flex;
 }
 
 .title-section{

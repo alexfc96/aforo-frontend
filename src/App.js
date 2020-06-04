@@ -19,6 +19,7 @@ import CreateEstablishment from "./views/Establishment/CreateEstablishment";
 import Establishment from "./views/Establishment/Establishment";
 import MyUser from "./views/User/MyUser";
 import User from "./views/User/User";
+import GetUsersOfSession from "./views/Bookings/GetUsersOfSession";
 import MyBookings from "./views/Bookings/MyBookings";
 
 class App extends Component {
@@ -38,6 +39,7 @@ class App extends Component {
               <PrivateRoute exact path={"/establishment"} component={MyEstablishments} />
               <PrivateRoute exact path={"/establishment/create"} component={CreateEstablishment} />
               <PrivateRoute exact path={"/establishment/:id"} component={Establishment} />
+              <PrivateRoute exact path={"/establishment/:id/bookings-in-one-session/:session"} component={GetUsersOfSession} />
               <PrivateRoute exact path={"/user"} component={MyUser} /> 
               <PrivateRoute exact path={"/user/:id"} component={User} />
               <PrivateRoute exact path={"/bookings"} component={MyBookings} /> 

@@ -129,7 +129,7 @@ class Establishment extends Component {
               {iAmOwner &&
                 <div>
                   <u className="title-section">Do you wanna booking?</u><br/>
-                  <CreateBooking establishment={establishment} /><br/>
+                  <CreateBooking establishment={establishment} iAmOwner="True" /><br/>
                 </div>
               }
               {iAmClient &&
