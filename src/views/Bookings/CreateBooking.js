@@ -28,19 +28,32 @@ class CreateBooking extends Component {
   handleBookingsInOneDay = (e) => {
     e.preventDefault()
     const { day } = this.state;
-    const { establishment } = this.props;
-    const bookingObj = { day };
-    apiBookings
-      .bookingsByDay(establishment._id, bookingObj)
-      .then(({ data:bookingsInOneDay }) => {
-        // console.log(bookingsInOneDay)
-        this.setState({
-          bookingsInOneDay
+    const tempDate = new Date(day);
+    const yesterday = new Date();
+    yesterday.setDate(yesterday.getDate() - 1);
+    if(tempDate>=yesterday){
+      const { establishment } = this.props;
+      const bookingObj = { day };
+      apiBookings
+        .bookingsByDay(establishment._id, bookingObj)
+        .then(({ data:bookingsInOneDay }) => {
+          // console.log(bookingsInOneDay)
+          this.setState({
+            bookingsInOneDay,
+            error: undefined,
+          })
         })
+        .catch((error)=> {
+          console.log(error)
+        })
+    } else{
+      this.setState({
+        bookingsInOneDay: undefined,
+        error: "Please indicates date higher than yesterday. "
       })
-      .catch((error)=> {
-        console.log(error)
-      })
+      return <div>Selecciona una fecha superior a HOY!</div>
+    }
+    
   }
 
   handleHour(startHour){
@@ -50,22 +63,8 @@ class CreateBooking extends Component {
     })
   }
 
-  // checkIfIsGreaterThanToday(){
-  //   const today = new Date();
-
-  //   // return <Moment date={today} format='YYYY-MM-DD'  />
-  //   // return <Moment date={this.state.day} format='YYYY-MM-DD' />
-
-  //   if(this.state.day < today) {
-  //     this.setState({
-  //       error: 'Specified date prior to today.'
-  //     })
-  //   }
-  // }
-
   createBooking = (e) =>{
     e.preventDefault()
-    // this.checkIfIsGreaterThanToday()
     const { day, startHour, error } = this.state;
     if(startHour && !error){
       const { establishment, history } = this.props;
