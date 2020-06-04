@@ -71,17 +71,26 @@ class MyUser extends Component {
     apiCompany
     .company()
     .then(({ data:companies }) => {
-      const { myCompanies } = this.state;
-      for (let i = 0; i < myCompanies.length; i++) {
-        for (let x = 0; x < companies.length; x++) {
-          if(myCompanies[i]._id===companies[x]._id){
-            companies.splice(x, 1)
+      if(companies.length===0){
+        this.setState({
+          companies: false
+        });
+      } else{
+        const { myCompanies } = this.state;
+        if(myCompanies){
+          for (let i = 0; i < myCompanies.length; i++) {
+            for (let x = 0; x < companies.length; x++) {
+              if(myCompanies[i]._id===companies[x]._id){
+                companies.splice(x, 1)
+              }
+            }
           }
         }
+        this.setState({
+          companies
+        });
       }
-      this.setState({
-        companies
-      });
+
     })
     .catch((error) => {
       console.log(error)
@@ -184,9 +193,10 @@ class MyUser extends Component {
             <input type="submit" value="Update" className="btn-create-2" />
           </form>
           }
-          My companies:
           {myCompanies &&
-            <ul>
+            <div>
+              My companies:
+              <ul>
               {myCompanies.map((company)=>{
                 return <li key={company._id}>
                         <Link to={`/company/${company._id}`}><h3>{company.name}</h3></Link>
@@ -194,14 +204,13 @@ class MyUser extends Component {
               })
             }
             </ul>
-          }
-          {!myCompanies &&
-            <p>It seems that you do not own any company</p>
+            </div>
           }
 
-          Companies where I am subscribed:
-          {companies &&
-            <ul>
+          {companies && companies.length>0 &&
+            <div>
+              Companies where I am subscribed:
+              <ul>
               {companies.map((company)=>{
                 return <li key={company._id}>
                         <Link to={`/company/${company._id}`}><h3>{company.name}</h3></Link>
@@ -209,9 +218,10 @@ class MyUser extends Component {
               })
             }
             </ul>
+            </div>
           }
-          {!companies &&
-            <p> It seems that you dont have a company associated</p>
+          {!companies && !myCompanies &&
+            <p> It seems that you dont have a company associated or created</p>
           }
           {admin &&
             <button style={{color:"red"}}

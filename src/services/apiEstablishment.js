@@ -44,6 +44,14 @@ class ApiEstablishment {
     return this.apiEstablishment.post(`/establishment/${idEstablishment}/join-owner/${userID}`);
   }
 
+  putEstablishmentInFavorites(idEstablishment) {
+    return this.apiEstablishment.post(`/establishment/${idEstablishment}/favorite`);
+  }
+
+  removeEstablishmentOfFavorites(idEstablishment) {
+    return this.apiEstablishment.post(`/establishment/${idEstablishment}/remove-favorite`);
+  }
+
   deleteClientEstablishment(idEstablishment, userID) {
     return this.apiEstablishment.delete(`/establishment/${idEstablishment}/remove-client/${userID}`);
   }

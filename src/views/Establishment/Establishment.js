@@ -16,6 +16,7 @@ class Establishment extends Component {
     iAmClient : undefined,
     company : undefined,
     establishment: undefined,
+    establishmentFav: undefined,
     owners: [],
     admin: false,
     adminOwners: false,
@@ -94,11 +95,45 @@ class Establishment extends Component {
     this.getEstablishment()
   }
 
+  addFavorite = () => {
+    const { establishment } = this.state;
+    apiEstablishment
+    .putEstablishmentInFavorites(establishment._id)
+    .then(({ data:establishmentFav }) => {
+      this.setState({
+        establishmentFav
+      })
+    })
+    .catch((error) => {
+      console.log(error)
+    });
+  }
+
+  removeFavorite = () => {
+    const { establishment } = this.state;
+    apiEstablishment
+    .removeEstablishmentOfFavorites(establishment._id)
+    .then(({ data:establishmentFav }) => {
+      this.setState({
+        establishmentFav: false
+      })
+    })
+    .catch((error) => {
+      console.log(error)
+    });
+  }
+
   showEstablishment(){
-    const { establishment, owners, admin, adminOwners, iAmOwner, iAmClient, deleteOwner, ownerToDelete, adminClients, deleteClient, clientToDelete } = this.state;
+    const { establishment, establishmentFav, owners, admin, adminOwners, iAmOwner, iAmClient, deleteOwner, ownerToDelete, adminClients, deleteClient, clientToDelete } = this.state;
     return (
       <div key={establishment._id} className="info-establishment">
         <h1>{establishment.name}</h1>
+          {!establishmentFav &&
+            <button onClick={this.addFavorite}>ADD FAVORITE</button>
+          }
+          {establishmentFav &&
+            <button onClick={this.removeFavorite}>Remove FAVORITE</button>
+          }
           <h5 style={{margin:"5%"}}>{establishment.description}</h5>
           <h3>Company:<Link to={`/company/${establishment.company._id}`}>{establishment.company.name}</Link></h3>
           {iAmOwner && 
@@ -250,6 +285,20 @@ class Establishment extends Component {
     if(iAmClient){
       this.setState({
         iAmClient
+      })
+    }
+  }
+
+  establishmentIsFavoriteForUser(){
+    const { establishment } = this.state;
+    const { user } = this.props;
+    let favorite = false;
+    if(user.favoriteEstablishments.includes(establishment._id)) {
+      favorite = true;
+    }
+    if(favorite){
+      this.setState({
+        establishmentFav: true
       })
     }
   }

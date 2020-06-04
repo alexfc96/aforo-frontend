@@ -37,7 +37,7 @@ class Home extends Component {
   render() {
     const { user } = this.props;
     const { bookings } = this.state;
-
+    console.log(user)
     return (
       <div>
         <h1 style={{textAlign:"left", marginLeft:"5%"}}>Welcome {user.name}</h1><br/>
