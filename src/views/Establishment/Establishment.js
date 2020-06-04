@@ -2,6 +2,8 @@ import React, { Component } from "react";
 
 import { withAuth } from "../../context/authContext";
 import apiEstablishment from "../../services/apiEstablishment";
+import apiClient from "../../services/apiClient";
+
 import { Link } from "react-router-dom";
 import CreateBooking from "../Bookings/CreateBooking";
 import AdminEstablishment from "./AdminEstablishment";
@@ -129,10 +131,10 @@ class Establishment extends Component {
       <div key={establishment._id} className="info-establishment">
         <h1>{establishment.name}</h1>
           {!establishmentFav &&
-            <button onClick={this.addFavorite}>ADD FAVORITE</button>
+            <button onClick={this.addFavorite} className="fa fa-star" />
           }
           {establishmentFav &&
-            <button onClick={this.removeFavorite}>Remove FAVORITE</button>
+            <button onClick={this.removeFavorite} className="fa fa-star checked" />
           }
           <h5 style={{margin:"5%"}}>{establishment.description}</h5>
           <h3>Company:<Link to={`/company/${establishment.company._id}`}>{establishment.company.name}</Link></h3>
@@ -188,14 +190,12 @@ class Establishment extends Component {
                 <ul className="list-owners">
                   {establishment.owners.map((owner)=>{
                     return (
-                      <li key={owner._id}>
+                      <li key={owner._id} style={{width:"fit-content"}}>
                         {deleteOwner && ownerToDelete === owner._id &&
                           <ManageUsersOfEstablishment establishment={establishment} refresh={this.clearDeleteOwner} deleteOwner={"True"} owner={owner} />
-                          /* <ManageUsersOfCompany company={company} refresh={this.clearDeleteOwner} deleteOwner={"True"} owner={owner} /> */
                         }
                         <Link to={`/user/${owner._id}`}>{owner.name}</Link>
                         {iAmOwner && adminOwners && <button className="btn-delete-user" 
-                        // onClick={this.handleDeleteOwner}>Delete owner</button>}
                         onClick={e =>
                         window.confirm("Are you sure you wish to delete this owner? All reservations made at this establishment will be lost") &&
                         this.handleDeleteOwner(owner._id)
@@ -292,15 +292,24 @@ class Establishment extends Component {
   establishmentIsFavoriteForUser(){
     const { establishment } = this.state;
     const { user } = this.props;
-    let favorite = false;
-    if(user.favoriteEstablishments.includes(establishment._id)) {
-      favorite = true;
-    }
-    if(favorite){
-      this.setState({
-        establishmentFav: true
-      })
-    }
+    apiClient
+    .getUser(user._id)
+    .then(({ data:fullUser }) => {
+      let estabFav = false;
+      fullUser.favoriteEstablishments.map((tempEstablishment)=>{
+        if(tempEstablishment._id===establishment._id){
+          estabFav = true;
+        }
+        if(estabFav){
+          this.setState({
+            establishmentFav: true
+          })
+        }
+    })
+    })
+     .catch((error) => {
+      console.log(error)
+    });
   }
 
   getEstablishment(){
@@ -313,6 +322,7 @@ class Establishment extends Component {
       })
       this.iAmOwner()
       this.iAmClient()
+      this.establishmentIsFavoriteForUser()
     })
     .catch((error) => {
       console.log(error)

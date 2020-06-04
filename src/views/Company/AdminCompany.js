@@ -61,7 +61,7 @@ class AdminCompany extends Component {
             value={name}
             onChange={this.handleChange}
           /></span>
-          <label htmlFor="description">description</label>
+          <label htmlFor="description">Description</label>
           <span className="br-for-mobile"><textarea
             type="text"
             name="description"
@@ -69,7 +69,7 @@ class AdminCompany extends Component {
             value={description}
             onChange={this.handleChange}
           /></span>
-          <label htmlFor="shareClientsInAllEstablishments">shareClientsInAllEstablishments</label>
+          <label htmlFor="shareClientsInAllEstablishments">Share clients in all the establishments?</label>
           <span className="br-for-mobile"><input
             type="checkbox"
             name="shareClientsInAllEstablishments"

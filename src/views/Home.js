@@ -57,12 +57,11 @@ class Home extends Component {
   render() {
     const { user } = this.props;
     const { bookings, fullUser } = this.state;
-    console.log(fullUser)
     return (
       <div>
         <h1 style={{textAlign:"left", marginLeft:"5%"}}>Welcome {user.name}</h1><br/>
 
-        <h3 style={{margin: "-20px 0 10px 0"}}>Your next bookings:</h3>
+        <h3 style={{margin: "-20px 0 10px 0"}}>Your bookings:</h3>
         {bookings && 
           <DayPicker selectedDays={bookings.map((booking)=>{
             return new Date(booking.day)
@@ -74,7 +73,7 @@ class Home extends Component {
             <h3 style={{margin: "0 0 10px 0"}}>Your favorites establishments:</h3>
             <ul>
               {fullUser.favoriteEstablishments.map((establishment) =>{
-                return <li style={{display: "flex", marginBottom:"2%"}}><Link to={`/establishment/${establishment._id}`}>·{establishment.name}</Link></li>
+                return <li style={{display: "flex", marginBottom:"2%"}} key={establishment._id}><Link to={`/establishment/${establishment._id}`}>·{establishment.name}</Link></li>
               })
 
               }

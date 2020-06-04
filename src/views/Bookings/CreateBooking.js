@@ -57,7 +57,6 @@ class CreateBooking extends Component {
   }
 
   handleHour(startHour){
-    console.log("session selecionada",startHour)
     this.setState({
       startHour
     })
@@ -199,7 +198,7 @@ class CreateBooking extends Component {
             required
             onChange={this.handleChange}
           />
-          <input type="submit" value="Select" className="btn-create-2" />
+          <input type="submit" value="Select" />
         </form><br/>
         {error}
         {bookingsInOneDay &&
@@ -213,7 +212,7 @@ class CreateBooking extends Component {
             return <p key={booking._id}>{booking.startHour}</p>
             })
             } */}
-            <button onClick={this.createBooking}>Create booking</button>
+            <button onClick={this.createBooking} className="btn-create-2">Create booking</button>
           </div>
 
         }
