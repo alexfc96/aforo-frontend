@@ -12,10 +12,12 @@ class GetUsersOfSession extends Component {
   componentDidMount(){
     const establishmentID = this.props.match.params.id;
     const session = this.props.match.params.session;
-    const objSession = { session }
+    const day = this.props.match.params.day;
+    const objSession = { day, session }
     apiBookings
     .bookingsBySession(establishmentID, objSession)
     .then(({ data:bookings }) => {
+      console.log("bokngs", bookings)
       this.setState({
         bookings
       });
@@ -31,7 +33,6 @@ class GetUsersOfSession extends Component {
   render() {
     const { bookings } = this.state;
     const session = this.props.match.params.session;
-
     return (
       <div>
         <h3>Users at {session}:</h3>

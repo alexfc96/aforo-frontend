@@ -51,7 +51,7 @@ class CreateBooking extends Component {
         bookingsInOneDay: undefined,
         error: "Please indicates date higher than yesterday. "
       })
-      return <div>Selecciona una fecha superior a HOY!</div>
+      return <div>Please indicates date higher than yesterday.</div>
     }
     
   }
@@ -140,7 +140,7 @@ class CreateBooking extends Component {
   }
 
   printSessions(){
-    const { bookingsInOneDay, arrayOfSessions } = this.state;
+    const { bookingsInOneDay, arrayOfSessions, day } = this.state;
     const { establishment, iAmOwner } = this.props;
     const { maximumCapacity, percentOfPeopleAllowed } = establishment.capacity;
     const percentOfUsersAllowedInTheEstablishmentInCertainTime = Math.round(  //sacamos el numero total de usuarios que se van a permitir por sesión.
@@ -166,7 +166,7 @@ class CreateBooking extends Component {
                 <button onClick={()=>{this.handleHour(session)}} className="btn-session">{session}</button>
               }
               {iAmOwner && cont>0 &&
-                <Link to={`/establishment/${establishment._id}/bookings-in-one-session/${session}`}> Reserved sessions: {cont}/{percentOfUsersAllowedInTheEstablishmentInCertainTime}</Link>
+                <Link to={`/establishment/${establishment._id}/bookings-in-one-session/${day}/${session}`}> Reserved sessions: {cont}/{percentOfUsersAllowedInTheEstablishmentInCertainTime}</Link>
               }
               {iAmOwner && cont===0 &&
                 <div style={{display:"flex"}}>

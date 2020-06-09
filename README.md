@@ -1,92 +1,65 @@
-# Project Name
+# README Modulo3 by Alex Fernández Cánovas
+# Frontend Readme
 
-## Instructions how to start
-
-create `.env` file like the example `.env.sample`
-
-start with `npm run start`
-
-**http://localhost:3000**
+## Project Name
+  AFORO
 
 ## Description
 
-Describe your project in one/two lines.
-
-## Motivation
-
-Just a litle API for educational purposes.
+Web app that allows you to register your company and establishments to limit the access establishing a percentage of people allowed in a certain period of time. Once the establishments have been created and you have invited the clients, they will be able to join the available sessions that we have scheduled.
 
 ## User Stories
 
-**404** - As a user I want to see a nice 404 page when I go to a page that doesn’t exist so that I know it was my fault
+  The natural process to follow would be to register the company, data (how much is the maximum capacity in that establishment), location and invite users who will be able to access as company controllers.
+  Once this process has been carried out, they will be able to indicate what hours will be possible for the clients and how many people will be allowed (with a limit already indicated). Once all the configuration is established, you can invite clients. For example, directly inviting them to their mail.
 
-**500** - As a user I want to see a nice error page when the super team screws it up so that I know that is not my fault
-
-**Homepage** - As a user I want to be able to access the homepage so that I see what the app is about and login and signup
-
-**Sign up** - As a user I want to sign up on the webpage so that I can see all the events that I could attend
-
-**Login** - As a user I want to be able to log in on the webpage so that I can get back to my account
-
-**Logout** - As a user I want to be able to log out from the webpage so that I can make sure no one will access my account
-
-**Events list** - As a user I want to see all the events available so that I can choose which ones I want to attend
-
-**Events create** - As a user I want to create an event so that I can invite others to attend
-
-**Events detail** - As a user I want to see the event details and attendee list of one event so that I can decide if I want to attend
-
-**Attend event** - As a user I want to be able to attend to event so that the organizers can count me in
+  Once the client user connects, they will be able to see the calendar and book whenever they want / can with some limitations. For example, one hour in the gym every 2 days. If this user has been invited to another companies, they can also manage their "reservations" there.
 
 ## Backlog
 
-List of other features outside of the MVPs scope
+  ​List of other features outside of the MVPs scope:
 
-User profile: - see my profile - upload my profile picture - see other users profile - list of events created by the user - list events the user is attending
+  -Add notifications
 
-Geo Location: - add geolocation to events when creating - show event in a map in event detail page - show all events in a map in the event list page
+  -Create public establishments
 
-Homepage: - …
-
-## ROUTES Backend:
-
-### Endpoints
-
-| Method | Path         | description     | Body |
-| :----: | ------------ | --------------- | ---- |
-|  GET   | `/protected` | protected route |      |
-
-### Auth
-
-| Method | Path      | description    | Body                     |
-| :----: | --------- | -------------- | ------------------------ |
-|  GET   | `/whoami` | who am i       |                          |
-|  POST  | `/signup` | signup a user  | `{ username, password }` |
-|  POST  | `/login`  | login a user   | `{ username, password }` |
-|  GET   | `/logout` | logout session |                          |
+  -Invite via mail
+  ​
+  -Geo Location: - add geolocation of the establishments.
 
 ## Views
 
 | View (Component) | Path         | description    |
 | :--------------- | ------------ | -------------- |
-| Home             | `/`          | home           |
+| Main             | `/`          | Title          |
 | Login            | `/login`     | login page     |
-| Protected        | `/protected` | protected view |
+| Signup           | `/signup`    | signup page    |
+| Home             | `/home`      | Home where the user can see in the calendar their next bookings and their favorites establishemnts  |
+| MyCompanies      | `/company`   | company page where appears your own companies and where are you suscribed    |
+| Company          | `/company/:id` | info company page  |
+| MyEstablishments | `/establishment` | establishment page where appears your own companies and where are you suscribed|
+| Establishment    | `/establishment/:id` | info establishment page |
+| MyBookings       | `/bookings`  | bookings page where appears all your next and past bookings|
+| MyUser           | `/user`      | user page where appears the info related to the profile|
+| Logout           | `/logout`    | logout         |
+
 
 ## Links
 
-### Trello
+  **Backend Repo Git**
+  ​​ https://github.com/alexfc96/aforo-backend
 
-Link to Trello
+  **Frontend Repo Git**
+  ​​ https://github.com/alexfc96/aforo-frontend
+  
+  **Trello**
+  ​ https://trello.com/b/TW4KSt9j/aforo
 
-### Git
+  **Deploy backend by Heroku**
+  https://aforo-api.herokuapp.com/
 
-The url to your repository and to your deployed project
+  ​**Deploy by Heroku**
+  https://aforo.herokuapp.com/
 
-[Repository Link](http://github.com/)
-
-[Deploy Link](http://heroku.com/)
-
-### Slides
-
-[Slides Link](http://slides.com/)
+  **Slides**
+  https://slides.com/alexfernandez-1/aforo/

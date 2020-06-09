@@ -49,6 +49,11 @@ class Home extends Component {
     });
   }
 
+  componentWillUnmount(){
+    this.bookings= false;
+    this.fullUser= false;
+  }
+
   componentDidMount(){
     this.getBookings()
     this.getUser()

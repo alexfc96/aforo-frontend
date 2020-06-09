@@ -305,6 +305,7 @@ class Establishment extends Component {
             establishmentFav: true
           })
         }
+        return undefined
     })
     })
      .catch((error) => {
