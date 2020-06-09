@@ -19,8 +19,7 @@ class Company extends Component {
     ownerToDelete: undefined
   }
 
-  getEstablishments(){
-    //search establishments by company
+  getEstablishments(){ //search establishments by company
     const { company } = this.state;
 
     apiEstablishment

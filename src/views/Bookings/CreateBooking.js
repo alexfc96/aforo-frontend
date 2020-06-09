@@ -12,7 +12,6 @@ class CreateBooking extends Component {
   state = {
     day: undefined,
     startHour: 0,
-    // duration: 0,
     sessions: false,
     bookingsInOneDay: undefined,
     arrayOfSessions: undefined,
@@ -31,13 +30,12 @@ class CreateBooking extends Component {
     const tempDate = new Date(day);
     const yesterday = new Date();
     yesterday.setDate(yesterday.getDate() - 1);
-    if(tempDate>=yesterday){
+    if(tempDate>=yesterday){  //check if the day indicated is higher than yesterday
       const { establishment } = this.props;
       const bookingObj = { day };
       apiBookings
-        .bookingsByDay(establishment._id, bookingObj)
+        .bookingsByDay(establishment._id, bookingObj)  //find the bookings in the day selected
         .then(({ data:bookingsInOneDay }) => {
-          // console.log(bookingsInOneDay)
           this.setState({
             bookingsInOneDay,
             error: undefined,
@@ -81,7 +79,7 @@ class CreateBooking extends Component {
 
   searchSessions(){
     const { establishment } = this.props;
-    let timeAllowedPerBooking = parseInt(establishment.timetable.timeAllowedPerBooking) //pasamos a timeAllowed a number
+    let timeAllowedPerBooking = parseInt(establishment.timetable.timeAllowedPerBooking) //pass timeAllowed a number 
     const hourMinutesStrs = establishment.timetable.startHourShift;
     let startHourShift = parseInt(establishment.timetable.startHourShift);
     let finalHourShift = parseInt(establishment.timetable.finalHourShift);
@@ -95,8 +93,8 @@ class CreateBooking extends Component {
     let hoursStr = undefined;
     let minsStr = undefined;
 
-    while (countHours < finalHourShift) {  //sacamos las horas o timeSessions en las que se van a poder reservar.
-      countMinutes = countMinutes + timeAllowedPerBooking;
+    while (countHours < finalHourShift) {  //We take out the hours or time Sessions in which they will be able to reserve.
+      countMinutes = countMinutes + timeAllowedPerBooking; //sum mins(timeAllowedPerBooking)
       if(countMinutes<60){
         hoursStr = countHours.toString();
         if(hoursStr<=9){
@@ -104,8 +102,8 @@ class CreateBooking extends Component {
         }
         minsStr = countMinutes.toString();
         let finalTime = hoursStr.concat(':', minsStr);
-        arrayOfSessions.push(finalTime)  //tendremos que hacer un join de las horas y los minutos para que sean una unidad y no 2.
-      } else{
+        arrayOfSessions.push(finalTime)  //finally do join from hours and minutes
+      } else{ //if the sum overcome 60 we need to sum 1 hour and put the minutes
         countHours = countHours + 1;
         countMinutes = countMinutes-60;
         hoursStr = countHours.toString();
@@ -129,21 +127,20 @@ class CreateBooking extends Component {
       minsStr = minsStr+"0";
     }
     let finalTime = hoursStr.concat(':', minsStr);
-    arrayOfSessions.unshift(finalTime);//en este caso agregamos ya la primera sesion
-    arrayOfSessions.pop();//eliminamos la ultima hora ya que no me insteresa que puedan reservar a esa hora
-    // console.log(arrayOfSessions) //horas de inciios de sesion
+    arrayOfSessions.unshift(finalTime);//deleting the first session
+    arrayOfSessions.pop();//deleting the last session
+    // console.log(arrayOfSessions) //finalTimes
     this.setState({
       sessions: true,
       arrayOfSessions
     })
-    // this.printSessions(arrayOfSessions)
   }
 
   printSessions(){
     const { bookingsInOneDay, arrayOfSessions, day } = this.state;
     const { establishment, iAmOwner } = this.props;
     const { maximumCapacity, percentOfPeopleAllowed } = establishment.capacity;
-    const percentOfUsersAllowedInTheEstablishmentInCertainTime = Math.round(  //sacamos el numero total de usuarios que se van a permitir por sesión.
+    const percentOfUsersAllowedInTheEstablishmentInCertainTime = Math.round(  //get the total number of users that will be allowed per session.
       (maximumCapacity * percentOfPeopleAllowed) / 100,
     );
     let cont = 0;
@@ -165,7 +162,7 @@ class CreateBooking extends Component {
               {cont < percentOfUsersAllowedInTheEstablishmentInCertainTime && 
                 <button onClick={()=>{this.handleHour(session)}} className="btn-session">{session}</button>
               }
-              {iAmOwner && cont>0 &&
+              {iAmOwner && cont>0 &&  //if you are owner and in this session at least one user is suscribed you will can who is
                 <Link to={`/establishment/${establishment._id}/bookings-in-one-session/${day}/${session}`}> Reserved sessions: {cont}/{percentOfUsersAllowedInTheEstablishmentInCertainTime}</Link>
               }
               {iAmOwner && cont===0 &&
@@ -207,17 +204,15 @@ class CreateBooking extends Component {
             {!sessions && this.searchSessions()}
             {arrayOfSessions && this.printSessions()}
 
-            {/* las bookings ya realizadas en ese dia: esto solamente es para mostrar que los datos son reales! las boookings
+            {/* the bookings already made on that day: this is only to show that the data is real!
             {bookingsInOneDay.map((booking)=>{
             return <p key={booking._id}>{booking.startHour}</p>
             })
             } */}
             <button onClick={this.createBooking} className="btn-create-2">Create booking</button>
           </div>
-
         }
       </div>
-
     )
   }
 }

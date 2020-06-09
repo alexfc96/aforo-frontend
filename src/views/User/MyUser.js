@@ -60,7 +60,6 @@ class MyUser extends Component {
     .deleteUser()
     .then(() => {
       history.push("/");
-      // window.location.reload();
       window.location.reload(false);
     })
     .catch((error) => {
@@ -226,7 +225,6 @@ class MyUser extends Component {
           }
           {admin &&
             <button style={{color:"red"}}
-                //onClick={()=>{this.deleteUser()}}>Delete profile(hacerlo!)</button>//crear dekete user
                 onClick={e =>
                       window.confirm("Are you sure you wish to delete your user? All your bookings will be lost and all establishments and companies will be deleted if there is no other associated owner.") &&
                       this.deleteUser()

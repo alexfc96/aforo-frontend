@@ -2,7 +2,6 @@ import React, { Component } from "react";
 
 import { withAuth } from "../../context/authContext";
 import apiUser from "../../services/apiUser";
-// import { Link } from "react-router-dom";
 
 class User extends Component {
 

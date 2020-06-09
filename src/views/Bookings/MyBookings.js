@@ -25,7 +25,6 @@ class MyBookings extends Component {
                     </div>
                     <h3>Day:<Moment format='LL' date={booking.day} /></h3>
                     <h3>Start hour:{booking.startHour}</h3>
-                    {/* <h3>Duration:{booking.duration} mins</h3> */}
                     <hr/>
                   </li>
           })
@@ -35,7 +34,7 @@ class MyBookings extends Component {
     )
   }
 
-  showBookings(){
+  showBookings(){ //current(next) bookings
     const { bookings } = this.state;
     return(
       <div>
@@ -48,7 +47,6 @@ class MyBookings extends Component {
                     </div>
                     <h3>Day:<Moment format='LL' date={booking.day} /></h3>
                     <h3>Start hour:{booking.startHour}</h3>
-                    {/* <h3>Duration:{booking.duration} mins</h3> */}
                     <hr/>
                   </li>
           })

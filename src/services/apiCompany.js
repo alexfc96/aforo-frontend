@@ -44,9 +44,6 @@ class ApiCompany {
     return this.apiCompany.put(`/company/${idCompany}/admin`, body);
   }
 
-  getProtected() {
-    return this.apiCompany.get("/protected");
-  }
 }
 
 const apiCompany = new ApiCompany();

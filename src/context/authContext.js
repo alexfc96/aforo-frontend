@@ -17,7 +17,7 @@ export const withAuth = (Comp) => {
                 user={user}
                 isLoggedIn={isLoggedIn}
                 onLogout={handleLogout}
-                error={error}  //tiene sentido? añadido en el metodo de onlogin
+                error={error}
                 {...this.props}
               />
             );
@@ -33,7 +33,7 @@ class AuthProvider extends Component {
     isLoggedIn: false,
     user: null,
     isLoading: true,
-    error: undefined, // lo he añadido para poder recogerlo en las vistas. sense??
+    error: undefined,
   };
 
   componentDidMount() {
@@ -76,7 +76,6 @@ class AuthProvider extends Component {
     apiClient
       .login({ username, password })
       .then(({ data: user }) => {
-        // console.log("then",user)//mirar que me llega y si no hay user pasar el error. Problema, que no tengo error.
         this.setState({
           isLoggedIn: true,
           user,

@@ -32,10 +32,6 @@ class ApiBookings {
     return this.apiBookings.post(`/establishment/${idEstablishment}/booking`, body);
   }
 
-  // getBooking(idBooking) {
-  //   return this.apiBookings.get(`/bookings/${idBooking}`);
-  // }
-
   deleteBooking(idEstablishment,idBooking) {
     return this.apiBookings.delete(`/establishment/${idEstablishment}/delete-booking/${idBooking}`);
   }

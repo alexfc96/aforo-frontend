@@ -28,9 +28,6 @@ class ApiClient {
     return this.apiClient.get(`/user/${idUser}`);
   }
 
-  getProtected() {
-    return this.apiClient.get("/protected");
-  }
 }
 
 const apiClient = new ApiClient();

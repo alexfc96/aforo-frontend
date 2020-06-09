@@ -20,7 +20,6 @@ class MyEstablishments extends Component {
     let owner = undefined;
     return (
       establishments.map((establishment) => {
-        //pensar si poner el nombre de la company. yo creo que no.
         establishment.owners.includes(user._id) ? owner = true : owner = false;
         return <div key={establishment._id}>
                 <div className="one-establishment-of-the-list">
@@ -31,7 +30,6 @@ class MyEstablishments extends Component {
                     <div>
                       <button><Link to={`/establishment/${establishment._id}`}>Admin establishment</Link></button>
                       <button style={{color:"red"}} 
-                      // onClick={()=>{this.deleteEstablishment(establishment._id)}}
                       onClick={e =>
                       window.confirm("Are you sure you wish to delete this establishment? All associated clients and owners and their bookings will be deleted.") &&
                       this.deleteEstablishment(establishment._id)

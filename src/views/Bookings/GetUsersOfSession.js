@@ -17,7 +17,6 @@ class GetUsersOfSession extends Component {
     apiBookings
     .bookingsBySession(establishmentID, objSession)
     .then(({ data:bookings }) => {
-      console.log("bokngs", bookings)
       this.setState({
         bookings
       });

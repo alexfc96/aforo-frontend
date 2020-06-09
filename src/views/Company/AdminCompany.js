@@ -27,7 +27,6 @@ class AdminCompany extends Component {
     const { company, refresh } = this.props;
     const { name, description, shareClientsInAllEstablishments } = this.state;
     const companyObj = { name, description, shareClientsInAllEstablishments };
-    //const userObj = this.checkIfInputIsEmpty() //conseguir asincronía!!
     apiCompany
     .updateCompany(company._id, companyObj)
     .then(({ data:company }) => {
