@@ -85,7 +85,7 @@ a:hover, a:visited, a:link, a:active{
   display: none;
 }
 
-@media (max-width: 768px) {
+@media (min-width: 320px) {
   .nav > .nav-btn {
     display: inline-block;
     position: absolute;
