@@ -1,7 +1,15 @@
 @media (min-width: 768px) {
 
+#root {
+  position: inherit;
+  left: 130%;
+  height: -webkit-fill-available;
+  top: 20%;
+  border: 1px solid #F1EEEB;
+}
+
 body{
-  width: 465px;
+  width: 430px;
   height: 600px;
   min-height: auto;
   margin: auto;
