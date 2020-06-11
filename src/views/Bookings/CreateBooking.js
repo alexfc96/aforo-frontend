@@ -26,11 +26,12 @@ class CreateBooking extends Component {
 
   handleBookingsInOneDay = (e) => {
     e.preventDefault()
+    const { iAmOwner } = this.props;
     const { day } = this.state;
     const tempDate = new Date(day);
     const yesterday = new Date();
     yesterday.setDate(yesterday.getDate() - 1);
-    if(tempDate>=yesterday){  //check if the day indicated is higher than yesterday
+    if(tempDate>=yesterday || iAmOwner){  //check if the day indicated is higher than yesterday
       const { establishment } = this.props;
       const bookingObj = { day };
       apiBookings
